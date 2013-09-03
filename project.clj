@@ -1,5 +1,5 @@
 (defproject mmm "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "Midnight Movies Mpls app"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
@@ -8,5 +8,5 @@
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
                  [ring/ring-jetty-adapter "1.1.6"]
                  [compojure "1.1.3"]
-                 [hiccup "1.0.2"]
-                 ])
+                 [hiccup "1.0.2"]]
+  :main mmm.core)
