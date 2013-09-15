@@ -1,15 +1,20 @@
 (ns mmm.core
   (:use [compojure.core :only (defroutes GET)]
-        [ring.adapter.jetty :as ring])
+        [ring.adapter.jetty :as ring]
+        [mmm.utils])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
             [mmm.controller.movies :as movies]
             [mmm.view.layout :as layout]))
 
+
+(defn index
+  ([] (layout/common (layout/index))))
+
+
 (defroutes routes
-  movies/routes
-  (route/resources "/")
-  (route/not-found (layout/four-oh-four)))
+  (GET "/" [] (render-request index))
+  (route/resources "/"))
 
 (defn start [port]
   (run-jetty #'routes {:port port :join? false}))
