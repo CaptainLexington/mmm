@@ -11,5 +11,6 @@
                  [compojure "1.1.3"]
                  [hiccup "1.0.2"]
                  [enlive "1.1.4"]
+                 [clj-time "0.6.0"]
                  [lein-light "0.0.4"]]
   :main mmm.core)

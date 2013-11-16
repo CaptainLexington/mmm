@@ -6,11 +6,14 @@
             [compojure.handler :as handler]
             [mmm.controller.movies :as movies]
             [mmm.view.layout :as layout]
-            [mmm.model.movie :as movie]))
+            [mmm.view.index :as index]
+            [mmm.model.movie :as movie]
+            [mmm.model.screening :as screening]
+            [mmm.model.db :as db]))
 
 
 (defn index
-  ([] (layout/common (layout/index (movie/all)))))
+  ([] (layout/common (index/index (screening/all)))))
 
 
 (defroutes routes
@@ -20,8 +23,15 @@
 (defn start [port]
   (run-jetty #'routes {:port port :join? false}))
 
+(defn init-db
+  "runs when the application starts and updates the database scheme if necessary"
+  []
+  (if-not (db/actualized?)
+    (db/actualize)))
 
 (defn -main []
   (let [port (Integer/parseInt
                 (or (System/getenv "PORT") "8080"))]
-    (start port)))
+    (do
+      (init-db)
+      (start port))))

@@ -157,6 +157,7 @@ ul.poster-list li.screening {
   border-top-width: 35px;
   text-align: center;
   font-size: .75em;
+  min-width: 100px;
 }
 
 

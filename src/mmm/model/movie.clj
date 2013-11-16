@@ -4,9 +4,14 @@
             [mmm.model.db :as local]))
 
 (defn all []
-  (korma/select local/movies
+  (korma/select local/movie
     (korma/order :year :ASC)))
 
-(defn add [title director year runningTime releaseYear mpaa poster description]
-  (korma/insert local/movies
-                (korma/values {:title title :director director :year year :runningTime runningTime :releaseYear releaseYear :mpaa mpaa :poster poster :description description})))
+(defn add [title director runningTime year mpaaRating poster description]
+  (korma/insert local/movie
+                (korma/values {:title title :director director :runningTime runningTime :year year :mpaaRating mpaaRating :poster poster :description description})))
+
+
+(defn delete [title]
+  (korma/delete local/movie
+                (korma/where (:title [= title]))))
