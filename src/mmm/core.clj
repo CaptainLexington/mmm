@@ -5,11 +5,12 @@
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
             [mmm.controller.movies :as movies]
-            [mmm.view.layout :as layout]))
+            [mmm.view.layout :as layout]
+            [mmm.model.movie :as movie]))
 
 
 (defn index
-  ([] (layout/common (layout/index))))
+  ([] (layout/common (layout/index (movie/all)))))
 
 
 (defroutes routes

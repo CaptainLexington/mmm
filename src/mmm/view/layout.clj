@@ -17,6 +17,9 @@
 (defsnippet index
             (templateLocation "index")
             [:.index]
-            []
+            [movies]
+            [:.movies-main :.screening]
+            (clone-for [i (range (count movies))]
+                       identity)
             )
 
