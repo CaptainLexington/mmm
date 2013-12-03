@@ -9,9 +9,17 @@
                 (korma/with local/movie)
                 (korma/with local/venue)))
 
-(defn add [date time]
+(defn getByID [id]
+  (korma/select local/screening
+                (korma/with local/movie)
+                (korma/with local/venue)
+                (korma/with local/showtime)
+                (korma/where (= :id id)))
+  )
+
+(defn add [screening-map]
   (korma/insert local/screening
-                (korma/values {:date date :time time})))
+                (korma/values {:venue_id (Long/parseLong (:venue_id screening-map))})))
 
 
 (defn delete [id]

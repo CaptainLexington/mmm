@@ -9,8 +9,8 @@
 
 (deftemplate common
             (templateLocation "layout")
-            [body]
-            [:main]
+            [body] ;parameter list
+            [:main] ;first selector
             (content body)
             )
 

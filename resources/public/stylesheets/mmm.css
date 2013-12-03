@@ -215,9 +215,15 @@ th, td {
 
 th a, td a {
   font-weight: bold;
-  border-color: inherit;
-  border-bottom-style: dotted;
-  border-bottom-width: 1px;
+  border-bottom: inherit 1px dotted;
+}
+
+tr:nth-child(even) a {
+  color: Black;
+}
+
+tr:nth-child(odd) a {
+  color: White;
 }
 
 th a:hover, td a:hover {
@@ -230,6 +236,13 @@ tr:nth-child(even) {
 }
 
 
+
+tr.screening td.screening p.screening a.screening span.movie {
+  display: block;
+  padding-bottom: 10px
+}
+
+
 /* Screening Index */
 
 span.title:not(:last-of-type)::after {
@@ -238,7 +251,7 @@ span.title:not(:last-of-type)::after {
 
 
 span.title:nth-last-of-type(2)::after{
-  content: " &";
+  content: " & ";
 }
 
 

@@ -5,7 +5,7 @@
 
 (defn all []
   (korma/select local/movie
-    (korma/order :year :ASC)))
+    (korma/order :title :ASC)))
 
 (defn add [title director runningTime year mpaaRating poster description]
   (korma/insert local/movie
