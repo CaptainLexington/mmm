@@ -1,6 +1,7 @@
 (ns mmm.core
   (:use [compojure.core :only (defroutes GET)]
-        [compojure.handler]
+        [ring.middleware params
+                         keyword-params]
         [ring.adapter.jetty :as ring]
         [mmm.utils])
   (:require [compojure.route :as route]
@@ -12,6 +13,11 @@
             [mmm.model.movie :as movie]
             [mmm.model.screening :as screening]
             [mmm.model.db :as db]))
+
+(defn api [routes]
+  (-> routes
+      wrap-keyword-params
+      wrap-params))
 
 
 (defn index
@@ -40,7 +46,7 @@
 
 (defn -main []
   (let [port (Integer/parseInt
-                (or (System/getenv "PORT") "8080"))]
+              (or (System/getenv "PORT") "8080"))]
     (do
       (init-db)
       (start port))))

@@ -161,6 +161,11 @@ ul.poster-list li.screening {
 }
 
 
+ul.poster-list li.screening:hover {
+  color: Yellow;
+}
+
+
 ul.poster-list li.screening h3.venue {
   padding: 0;
   margin-left: 0;
@@ -191,6 +196,11 @@ ul.poster-list li.screening span.datetime {
   clear: both;
 }
 
+ul.poster-list li.screening span.datetime:only-of-type {
+  margin-top: 1.4em;
+}
+
+
 
 
 /*Text-only pages*/
@@ -211,22 +221,32 @@ table {
 th, td {
   padding: 5px;
   text-align: left;
+  vertical-align: top;
 }
 
-th a, td a {
+th p, td p {
+  margin-top: 5px;
+}
+
+
+th p a span, td p a span {
   font-weight: bold;
-  border-bottom: inherit 1px dotted;
+  border-bottom-width: 1px;
+  border-bottom-style: dashed;
 }
 
 tr:nth-child(even) a {
   color: Black;
+  border-color: Black;
 }
 
 tr:nth-child(odd) a {
   color: White;
+  border-color: White;
 }
 
 th a:hover, td a:hover {
+  color: Yellow;
   border-color: Yellow;
 }
 
@@ -236,10 +256,22 @@ tr:nth-child(even) {
 }
 
 
+tr:nth-child(odd) p {
+  color: White;
+}
+
+
+tr:nth-child(even) p {
+  color: Black;
+}
+
+
 
 tr.screening td.screening p.screening a.screening span.movie {
-  display: block;
-  padding-bottom: 10px
+  display: inline-block;
+  margin-bottom: 10px;
+  float: left;
+  clear: left;
 }
 
 
@@ -282,8 +314,8 @@ p.director::before {
   content: "dir. "
 }
 
-div.meta div.datetime p{
-  color: White;
+div.meta p{
+  color: Black;
 }
 
 

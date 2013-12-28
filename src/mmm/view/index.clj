@@ -1,12 +1,17 @@
 (ns mmm.view.index
-  (:use [net.cgrand.enlive-html]
-        [clj-time.format]
-        [clj-time.coerce])
-  (:require [mmm.view.layout :as layout]))
+  (:use [net.cgrand.enlive-html])
+  (:require [mmm.view.layout :as layout]
+            [mmm.model.screening :as screening]
+            [mmm.utils :as utils]))
 
 
-(defn display-time [screening]
-  (:created_on (first (:showtime screening))))
+
+(defn time-list [screening]
+  (let [showtimes (:showtime screening)]
+    (if (= (count showtimes) 1)
+      showtimes
+      (list (first showtimes) (last showtimes))
+      )))
 
 
 
@@ -19,8 +24,9 @@
                         (set-attr :src (:poster j)))
              [:a]
              (set-attr :href (str "/screenings/" (:id i)))
-            ; [:span.datetime]
-            ; (content (display-time i))
+             [:span.datetime]
+             (clone-for [j (time-list i)]
+                        (content (utils/display-time j)))
              ))
 
 (defsnippet index
@@ -28,11 +34,11 @@
   [:.index]
   [screenings]
   [:.movies-main :.week-container]
-  (clone-for [i ["THIS WEEK", "NEXT WEEK", "COMING SOON"]]
+  (clone-for [i [["THIS WEEK", screening/thisWeek], ["NEXT WEEK", screening/nextWeek], ["COMING SOON", screening/comingSoon]]]
              [:h2.list-label]
-             (content i)
+             (content (first i))
              [:.screening]
-             (show-movies-for-week screenings))
+             (show-movies-for-week ((last i))))
   )
 
 

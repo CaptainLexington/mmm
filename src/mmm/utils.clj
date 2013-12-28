@@ -5,7 +5,11 @@
         [ring.util.response :only [response file-response]]
         [ring.middleware.reload :only [wrap-reload]]
         [ring.middleware.file :only [wrap-file]]
-        [ring.middleware.stacktrace :only [wrap-stacktrace]]))
+        [ring.middleware.stacktrace :only [wrap-stacktrace]]
+        [clj-time.core :as time]
+        [clj-time.format :as time-fm]
+        [clj-time.coerce :as coerce]
+        [clj-time.local :as local]))
 
 (def ^:dynamic *webdir* (str (.getCanonicalFile (io/file ".")) "/src/tutorial/"))
 
@@ -16,7 +20,7 @@
   (apply str (html/emit* s)))
 
 (def render-to-response
-     (comp response render))
+  (comp response render))
 
 (defn page-not-found [req]
   {:status 404
@@ -63,3 +67,41 @@
   (if (= n 1)
     (str astr)
     (str astr "s")))
+
+
+(defn to-sql-time2
+  "Convert `obj` to a java.sql.Timestamp instance."
+  [obj]
+  (if-let [dt (coerce/to-date-time obj)]
+    (java.sql.Time. (.getMillis dt))))
+
+(defn from-sql-time2
+  "Returns a DateTime instance in the UTC time zone corresponding to the given
+  java.sql.Timestamp object."
+  [#^java.sql.Time sql-time]
+  (coerce/from-long (.getTime sql-time)))
+
+(defn end-of-this-week
+  []
+  (.withDayOfWeek (time/today) 7) ;;Returns this Sunday
+  )
+
+(defn end-of-next-week
+  []
+  (.withDayOfWeek (time/plus (time/today) (time/weeks 1)) 7)) ;;Returns next Sunday
+
+
+(defn two-to-four-weeks-out
+  []
+  (.withDayOfWeek (time/plus (time/today) (time/weeks 3)) 7)) ;;Returns three Sundays from now
+
+
+
+(defn display-time [showtime]
+  (str (time-fm/unparse (time-fm/formatters :date) (local/to-local-date-time (coerce/from-sql-date (:date showtime))))
+       " "
+       (time-fm/unparse (time-fm/formatters :hour-minute) (local/to-local-date-time (from-sql-time2 (:time showtime))))))
+
+
+(defn display-price [price]
+  (str "$" (format "%.2f" price)))

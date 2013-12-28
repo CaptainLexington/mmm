@@ -24,6 +24,16 @@
 
 (declare movie venue presenter series event showtime screening)
 
+
+
+(korma/defentity movies-screenings
+                 (korma/has-one movie)
+                 (korma/has-one screening))
+
+(korma/defentity presenters-screening
+                 (korma/belongs-to presenter)
+                 (korma/belongs-to screening))
+
 (korma/defentity movie
                  (korma/many-to-many screening :movies-screenings))
 (korma/defentity venue

@@ -3,7 +3,9 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :plugins [[lein-cljsbuild "1.0.1"]]
+  :dependencies [;;;clj deps
+                 [org.clojure/clojure "1.5.1"]
                  [korma "0.3.0-RC5"]
                  [lobos "1.0.0-beta1"]
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
@@ -13,5 +15,20 @@
                  [org.clojars.ed_sumitra/clojure-webmvc "1.0.0-SNAPSHOT"]
                  [enlive "1.1.4"]
                  [clj-time "0.6.0"]
-                 [lein-light "0.0.4"]]
+                 [lein-light "0.0.4"]
+                 ;;;cljs deps
+                 [org.clojure/clojurescript "0.0-2120"]
+                 [enfocus "2.0.2"]
+                 [fetch "0.1.1"]]
+  :cljsbuild {
+    :builds [{
+        ; The path to the top-level ClojureScript source directory:
+        :source-paths ["cljs"]
+        ; The standard ClojureScript compiler options:
+        ; (See the ClojureScript compiler documentation for details.)
+        :compiler {
+          :output-to "resources/public/scripts/main.js"  ; default: target/cljsbuild-main.js
+          :optimizations :whitespace
+          :pretty-print true}}]}
+
   :main mmm.core)
