@@ -70,14 +70,14 @@
 
 
 (defn to-sql-time2
-  "Convert `obj` to a java.sql.Timestamp instance."
+  "Convert `obj` to a java.sql.Time instance."
   [obj]
   (if-let [dt (coerce/to-date-time obj)]
     (java.sql.Time. (.getMillis dt))))
 
 (defn from-sql-time2
   "Returns a DateTime instance in the UTC time zone corresponding to the given
-  java.sql.Timestamp object."
+  java.sql.Time object."
   [#^java.sql.Time sql-time]
   (coerce/from-long (.getTime sql-time)))
 
@@ -97,10 +97,32 @@
 
 
 
-(defn display-time [showtime]
-  (str (time-fm/unparse (time-fm/formatters :date) (local/to-local-date-time (coerce/from-sql-date (:date showtime))))
+(def am-pm (time-fm/formatter-local "h:mm a"))
+
+(defn local-time [time]
+  (time/to-time-zone
+    (from-sql-time2 time)
+    (time/time-zone-for-offset -6)))
+
+(defn display-date [date]
+  (time-fm/unparse
+   (time-fm/formatters :date)
+   (time/to-time-zone
+    (coerce/from-sql-date date)
+    (time/time-zone-for-offset -6))))
+
+(defn display-time [time]
+  (time-fm/unparse
+   am-pm
+   (time/to-time-zone
+    (from-sql-time2 time)
+    (time/time-zone-for-offset -6))))
+
+
+(defn display-date-and-time [showtime]
+  (str (display-date (:date showtime))
        " "
-       (time-fm/unparse (time-fm/formatters :hour-minute) (local/to-local-date-time (from-sql-time2 (:time showtime))))))
+       (display-time (:time showtime))))
 
 
 (defn display-price [price]

@@ -35,6 +35,10 @@ a:hover {
   color: Yellow;
 }
 
+label {
+  display: block;
+}
+
 /*Universal Elements*/
 
 h1, h2, h3, h4, h5 {
@@ -318,6 +322,20 @@ div.meta p{
   color: Black;
 }
 
+
+/*Screening Add*/
+
+button {
+  margin-top: 10px;
+}
+
+input, select, textarea {
+  margin-left: 5px;
+}
+
+div.inner-form {
+  margin-left: 20px;
+}
 
 
 footer {

@@ -26,7 +26,7 @@
              (set-attr :href (str "/screenings/" (:id i)))
              [:span.datetime]
              (clone-for [j (time-list i)]
-                        (content (utils/display-time j)))
+                        (content (utils/display-date-and-time j)))
              ))
 
 (defsnippet index
