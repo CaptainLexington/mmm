@@ -1,0 +1,31 @@
+<div class="add-movie inner-form">
+  <form action="/movies/add" method="post">
+    <div class="film">
+      <label for="name">Title:</label>
+      <input name="title"/>
+      <label for="name">Director:</label>
+      <input name="director"/>
+      <label for="name">Year:</label>
+      <input name="releaseYear"/>
+      <label for="name">Running Time:</label>
+      <input name="runningTime"/>
+      <label>MPAA Rating:</label>
+      <select class="mpaa" name="mpaa">
+        <option value="G" class="mpaa">G</option>
+        <option value="PG" class="mpaa">PG</option>
+        <option value="PG-13" class="mpaa">PG-13</option>
+        <option value="R" class="mpaa">R</option>
+        <option value="X" class="mpaa">X</option>
+        <option value="NC-17" class="mpaa">NC-17</option>
+        <option value="NR" class="mpaa">NR</option>
+      </select>
+      <input name="poster" value="default"/>
+      <label>Description:</label>
+      <textarea name="description"></textarea>
+    </div>
+
+    <div class="button">
+      <button type="submit" class="add-movie">Add Movie</button>
+    </div>
+  </form>
+</div>
