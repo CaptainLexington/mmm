@@ -72,25 +72,48 @@
 </div>
 
 
-<div class="add">
+<div class="add screening">
   <form action="/screenings/add" method="post">
     <div class="film">
       <label for="name">Film(s):</label>
-      <span class="add-movie">Add Movie to Database</span>
+      <span class="add movie">Add Movie to Database</span>
       <br/>
       <span class="duplicate">Add Movie to Screening</span>
       <div class="film selectsContainer">
       </div>
-    </div>
-    <div class="add-movie"></div>
-    <div>
-      <label for="mail">Venue:</label>
-      <select class="venue" name="venue_id">
-        <option value="" class="venue"></option>
-      </select>
+      <div class="add-movie"></div>
     </div>
 
-    <div class="film">
+
+    <div class="venue">
+      <label for="mail">Venue:</label>
+      <span class="add venue">Add Venue to Database</span>
+      <div class="single-item">
+        <select class="venue" name="venue_id">
+          <option value="" class="venue"></option>
+        </select>
+      </div>
+      <div class="add-venue"></div>
+    </div>
+
+
+    <div class="presenters">
+      <label for="name">Presenter(s):</label>
+      <span class="add presenter">Add Presenter to Database</span>
+      <br/>
+      <span class="duplicate">Add Presenter to Screening</span>
+      <div class="presenter selectsContainer">
+      </div>
+      <div class="add-presenter"></div>
+    </div>
+
+    <div class="series">
+    </div>
+
+    <div class="events">
+    </div>
+
+    <div class="showtimes">
       <label for="name">Showtimes:</label>
       <div class="singleItem">
         <input name="date"/>

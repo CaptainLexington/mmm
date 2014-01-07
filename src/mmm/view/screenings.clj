@@ -87,7 +87,7 @@
 
 (defsnippet add
   (layout/templateLocation "screening")
-  [:.add]
+  [:.add.screening]
   []
   [:form :select.venue :option.venue]
   (clone-for [venue (venue/all)]
