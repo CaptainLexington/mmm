@@ -15,7 +15,7 @@
 
 (defroutes routes
   (mp/wrap-multipart-params
-   (POST "/movies/add" [& params] (add-poster params))))
+   (POST "/movies/add-poster" [& params] (add-poster params))))
 
 
 

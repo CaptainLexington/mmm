@@ -29,16 +29,29 @@
                         (content (utils/display-date-and-time j)))
              ))
 
+
+(defn screeningsForHomePage []
+  (let [this-week (screening/thisWeek)
+        next-week (screening/nextWeek)
+        coming-soon (screening/comingSoon)
+        full-page [["THIS WEEK", this-week],
+                   ["NEXT WEEK", next-week],
+                   ["COMING SOON", coming-soon]]]
+
+    (filter #(not (empty? (last %)))
+            full-page
+            )))
+
 (defsnippet index
   (layout/templateLocation "index")
   [:.index]
   [screenings]
   [:.movies-main :.week-container]
-  (clone-for [i [["THIS WEEK", screening/thisWeek], ["NEXT WEEK", screening/nextWeek], ["COMING SOON", screening/comingSoon]]]
+  (clone-for [i (screeningsForHomePage)]
              [:h2.list-label]
              (content (first i))
              [:.screening]
-             (show-movies-for-week ((last i))))
+             (show-movies-for-week (last i)))
   )
 
 

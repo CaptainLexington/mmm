@@ -10,6 +10,9 @@
   (korma/insert local/venue
                 (korma/values {:name name :address address :description description :website website :phoneNumber phone})))
 
+(defn getByID [id]
+  (korma/select local/venue
+                (korma/where (= :id id))))
 
 (defn delete [id]
   (korma/delete local/venue

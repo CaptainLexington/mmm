@@ -1,8 +1,8 @@
 (ns mmm.files
   (:require [aws.sdk.s3 :as s3]))
 
-(def cred {:access-key "AKIAICILDFDJKJO6TZAA"
-           :secret-key "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"})
+(def cred {:access-key "uh uh uh uh uh"
+           :secret-key "you didn't say the magic word"})
 
 
 (defn add-poster [file-name poster]

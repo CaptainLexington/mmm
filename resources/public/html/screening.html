@@ -47,6 +47,10 @@
         </p>
       </td>
       <td class="venue">
+        <p class="venue">
+          <a class="venue">
+          </a>
+        </p>
       </td>
       <td class="showtimes"><p></p>
       </td>
@@ -64,8 +68,8 @@
 
 <div class="select-snippet">
   <div class="singleItem film">
-    <select class="film" name="movie_id">
-      <option value="" class="film"></option>
+    <select class="" name="">
+      <option value="" class=""></option>
     </select>
     <span class="remove">-</span>
   </div>
@@ -88,7 +92,7 @@
     <div class="venue">
       <label for="mail">Venue:</label>
       <span class="add venue">Add Venue to Database</span>
-      <div class="single-item">
+      <div class="venue selectsContainer">
         <select class="venue" name="venue_id">
           <option value="" class="venue"></option>
         </select>
@@ -108,6 +112,15 @@
     </div>
 
     <div class="series">
+      <label for="name">Series:</label>
+      <span class="add series">Add Series to Database</span>
+      <div class="series selectsContainer">
+        <select class="series" name="series_id">
+          <option value="" class="blank">None</option>
+          <option value="" class="series"></option>
+        </select>
+      </div>
+      <div class="add-series"></div>
     </div>
 
     <div class="events">
@@ -115,11 +128,19 @@
 
     <div class="showtimes">
       <label for="name">Showtimes:</label>
+      <span class="duplicate">Add Showtime</span>
       <div class="singleItem">
         <input name="date"/>
         <input name="time"/>
-        <span class="duplicate">+</span>
+        <span class="remove">-</span>
       </div>
+    </div>
+
+    <div class="screening-data">
+      <label for="price">Price:</label>
+      <input name="price"/>
+      <label for="notes">Notes:</label>
+      <textarea name="notes"></textarea>
     </div>
 
     <div class="button">

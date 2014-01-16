@@ -2,9 +2,10 @@
   (:use [shoreleave.middleware.rpc :refer (defremote)])
   (:require [mmm.model.movie :as movie]
             [mmm.model.presenter :as presenter]
-            [mmm.model.venue :as venue]))
+            [mmm.model.venue :as venue]
+            [mmm.model.series :as series]))
 
-
+;;MOVIES
 (defremote addMovie [parameters]
   (movie/add
    (:title parameters)
@@ -18,6 +19,7 @@
 (defremote allMovies []
   (movie/all))
 
+;;PRESENTERS
 (defremote addPresenter [parameters]
   (presenter/add
    (:name parameters)
@@ -27,6 +29,17 @@
 (defremote allPresenters []
   (presenter/all))
 
+;;SERIES
+(defremote addSeries [parameters]
+  (series/add
+   (:name parameters)
+   (:website parameters)
+   (:description parameters)))
+
+(defremote allSeries []
+  (into [{:name "None"}] (series/all)))
+
+;;VENUES
 (defremote addVenue [parameters]
   (venue/add
    (:name parameters)

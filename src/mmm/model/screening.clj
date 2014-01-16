@@ -11,6 +11,8 @@
   (distinct (korma/select local/screening
                           (korma/with local/movie)
                           (korma/with local/venue)
+                          (korma/with local/series)
+                          (korma/with local/presenter)
                           (korma/with local/showtime
                                       (korma/order :date)
                                       (korma/order :time))
@@ -21,18 +23,18 @@
 
 (defn thisWeek []
   (distinct (korma/select local/screening
-                           (korma/with local/movie)
-                           (korma/with local/venue)
-                           (korma/with local/showtime
-                                       (korma/order :date)
-                                       (korma/order :time))
-                           (korma/join local/showtime
-                                       (= :showtime.screening_id :id))
-                           (korma/order :showtime.date :asc)
-                           (korma/where (and
-                                         (>= :showtime.date (coerce/to-sql-date (time/today)))
-                                         (<= :showtime.date (coerce/to-sql-date (utils/end-of-this-week)))))
-                           )))
+                          (korma/with local/movie)
+                          (korma/with local/venue)
+                          (korma/with local/showtime
+                                      (korma/order :date)
+                                      (korma/order :time))
+                          (korma/join local/showtime
+                                      (= :showtime.screening_id :id))
+                          (korma/order :showtime.date :asc)
+                          (korma/where (and
+                                        (>= :showtime.date (coerce/to-sql-date (time/today)))
+                                        (<= :showtime.date (coerce/to-sql-date (utils/end-of-this-week)))))
+                          )))
 
 (defn nextWeek []
   (distinct (korma/select local/screening
@@ -75,14 +77,31 @@
                 (korma/where (= :id id)))
   )
 
+(defn getByVenue [venue_id]
+  (do
+    (prn venue_id)
+    (korma/select local/screening
+                  (korma/with local/movie)
+                  (korma/with local/venue)
+                  (korma/with local/showtime
+                              (korma/order :date)
+                              (korma/order :time))
+                  (korma/where (= :venue_id venue_id))))
+  )
+
 (defn add [screening-map]
   (let [screening_id
         (:id (korma/insert local/screening
                            (korma/values {:venue_id (read-string
-                                                     (:venue_id screening-map))})))]
+                                                     (:venue_id screening-map))
+                                          :price (read-string
+                                                  (:price screening-map))
+                                          :series_id (read-string
+                                                      (:series_id screening-map))
+                                          :notes (:notes screening-map)})))]
     (do
       (prn screening-map)
-      (doseq [movie_id (:movie_id screening-map)]
+      (doseq [movie_id (flatten (conj [] (:movie_id screening-map)))]
         (korma/insert local/movies-screenings
                       (korma/values {:screening_id screening_id
                                      :movie_id (read-string

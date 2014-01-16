@@ -22,7 +22,8 @@
                  ;;;cljs deps
                  [org.clojure/clojurescript "0.0-2120"]
                  [enfocus "2.0.2"]
-                 [shoreleave/shoreleave-remote "0.3.0"]]
+                 [shoreleave/shoreleave-remote "0.3.0"]
+                 [cljs-ajax "0.2.3"]]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:

@@ -3,6 +3,7 @@
   (:require [mmm.view.layout :as layout]
             [mmm.model.movie :as movie]
             [mmm.model.venue :as venue]
+            [mmm.model.series :as series]
             [mmm.utils :as utils]
             [clj-time.core :as time]))
 
@@ -74,7 +75,7 @@
              [:td.screening :p.screening :a.screening :span.movie]
              (clone-for [j (:movie i)]
                         (content (:title j)))
-             [:td.venue]
+             [:td.venue :p.venue :a.venue]
              (content (:name i))
              [:td.price]
              (content (utils/display-price (:price i)))
@@ -94,5 +95,9 @@
              (do->
               (set-attr :value (str (:id venue)))
               (content (str (:name venue)))))
-
+  [:form :select.series :option.series]
+  (clone-for [series (series/all)]
+             (do->
+              (set-attr :value (str (:id series)))
+              (content (str (:name series)))))
   )

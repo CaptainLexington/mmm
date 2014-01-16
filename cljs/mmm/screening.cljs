@@ -10,18 +10,22 @@
 
 
 
-(defn addAnItem [mouseEvent remote]
+(defn addAnItem [mouseEvent remote callback]
   (let [submit (.-target mouseEvent)
-        movieForm (.-parentElement (.-parentElement submit))
-        formData (ef/from movieForm (ef/read-form))]
+        form (.-parentElement (.-parentElement submit))
+        formData (ef/from form (ef/read-form))]
     (do
       (.preventDefault mouseEvent)
       (rpc/remote-callback
        remote [formData]
-       #(ef/at
-         [:div.add.inner-form]
-         (ef/remove-node))
-       ))))
+       #(do
+          (ef/at
+           [:div.add.inner-form]
+           (ef/remove-node))
+          (if (not (nil? callback))
+            (callback)))
+       ))
+    ))
 
 (defn addMovie [mouseEvent]
   (addAnItem mouseEvent :addMovie))
@@ -30,7 +34,14 @@
   (addAnItem mouseEvent :addPresenter))
 
 (defn addVenue [mouseEvent]
-  (addAnItem mouseEvent :addVenue))
+  (addAnItem mouseEvent
+             :addVenue
+             #(refreshSelect :div.venue.selectsContainer :allVenues views/venueSelect "venue")))
+
+(defn addSeries [mouseEvent]
+  (addAnItem mouseEvent
+             :addSeries
+             #(refreshSelect :div.series.selectsContainer :allSeries views/seriesSelect "series")))
 
 (defn removeSelect [mouseEvent]
   (let [div (.-parentElement (.-target mouseEvent))]
@@ -42,10 +53,22 @@
 (em/defaction setup-remotes []
               [:button.add-movie] (events/listen :click addMovie)
               [:button.add-presenter] (events/listen :click addPresenter)
-              [:button.add-venue] (events/listen :click addVenue))
+              [:button.add-venue] (events/listen :click addVenue)
+              [:button.add-series] (events/listen :click addSeries))
 
 (em/defaction setup-selects []
               [:span.remove] (events/listen :click removeSelect))
+
+5
+(defn refreshSelect [selector remote inputSnippet value]
+  (rpc/remote-callback
+   remote
+   []
+   #(do (ef/at [selector] (ef/content
+                           (views/itemSelect % inputSnippet value)
+                           ))
+      (setup-selects))))
+
 
 
 (defn duplicateFormInput [mouseEvent formInput]
@@ -57,26 +80,27 @@
                    ))
       (setup-selects))))
 
-(defn duplicateSelect [mouseEvent remote inputSnippet]
+(defn duplicateSelect [mouseEvent remote inputSnippet value]
   (rpc/remote-callback
    remote
    []
    #(duplicateFormInput
      mouseEvent
-     (views/itemSelect % inputSnippet))))
+     (views/itemSelect % inputSnippet value))))
 
 (defn duplicateMovieSelect [mouseEvent]
-  (duplicateSelect mouseEvent :allMovies views/movieSelect))
+  (duplicateSelect mouseEvent :allMovies views/movieSelect "movie"))
 
 (defn duplicatePresenterSelect [mouseEvent]
-  (duplicateSelect mouseEvent :allPresenters views/presenterSelect))
+  (duplicateSelect mouseEvent :allPresenters views/presenterSelect "presenter"))
 
 
 (defn loadAddForm [selector form]
   (do
     (ef/at [selector]
            (ef/content (form)))
-    (setup-remotes)))
+    (setup-remotes)
+    (setup-selects)))
 
 (defn loadAddMovieForm []
   (loadAddForm :div.add-movie views/addMovieForm))
@@ -87,11 +111,15 @@
 (defn loadAddVenueForm []
   (loadAddForm :div.add-venue views/addVenueForm))
 
+(defn loadAddSeriesForm []
+  (loadAddForm :div.add-series views/addSeriesForm))
+
 (em/defaction setup []
               [:div.film :span.duplicate] (events/listen :click duplicateMovieSelect)
               [:div.presenters :span.duplicate] (events/listen :click duplicatePresenterSelect)
-              [:div.showtimes :span.duplicate] (events/listen :click #(duplicateFormInput % views/showtimesInput))
+              [:div.showtimes :span.duplicate] (events/listen :click #(duplicateFormInput % (views/showtimesInput)))
               [:span.add.movie] (events/listen :click loadAddMovieForm)
               [:span.add.presenter] (events/listen :click loadAddPresenterForm)
               [:span.add.venue] (events/listen :click loadAddVenueForm)
+              [:span.add.series] (events/listen :click loadAddSeriesForm)
               )
