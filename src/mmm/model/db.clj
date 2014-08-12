@@ -8,5 +8,13 @@
 
 (def db (mg/get-db conn "mmm"))
 
+(defn stringify-id [datamap]
+  (assoc datamap :_id (str (:_id datamap))))
+
+(defn all [coll]
+  (map stringify-id (mc/find-maps db coll)))
+
 (defn getItemByID [item id]
-  (mc/find-one-as-map db item { :_id (ObjectId. id)}))
+  (when (= id nil)
+    (prn id)
+    (mc/find-one-as-map db item { :_id (ObjectId. id)})))

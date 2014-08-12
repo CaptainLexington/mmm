@@ -14,7 +14,8 @@
    (read-string (:releaseYear parameters))
    (:mpaa parameters)
    (:poster parameters)
-   (:description parameters)))
+   (:description parameters))
+  nil)
 
 (defremote allMovies []
   (movie/all))
@@ -24,7 +25,8 @@
   (presenter/add
    (:name parameters)
    (:website parameters)
-   (:description parameters)))
+   (:description parameters))
+  nil)
 
 (defremote allPresenters []
   (presenter/all))
@@ -34,7 +36,8 @@
   (series/add
    (:name parameters)
    (:website parameters)
-   (:description parameters)))
+   (:description parameters))
+  nil)
 
 (defremote allSeries []
   (into [{:name "None"}] (series/all)))
@@ -46,7 +49,8 @@
    (:address parameters)
    (:description parameters)
    (:website parameters)
-   (:phone-number parameters)))
+   (:phone-number parameters))
+  nil)
 
 (defremote allVenues []
   (venue/all))

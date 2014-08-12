@@ -8,7 +8,7 @@
                 {:name name :website website :description description}))
 
 (defn all []
-  (mc/find-maps local/db "series"))
+  (local/all "series"))
 
 (defn getByID [id]
   (local/getItemByID "series" id))

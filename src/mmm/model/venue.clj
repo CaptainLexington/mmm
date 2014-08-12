@@ -4,7 +4,7 @@
             [mmm.model.db :as local]))
 
 (defn all []
-  (mc/find-maps local/db "venues"))
+  (local/all "venues"))
 
 (defn add [name address description website phone]
   (mc/insert local/db "venues"

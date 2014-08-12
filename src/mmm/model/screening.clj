@@ -35,7 +35,7 @@
 
 
 (defn all []
-  (map detailed-screening (mc/find-maps local/db "screenings")))
+  (map detailed-screening (local/all "screenings")))
 
 
 (defn thisWeek []

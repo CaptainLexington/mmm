@@ -4,7 +4,7 @@
             [mmm.model.db :as local]))
 
 (defn all []
-  (mc/find-maps local/db "movies"))
+  (local/all "movies"))
 
 (defn add [title director runningTime year mpaaRating poster description]
   (mc/insert local/db "movies"

@@ -12,4 +12,4 @@
 
 
 (defn all []
-  (mc/find-maps local/db "presenters"))
+  (local/all "presenters"))
