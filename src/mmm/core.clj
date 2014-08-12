@@ -9,7 +9,7 @@
             [shoreleave.middleware.rpc :as rpc]
             [mmm.controller.movie :as movies]
             [mmm.controller.screening :as screenings]
-            [mmm.controller.venue :as venues]
+            ;[mmm.controller.venue :as venues]
             [mmm.view.layout :as layout]
             [mmm.view.index :as index]
             [mmm.model.movie :as movie]
@@ -35,7 +35,7 @@
 ;;ROUTING BRO
 
 (defroutes routes
-  venues/routes
+  ;venues/routes
   screenings/routes
   (GET "/" [] (render-request index))
   (GET "/about" [] (render-request about))
@@ -44,15 +44,15 @@
 (defn start [port]
   (run-jetty (wrappers #'routes) {:port port :join? false}))
 
-(defn init-db
-  "runs when the application starts and updates the database scheme if necessary"
-  []
-  (if-not (db/actualized?)
-    (db/actualize)))
+;; (defn init-db
+;;   "runs when the application starts and updates the database scheme if necessary"
+;;   []
+;;   (if-not (db/actualized?)
+;;     (db/actualize)))
 
 (defn -main []
   (let [port (Integer/parseInt
               (or (System/getenv "PORT") "8080"))]
     (do
-      (init-db)
+      ;(init-db)
       (start port))))

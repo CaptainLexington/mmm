@@ -1,12 +1,15 @@
 (ns mmm.model.presenter
-  (:require [korma.db :as db]
-            [korma.core :as korma]
+  (:require [monger.core :as mg]
+            [monger.collection :as mc]
             [mmm.model.db :as local]))
 
 (defn add [name website description]
-  (korma/insert local/presenter
-                (korma/values {:name name :website website :description description})))
+  (mc/insert local/db "presenters"
+                {:name name :website website :description description}))
+
+(defn getByID [id]
+  (local/getItemByID "presenters" id))
+
 
 (defn all []
-  (korma/select local/presenter
-                (korma/order :name :ASC)))
+  (mc/find-maps local/db "presenters"))

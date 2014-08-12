@@ -1,17 +1,21 @@
 (ns mmm.model.movie
-  (:require [korma.db :as db]
-            [korma.core :as korma]
+  (:require [monger.core :as mg]
+            [monger.collection :as mc]
             [mmm.model.db :as local]))
 
 (defn all []
-  (korma/select local/movie
-    (korma/order :title :ASC)))
+  (mc/find-maps local/db "movies"))
 
 (defn add [title director runningTime year mpaaRating poster description]
-  (korma/insert local/movie
-                (korma/values {:title title :director director :runningTime runningTime :year year :mpaaRating mpaaRating :poster poster :description description})))
+  (mc/insert local/db "movies"
+                {:title title :director director :runningTime runningTime :year year :mpaaRating mpaaRating :poster poster :description description}))
 
 
-(defn delete [title]
-  (korma/delete local/movie
-                (korma/where (:title [= title]))))
+(defn getByID [id]
+  (local/getItemByID "movies" id))
+
+
+
+;; (defn delete [title]
+;;   (korma/delete local/movie
+;;                 (korma/where (:title [= title]))))

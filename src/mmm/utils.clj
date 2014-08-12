@@ -126,4 +126,4 @@
 
 
 (defn display-price [price]
-  (str "$" (format "%.2f" price)))
+  (str "$" price))

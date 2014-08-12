@@ -61,8 +61,7 @@
   [:div.meta.details :p.price]
   (content (utils/display-price (:price (first screening))))
   [:div.meta.details :p.address]
-  (content (:address (first screening)))
-  )
+  (content (:address (first screening))))
 
 (defsnippet all
   (layout/templateLocation "screening")
@@ -76,14 +75,13 @@
              (clone-for [j (:movie i)]
                         (content (:title j)))
              [:td.venue :p.venue :a.venue]
-             (content (:name i))
+             (content (:name (:venue i)))
              [:td.price]
              (content (utils/display-price (:price i)))
              [:td.showtimes :p]
              (clone-for [showtime (:showtime i)]
                         (content (utils/display-date-and-time showtime)))
-             )
-  )
+             ))
 
 
 (defsnippet add
@@ -93,11 +91,11 @@
   [:form :select.venue :option.venue]
   (clone-for [venue (venue/all)]
              (do->
-              (set-attr :value (str (:id venue)))
+              (set-attr :value (str (:_id venue)))
               (content (str (:name venue)))))
   [:form :select.series :option.series]
   (clone-for [series (series/all)]
              (do->
-              (set-attr :value (str (:id series)))
-              (content (str (:name series)))))
-  )
+              (set-attr :value (str (:_id series)))
+              (content (str (:name series))))))
+

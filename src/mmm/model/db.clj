@@ -1,55 +1,12 @@
 (ns mmm.model.db
-  (:require [korma.db :as db]
-            [korma.core :as korma]
-            [lobos.core :as lbs :only (defcommand migrate)]
-            [lobos.migration :as lm]))
+  (:require
+   [monger.core :as mg]
+   [monger.collection :as mc])
+  (:import org.bson.types.ObjectId))
 
+(def conn (mg/connect))
 
-(lbs/defcommand pending-migrations []
-  (lm/pending-migrations db-spec sname))
+(def db (mg/get-db conn "mmm"))
 
-(defn actualized?
-  "checks in there are no pending migrations"
-  []
-  (empty? (pending-migrations)))
-
-(def actualize lbs/migrate)
-
-
-(db/defdb stage (db/postgres {:db "MidnightMoviesLocal"
-                        :user "captain"
-                        :password ""
-                        :port "5432"}))
-
-
-(declare movie venue presenter series event showtime screening)
-
-
-
-(korma/defentity movies-screenings
-                 (korma/has-one movie)
-                 (korma/has-one screening))
-
-(korma/defentity presenters-screening
-                 (korma/belongs-to presenter)
-                 (korma/belongs-to screening))
-
-(korma/defentity movie
-                 (korma/many-to-many screening :movies-screenings))
-(korma/defentity venue
-                 (korma/has-many screening))
-(korma/defentity presenter
-                 (korma/has-many screening))
-(korma/defentity series
-                 (korma/has-many screening))
-(korma/defentity event
-                 (korma/has-many screening))
-(korma/defentity showtime
-                 (korma/belongs-to screening))
-(korma/defentity screening
-                 (korma/belongs-to venue)
-                 (korma/belongs-to series)
-                 (korma/belongs-to event)
-                 (korma/has-many showtime)
-                 (korma/many-to-many movie :movies-screenings)
-                 (korma/many-to-many presenter :presenters-screenings))
+(defn getItemByID [item id]
+  (mc/find-one-as-map db item { :_id (ObjectId. id)}))

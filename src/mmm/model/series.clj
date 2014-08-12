@@ -1,12 +1,14 @@
 (ns mmm.model.series
-  (:require [korma.db :as db]
-            [korma.core :as korma]
+  (:require [monger.core :as mg]
+            [monger.collection :as mc]
             [mmm.model.db :as local]))
 
 (defn add [name website description]
-  (korma/insert local/series
-                (korma/values {:name name :website website :description description})))
+  (mc/insert local/db "series"
+                {:name name :website website :description description}))
 
 (defn all []
-  (korma/select local/series
-                (korma/order :name :ASC)))
+  (mc/find-maps local/db "series"))
+
+(defn getByID [id]
+  (local/getItemByID "series" id))

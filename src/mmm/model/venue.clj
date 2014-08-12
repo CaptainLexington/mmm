@@ -1,19 +1,18 @@
 (ns mmm.model.venue
-  (:require [korma.db :as db]
-            [korma.core :as korma]
+  (:require [monger.core :as mg]
+            [monger.collection :as mc]
             [mmm.model.db :as local]))
 
 (defn all []
-  (korma/select local/venue))
+  (mc/find-maps local/db "venues"))
 
 (defn add [name address description website phone]
-  (korma/insert local/venue
-                (korma/values {:name name :address address :description description :website website :phoneNumber phone})))
+  (mc/insert local/db "venues"
+             {:name name :address address :description description :website website :phoneNumber phone}))
 
 (defn getByID [id]
-  (korma/select local/venue
-                (korma/where (= :id id))))
+  (local/getItemByID "venues" id))
 
-(defn delete [id]
-  (korma/delete local/venue
-                (korma/where (:id [= id]))))
+;; (defn delete [id]
+;;   (korma/delete local/venue
+;;                 (korma/where (:id [= id]))))
