@@ -5,22 +5,26 @@
             [mmm.model.venue :as venue]
             [mmm.model.series :as series]
             [mmm.utils :as utils]
-            [clj-time.core :as time]))
+            [clj-time.core :as time]
+            [clj-time.format :as timef]))
 
 
+(defn split-date-time [showtime]
+  [(utils/display-date showtime)
+   (utils/display-time showtime)])
 
 (defn arrange-datetime
   [showtimes]
+  (let [date-times (map split-date-time showtimes)]
   (sort
-   #(compare (:date %1) (:date %2))
+   #(compare (first %1) (first %2))
    (mapv
     (fn [[k v]] {:date k :time (flatten (conj [] v))})
     (apply
      merge-with
      #(flatten (conj [%1] %2))
-     (mapv (fn [m] {(:date m) (:time m)})
-           showtimes)))))
-
+     (mapv (fn [m] {(first m) (second m)})
+           date-times))))))
 
 
 (defn title-list [movies]
@@ -31,10 +35,10 @@
   [:.view]
   [screening]
   [:div.movie-details :h2 :span.title]
-  (clone-for [i (title-list (:movie (first screening)))]
+  (clone-for [i (title-list (:movies screening))]
              (content i))
   [:div.movie-details :section.movie]
-  (clone-for [i (:movie (first screening))]
+  (clone-for [i (:movies screening)]
              [:img.poster]
              (set-attr :src (:poster i))
              [:p.release]
@@ -49,19 +53,18 @@
              (content (:description i))
              )
   [:div.meta.details :div.datetime]
-  (clone-for [showtime (arrange-datetime (:showtime (first screening)))]
+  (clone-for [showtime (arrange-datetime (:showtime screening))]
              [:h3]
-             (content (utils/display-date (:date showtime)))
+             (content (:date showtime))
              [:p]
              (clone-for [time (:time showtime)]
-                        (content (utils/display-time time)))
-             )
+                        (content time)))
   [:div.meta.details :h2.venue]
-  (content (:name (first screening)))
+  (content (:name (:venue screening)))
   [:div.meta.details :p.price]
-  (content (utils/display-price (:price (first screening))))
+  (content (utils/display-price (:price screening)))
   [:div.meta.details :p.address]
-  (content (:address (first screening))))
+  (content (:address (:venue screening))))
 
 (defsnippet all
   (layout/templateLocation "screening")
@@ -70,9 +73,9 @@
   [:tr.screening]
   (clone-for [i screenings]
              [:td.screening :p.screening :a.screening]
-             (set-attr :href (str "/screenings/" (:id i)))
+             (set-attr :href (str "/screenings/" (:_id i)))
              [:td.screening :p.screening :a.screening :span.movie]
-             (clone-for [j (:movie i)]
+             (clone-for [j (:movies i)]
                         (content (:title j)))
              [:td.venue :p.venue :a.venue]
              (content (:name (:venue i)))

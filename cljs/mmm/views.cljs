@@ -9,26 +9,26 @@
 
 (defn movieSelect [film]
   (ef/do->
-   (ef/set-attr :value (str (:id film)))
+   (ef/set-attr :value (str (:_id film)))
    (ef/content (str (:title film) " (" (:year film) ")"))
    ))
 
 
 (defn presenterSelect [presenter]
   (ef/do->
-   (ef/set-attr :value (str (:id presenter)))
+   (ef/set-attr :value (str (:_id presenter)))
    (ef/content (str (:name presenter) ))
    ))
 
 (defn seriesSelect [series]
   (ef/do->
-   (ef/set-attr :value (str (:id series)))
+   (ef/set-attr :value (str (:_id series)))
    (ef/content (str (:name series) ))
    ))
 
 (defn venueSelect [venue]
   (ef/do->
-   (ef/set-attr :value (str (:id venue)))
+   (ef/set-attr :value (str (:_id venue)))
    (ef/content (str (:name venue) ))
    ))
 

@@ -15,6 +15,5 @@
   (map stringify-id (mc/find-maps db coll)))
 
 (defn getItemByID [item id]
-  (when (= id nil)
-    (prn id)
-    (mc/find-one-as-map db item { :_id (ObjectId. id)})))
+  (when-not (= id "")
+    (stringify-id (mc/find-one-as-map db item { :_id (ObjectId. id)}))))

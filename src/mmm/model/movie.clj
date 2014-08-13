@@ -4,7 +4,7 @@
             [mmm.model.db :as local]))
 
 (defn all []
-  (local/all "movies"))
+  (sort-by #(clojure.string/lower-case (:title %)) (local/all "movies")))
 
 (defn add [title director runningTime year mpaaRating poster description]
   (mc/insert local/db "movies"

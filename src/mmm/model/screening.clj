@@ -1,6 +1,7 @@
 (ns mmm.model.screening
   (:require [monger.core :as mg]
             [monger.collection :as mc]
+            [monger.joda-time]
             [mmm.utils :as utils]
             [clj-time.core :as time]
             [clj-time.coerce :as coerce]
@@ -12,10 +13,19 @@
             [mmm.model.presenter :as presenter]))
 
 
+(defn vectorize [items]
+  (if (vector? items)
+    items
+    [items]))
 
 
 (defn add [screening-map]
-  (mc/insert local/db "screenings" screening-map))
+  (prn screening-map)
+  (let [showtimes-vec (vectorize (:showtime screening-map))
+        _ (prn showtimes-vec)
+        showtimes (map utils/read-showtime showtimes-vec)
+        screening (assoc screening-map :showtime showtimes)]
+  (mc/insert local/db "screenings" screening)))
 
 (defn detailed-screening [screening]
   (let [venue_id (:venue_id screening)
@@ -23,12 +33,13 @@
         presenter_ids (:presenter_id screening)
         movie_ids (:movie_id screening)]
     {
+     :_id (str (:_id screening))
      :price (:price screening)
      :notes (:notes screening)
-     :datetimes (:datetimes screening)
+     :showtime (:showtime screening)
      :venue (venue/getByID venue_id)
      :series (series/getByID series_id)
-     :movies (movie/getByID movie_ids)
+     :movies (map movie/getByID (vectorize movie_ids))
      :presenters (map presenter/getByID presenter_ids)
      }
     ))
