@@ -1,15 +1,15 @@
 (ns mmm.utils
   (:require [net.cgrand.enlive-html :as html]
             [clojure.java.io :as io])
-  (:use [ring.adapter.jetty :only [run-jetty]]
-        [ring.util.response :only [response file-response]]
-        [ring.middleware.reload :only [wrap-reload]]
-        [ring.middleware.file :only [wrap-file]]
-        [ring.middleware.stacktrace :only [wrap-stacktrace]]
-        [clj-time.core :as time]
-        [clj-time.format :as time-fm]
-        [clj-time.coerce :as coerce]
-        [clj-time.local :as local]))
+  (:use     [ring.adapter.jetty :only [run-jetty]]
+            [ring.util.response :only [response file-response]]
+            [ring.middleware.reload :only [wrap-reload]]
+            [ring.middleware.file :only [wrap-file]]
+            [ring.middleware.stacktrace :only [wrap-stacktrace]]
+            [clj-time.core :as time]
+            [clj-time.format :as time-fm]
+            [clj-time.coerce :as coerce]
+            [clj-time.local :as local]))
 
 (def ^:dynamic *webdir* (str (.getCanonicalFile (io/file ".")) "/src/tutorial/"))
 
@@ -68,6 +68,9 @@
     (str astr)
     (str astr "s")))
 
+(defn alphabetize-by [key items]
+  (sort-by #(clojure.string/lower-case (key %)) items))
+
 
 (defn to-sql-time2
   "Convert `obj` to a java.sql.Time instance."
@@ -81,57 +84,93 @@
   [#^java.sql.Time sql-time]
   (coerce/from-long (.getTime sql-time)))
 
+(defn right-now []
+  (time/now))
+
 (defn end-of-this-week
   []
-  (.withDayOfWeek (time/today) 7) ;;Returns this Sunday
+  (.withDayOfWeek (right-now) 7) ;;Returns this Sunday
   )
 
 (defn end-of-next-week
   []
-  (.withDayOfWeek (time/plus (time/today) (time/weeks 1)) 7)) ;;Returns next Sunday
+  (.withDayOfWeek (time/plus (right-now) (time/weeks 1)) 7)) ;;Returns next Sunday
 
 
 (defn two-to-four-weeks-out
   []
-  (.withDayOfWeek (time/plus (time/today) (time/weeks 3)) 7)) ;;Returns three Sundays from now
-
+  (.withDayOfWeek (time/plus (right-now) (time/weeks 3)) 7)) ;;Returns three Sundays from now
 
 (def showtime-format (time-fm/formatter "yyyy.MM.dd h:mm a"))
 
 (defn read-showtime [showtime-str]
-  (prn showtime-str)
-  (time-fm/parse showtime-format showtime-str))
+  (time/from-time-zone
+   (time-fm/parse showtime-format showtime-str)
+   (time/time-zone-for-offset -6)))
 
 
+(def weekday-month-date (time-fm/formatter-local "EEEE, MMMM d"))
 (def am-pm (time-fm/formatter-local "h:mm a"))
+
+
+(defn earliest-first [dates]
+  (sort-by coerce/to-long dates))
+
+(defn earliest-first-comparator [dateA dateB]
+  (compare (coerce/to-long dateA) (coerce/to-long dateB)))
+
+(defn earliest-first-string [dateA dateB]
+  (earliest-first-comparator
+   (time-fm/parse
+    weekday-month-date
+    dateA)
+   (time-fm/parse
+    weekday-month-date
+    dateB)))
+
 
 (defn local-time [time]
   (time/to-time-zone
-    (from-sql-time2 time)
-    (time/time-zone-for-offset -6)))
+   (from-sql-time2 time)
+   (time/time-zone-for-offset -6)))
 
 (defn display-date [date]
   (time-fm/unparse
-   (time-fm/formatters :date)
-   ;(time/to-time-zone
+   weekday-month-date
+   (time/to-time-zone
     date
-    ;(time/time-zone-for-offset -6))))
-   ))
+    (time/time-zone-for-offset -6))))
+
 
 (defn display-time [date]
   (time-fm/unparse
    am-pm
-   ;(time/to-time-zone
+   (time/to-time-zone
     date
-    ;(time/time-zone-for-offset -6))))
-   ))
+    (time/time-zone-for-offset -6))))
+
 
 
 (defn display-date-and-time [showtime]
-  (str (display-date (:date showtime))
+  (str (display-date showtime)
        " "
-       (display-time (:time showtime))))
+       (display-time showtime)))
 
+
+
+(defn date-range [showtimes]
+  (let [dates (distinct (map display-date showtimes))]
+    (if (= (count dates) 1)
+      dates
+      [(first dates)
+       (last dates)])))
+
+(defn display-date-range [showtimes]
+  (let [daterange (date-range showtimes)]
+    (if (= (count daterange) 1)
+      (first daterange)
+      [(first daterange)
+       (last daterange)])))
 
 (defn display-price [price]
   (str "$" price))

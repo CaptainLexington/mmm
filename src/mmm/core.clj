@@ -9,7 +9,7 @@
             [shoreleave.middleware.rpc :as rpc]
             [mmm.controller.movie :as movies]
             [mmm.controller.screening :as screenings]
-            ;[mmm.controller.venue :as venues]
+            [mmm.controller.venue :as venues]
             [mmm.view.layout :as layout]
             [mmm.view.index :as index]
             [mmm.model.movie :as movie]
@@ -35,7 +35,7 @@
 ;;ROUTING BRO
 
 (defroutes routes
-  ;venues/routes
+  venues/routes
   screenings/routes
   (GET "/" [] (render-request index))
   (GET "/about" [] (render-request about))

@@ -2,6 +2,7 @@
   (:require [monger.core :as mg]
             [monger.collection :as mc]
             [monger.joda-time]
+            [monger.operators :refer :all]
             [mmm.utils :as utils]
             [clj-time.core :as time]
             [clj-time.coerce :as coerce]
@@ -22,8 +23,7 @@
 (defn add [screening-map]
   (prn screening-map)
   (let [showtimes-vec (vectorize (:showtime screening-map))
-        _ (prn showtimes-vec)
-        showtimes (map utils/read-showtime showtimes-vec)
+        showtimes (utils/earliest-first (map utils/read-showtime showtimes-vec))
         screening (assoc screening-map :showtime showtimes)]
   (mc/insert local/db "screenings" screening)))
 
@@ -48,70 +48,28 @@
 (defn all []
   (map detailed-screening (local/all "screenings")))
 
+(defn screenings-in-range [in out]
+  (map
+   detailed-screening
+   (mc/find-maps
+    local/db
+    "screenings"
+    {:showtime {$elemMatch {$gte in $lt out}}})))
 
 (defn thisWeek []
-  ;;   (distinct (korma/select local/screening
-  ;;                           (korma/with local/movie)
-  ;;                           (korma/with local/venue)
-  ;;                           (korma/with local/showtime
-  ;;                                       (korma/order :date)
-  ;;                                       (korma/order :time))
-  ;;                           (korma/join local/showtime
-  ;;                                       (= :showtime.screening_id :id))
-  ;;                           (korma/order :showtime.date :asc)
-  ;;                           (korma/where (and
-  ;;                                         (>= :showtime.date (coerce/to-sql-date (time/today)))
-  ;;                                         (<= :showtime.date (coerce/to-sql-date (utils/end-of-this-week)))))
-  ;;                           )))
-  )
+ (screenings-in-range (utils/right-now) (utils/end-of-this-week)))
 
 (defn nextWeek []
-  ;;   (distinct (korma/select local/screening
-  ;;                           (korma/with local/movie)
-  ;;                           (korma/with local/venue)
-  ;;                           (korma/with local/showtime
-  ;;                                       (korma/order :date)
-  ;;                                       (korma/order :time))
-  ;;                           (korma/join local/showtime
-  ;;                                       (= :showtime.screening_id :id))
-  ;;                           (korma/order :showtime.date :asc)
-  ;;                           (korma/where (and
-  ;;                                         (> :showtime.date (coerce/to-sql-date (utils/end-of-this-week)))
-  ;;                                         (<= :showtime.date (coerce/to-sql-date (utils/end-of-next-week)))))
-  ;;                           )))
-  )
+ (screenings-in-range (utils/end-of-this-week) (utils/end-of-next-week)))
 
 (defn comingSoon []
-  ;;   (distinct (korma/select local/screening
-  ;;                           (korma/with local/movie)
-  ;;                           (korma/with local/venue)
-  ;;                           (korma/with local/showtime
-  ;;                                       (korma/order :date)
-  ;;                                       (korma/order :time))
-  ;;                           (korma/join local/showtime
-  ;;                                       (= :showtime.screening_id :id))
-  ;;                           (korma/order :showtime.date :asc)
-  ;;                           (korma/where (and
-  ;;                                         (> :showtime.date (coerce/to-sql-date (utils/end-of-next-week)))
-  ;;                                         (<= :showtime.date (coerce/to-sql-date (utils/two-to-four-weeks-out)))))
-  ;;                           )))
-  )
+ (screenings-in-range (utils/end-of-next-week) (utils/two-to-four-weeks-out)))
 
 (defn getByID [id]
   (detailed-screening (local/getItemByID "screenings" id)))
 
 (defn getByVenue [venue_id]
-  ;;   (do
-  ;;     (prn venue_id)
-  ;;     (korma/select local/screening
-  ;;                   (korma/with local/movie)
-  ;;                   (korma/with local/venue)
-  ;;                   (korma/with local/showtime
-  ;;                               (korma/order :date)
-  ;;                               (korma/order :time))
-  ;;                   (korma/where (= :venue_id venue_id))))
-  )
-
+  (map detailed-screening (local/getRelations "screenings" :venue_id venue_id)))
 
 ;; (defn delete [id]
 ;;   (korma/delete local/screening

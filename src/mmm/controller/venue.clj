@@ -11,8 +11,7 @@
 
 
 (defn view [id]
-  (layout/common (view/view (model/getByID (Long/parseLong id))))
-  )
+  (layout/common (view/view (model/getByID id))))
 
 (defroutes routes
-  (GET ["/venue/:id" :id #"\d+"] [id] (render-request view id)))
+  (GET ["/venues/:id" :id #"[0-9a-f]+"] [id] (render-request view id)))

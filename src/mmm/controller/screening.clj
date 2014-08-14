@@ -13,23 +13,24 @@
   (layout/common (view/view (model/getByID id))))
 
 (defn all [screenings]
-  (layout/common (view/all screenings))
-  )
+  (layout/common (view/all screenings)))
 
 (defn addForm []
   (layout/common (view/add)))
 
+(defn edit [id]
+  (layout/common (view/edit (model/getByID id))))
 
 (defn add [params]
   (do
-    (prn params)
     (model/add params)
     (ring/redirect "/")))
 
 
 (defroutes routes
+  (GET "/screenings/add" [] (render-request addForm))
   (GET ["/screenings/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/screenings/" [] (render-request all (model/all)))
-  (GET "/screening/add" [] (render-request addForm))
+  (GET ["/screenings/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
   (POST "/screenings/add" [& params] (add params)))
 

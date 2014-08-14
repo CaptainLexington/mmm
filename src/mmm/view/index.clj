@@ -18,12 +18,12 @@
 (defn show-movies-for-week [screenings]
   (clone-for [i screenings]
              [:h3.venue]
-             (content (:name i))
+             (content (:name (:venue i)))
              [:img.poster.main_page]
-             (clone-for [j (:movie i)]
+             (clone-for [j (:movies i)]
                         (set-attr :src (:poster j)))
              [:a]
-             (set-attr :href (str "/screenings/" (:id i)))
+             (set-attr :href (str "/screenings/" (:_id i)))
              [:span.datetime]
              (clone-for [j (time-list i)]
                         (content (utils/display-date-and-time j)))

@@ -16,4 +16,9 @@
 
 (defn getItemByID [item id]
   (when-not (= id "")
-    (stringify-id (mc/find-one-as-map db item { :_id (ObjectId. id)}))))
+    (stringify-id (mc/find-map-by-id db item (ObjectId. id)))))
+
+(defn getRelations [item relation id]
+  (prn item)
+  (prn id)
+  (mc/find-maps db item {relation id}))

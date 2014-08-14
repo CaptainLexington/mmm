@@ -16,15 +16,15 @@
 (defn arrange-datetime
   [showtimes]
   (let [date-times (map split-date-time showtimes)]
-  (sort
-   #(compare (first %1) (first %2))
-   (mapv
-    (fn [[k v]] {:date k :time (flatten (conj [] v))})
-    (apply
-     merge-with
-     #(flatten (conj [%1] %2))
-     (mapv (fn [m] {(first m) (second m)})
-           date-times))))))
+    (sort
+     #(utils/earliest-first-string (:date %1) (:date %2))
+     (mapv
+      (fn [[k v]] {:date k :time (flatten (conj [] v))})
+      (apply
+       merge-with
+       #(flatten (conj [%1] %2))
+       (mapv (fn [m] {(first m) (second m)})
+             date-times))))))
 
 
 (defn title-list [movies]
@@ -78,19 +78,22 @@
              (clone-for [j (:movies i)]
                         (content (:title j)))
              [:td.venue :p.venue :a.venue]
-             (content (:name (:venue i)))
+             (do->
+              (set-attr :href (str "/venues/" (:_id (:venue i))))
+              (content (:name (:venue i))))
              [:td.price]
              (content (utils/display-price (:price i)))
              [:td.showtimes :p]
-             (clone-for [showtime (:showtime i)]
-                        (content (utils/display-date-and-time showtime)))
-             ))
+             (clone-for [date (utils/date-range (:showtime i))]
+                        (content date))))
 
 
 (defsnippet add
   (layout/templateLocation "screening")
   [:.add.screening]
   []
+  [:form]
+  (set-attr :action "/screenings/add")
   [:form :select.venue :option.venue]
   (clone-for [venue (venue/all)]
              (do->
@@ -100,5 +103,30 @@
   (clone-for [series (series/all)]
              (do->
               (set-attr :value (str (:_id series)))
+              (content (str (:name series))))))
+
+(defsnippet edit
+  (layout/templateLocation "screening")
+  [:.add.screening]
+  [screening]
+  [:form]
+  (set-attr :action "/screenings/update")
+  [:form :select.venue :option.venue]
+  (clone-for [venue (venue/all)]
+             (do->
+              (set-attr :value (str (:_id venue)))
+              (set-attr (if (= (:name venue) (:name (:venue screening)))
+                          :selected
+                          :unselected)
+                        true)
+              (content (str (:name venue)))))
+  [:form :select.series :option.series]
+  (clone-for [series (series/all)]
+             (do->
+              (set-attr :value (str (:_id series)))
+              (set-attr (if (= (:name series) (:name (:series screening)))
+                          :selected
+                          :unselected)
+                        true)
               (content (str (:name series))))))
 

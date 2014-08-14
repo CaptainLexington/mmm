@@ -11,19 +11,26 @@
 (defsnippet view
   (layout/templateLocation "venues")
   [:.view]
-  [venues]
+  [venue]
+  [:h2.name]
+  (content (:name venue))
+  [:p.website]
+  (content (:website venue))
+  [:p.phone-number]
+  (content (:phoneNumber venue))
+  [:p.description]
+  (content (:description venue))
+  [:p.address]
+  (content (:address venue))
   [:tr.screening]
-  (let [venue (first venues)]
-  (clone-for [i (screening/getByVenue (:id venue))]
+  (clone-for [i (screening/getByVenue (:_id venue))]
              [:td.screening :p.screening :a.screening]
-             (set-attr :href (str "/screenings/" (:id i)))
+             (set-attr :href (str "/screenings/" (:_id i)))
              [:td.screening :p.screening :a.screening :span.movie]
-             (clone-for [j (:movie i)]
+             (clone-for [j (:movies i)]
                         (content (:title j)))
              [:td.price]
              (content (utils/display-price (:price i)))
              [:td.showtimes :p]
-             (clone-for [showtime (:showtime i)]
-                        (content (utils/display-date-and-time showtime)))
-             )
-  ))
+             (clone-for [date (utils/date-range (:showtime i))]
+                        (content date))))
