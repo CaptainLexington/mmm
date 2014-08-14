@@ -22,10 +22,9 @@
   (layout/common (view/edit (model/getByID id))))
 
 (defn add [params]
-  (do
-    (model/add params)
-    (ring/redirect "/")))
-
+  (ring/redirect
+   (str "/screenings/"
+   (model/add params))))
 
 (defroutes routes
   (GET "/screenings/add" [] (render-request addForm))

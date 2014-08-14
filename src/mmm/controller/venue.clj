@@ -13,5 +13,14 @@
 (defn view [id]
   (layout/common (view/view (model/getByID id))))
 
+(defn edit [id]
+  (layout/common (view/edit (model/getByID id))))
+
+(defn update [id venue-map]
+  (model/update id venue-map)
+  (ring/redirect (str "/venues/" id)))
+
 (defroutes routes
-  (GET ["/venues/:id" :id #"[0-9a-f]+"] [id] (render-request view id)))
+  (GET ["/venues/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
+  (GET ["/venues/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
+  (POST ["/venues/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params)))

@@ -43,13 +43,8 @@
   (into [{:name "None"}] (series/all)))
 
 ;;VENUES
-(defremote addVenue [parameters]
-  (venue/add
-   (:name parameters)
-   (:address parameters)
-   (:description parameters)
-   (:website parameters)
-   (:phone-number parameters))
+(defremote addVenue [venue-map]
+  (venue/add venue-map)
   nil)
 
 (defremote allVenues []

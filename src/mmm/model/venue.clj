@@ -6,9 +6,19 @@
 (defn all []
   (local/all "venues"))
 
-(defn add [name address description website phone]
-  (mc/insert local/db "venues"
-             {:name name :address address :description description :website website :phoneNumber phone}))
+(defn add [venue-map]
+  (mc/insert
+   local/db
+   "venues"
+   venue-map))
+
+(defn update [id venue-map]
+  (local/updateItemByID
+   "venues"
+   venue-map
+   id))
+
+
 
 (defn getByID [id]
   (local/getItemByID "venues" id))

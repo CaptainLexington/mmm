@@ -87,15 +87,23 @@
 (defn right-now []
   (time/now))
 
+(defn yesterday []
+  (time/minus (right-now) (time/days 1)))
+
 (defn end-of-this-week
   []
   (.withDayOfWeek (right-now) 7) ;;Returns this Sunday
   )
 
+(defn beginning-of-next-week []
+  (time/plus (end-of-this-week) (time/days 1)))
+
 (defn end-of-next-week
   []
   (.withDayOfWeek (time/plus (right-now) (time/weeks 1)) 7)) ;;Returns next Sunday
 
+(defn beginning-of-the-week-after-next []
+  (time/plus (end-of-next-week) (time/days 1)))
 
 (defn two-to-four-weeks-out
   []

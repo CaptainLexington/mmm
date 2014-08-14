@@ -25,7 +25,7 @@
   (let [showtimes-vec (vectorize (:showtime screening-map))
         showtimes (utils/earliest-first (map utils/read-showtime showtimes-vec))
         screening (assoc screening-map :showtime showtimes)]
-  (mc/insert local/db "screenings" screening)))
+  (:_id (mc/insert-and-return local/db "screenings" screening))))
 
 (defn detailed-screening [screening]
   (let [venue_id (:venue_id screening)
@@ -44,7 +44,6 @@
      }
     ))
 
-
 (defn all []
   (map detailed-screening (local/all "screenings")))
 
@@ -54,16 +53,16 @@
    (mc/find-maps
     local/db
     "screenings"
-    {:showtime {$elemMatch {$gte in $lt out}}})))
+    {:showtime {$elemMatch {$gt in $lt out}}})))
 
 (defn thisWeek []
  (screenings-in-range (utils/right-now) (utils/end-of-this-week)))
 
 (defn nextWeek []
- (screenings-in-range (utils/end-of-this-week) (utils/end-of-next-week)))
+ (screenings-in-range (utils/beginning-of-next-week) (utils/end-of-next-week)))
 
 (defn comingSoon []
- (screenings-in-range (utils/end-of-next-week) (utils/two-to-four-weeks-out)))
+ (screenings-in-range (utils/beginning-of-the-week-after-next) (utils/two-to-four-weeks-out)))
 
 (defn getByID [id]
   (detailed-screening (local/getItemByID "screenings" id)))

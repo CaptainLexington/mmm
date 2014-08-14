@@ -17,7 +17,7 @@
   [:p.website]
   (content (:website venue))
   [:p.phone-number]
-  (content (:phoneNumber venue))
+  (content (:phone-number venue))
   [:p.description]
   (content (:description venue))
   [:p.address]
@@ -34,3 +34,25 @@
              [:td.showtimes :p]
              (clone-for [date (utils/date-range (:showtime i))]
                         (content date))))
+
+
+
+
+(defsnippet edit
+  (layout/templateLocation "venues")
+  [:div.add.venue]
+  [venue]
+  [:form]
+  (set-attr :action (str "/venues/update/" (:_id venue)))
+  [:input.name]
+  (set-attr :value (:name venue))
+  [:input.address]
+  (set-attr :value (:address venue))
+  [:input.website]
+  (set-attr :value (:website venue))
+  [:input.phone-number]
+  (set-attr :value (:phone-number venue))
+  [:textarea.description]
+  (content (:description venue))
+  [:button]
+  (content "Save Venue Info"))
