@@ -40,9 +40,11 @@
      :venue (venue/getByID venue_id)
      :series (series/getByID series_id)
      :movies (map movie/getByID (vectorize movie_ids))
-     :presenters (map presenter/getByID presenter_ids)
+     :presenters (map presenter/getByID (vectorize presenter_ids))
      }
     ))
+
+
 
 (defn all []
   (map detailed-screening (local/all "screenings")))
@@ -53,7 +55,18 @@
    (mc/find-maps
     local/db
     "screenings"
-    {:showtime {$elemMatch {$gt in $lt out}}})))
+    {:showtime {$elemMatch {$gte in $lt out}}})))
+
+(defn screenings-after-date [in]
+    (map
+   detailed-screening
+   (mc/find-maps
+    local/db
+    "screenings"
+    {:showtime {$elemMatch {$gte in}}})))
+
+(defn current []
+  (screenings-after-date (utils/right-now)))
 
 (defn thisWeek []
  (screenings-in-range (utils/right-now) (utils/end-of-this-week)))

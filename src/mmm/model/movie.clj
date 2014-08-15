@@ -12,6 +12,14 @@
                 {:title title :director director :runningTime runningTime :year year :mpaaRating mpaaRating :poster poster :description description}))
 
 
+(defn update [id movie-map]
+  (local/updateItemByID
+   "movies"
+   movie-map
+   id))
+
+
+
 (defn getByID [id]
   (local/getItemByID "movies" id))
 

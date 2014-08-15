@@ -10,8 +10,10 @@
             [mmm.controller.movie :as movies]
             [mmm.controller.screening :as screenings]
             [mmm.controller.venue :as venues]
+            [mmm.controller.series :as series]
             [mmm.view.layout :as layout]
             [mmm.view.index :as index]
+            [mmm.view.admin :as admin]
             [mmm.model.movie :as movie]
             [mmm.model.screening :as screening]
             [mmm.model.db :as db]
@@ -31,13 +33,18 @@
 (defn about
   ([] (layout/common (index/about))))
 
+(defn admin
+  ([] (layout/common (admin/admin))))
 
 ;;ROUTING BRO
 
 (defroutes routes
   venues/routes
+  movies/routes
   screenings/routes
+  series/routes
   (GET "/" [] (render-request index))
+  (GET "/admin" [] (render-request admin))
   (GET "/about" [] (render-request about))
   (route/resources "/"))
 
@@ -56,3 +63,4 @@
     (do
       ;(init-db)
       (start port))))
+$$

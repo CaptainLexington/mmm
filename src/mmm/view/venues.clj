@@ -1,12 +1,24 @@
 (ns mmm.view.venues
   (:use [net.cgrand.enlive-html])
   (:require [mmm.view.layout :as layout]
-            [mmm.model.venue :as model]
-            [mmm.model.movie :as movie]
             [mmm.model.screening :as screening]
-            [mmm.model.series :as series]
+            [mmm.model.venue :as model]
             [mmm.utils :as utils]
             [clj-time.core :as time]))
+
+
+(defsnippet all
+  (layout/templateLocation "venues")
+  [:.all]
+  [venues]
+  [:ul :li]
+  (clone-for [venue venues]
+             [:a]
+             (do->
+              (set-attr :href (str "/venues/edit/" (:_id venue)))
+              (content (:name venue)))))
+
+
 
 (defsnippet view
   (layout/templateLocation "venues")
@@ -33,7 +45,17 @@
              (content (utils/display-price (:price i)))
              [:td.showtimes :p]
              (clone-for [date (utils/date-range (:showtime i))]
-                        (content date))))
+                        (content date))
+             [:td.presenters :p]
+             (clone-for [presenter (:presenters i)]
+                        [:a]
+                        (do->
+                         (set-attr :href (str "/presenters/" (:_id presenter)))
+                         (content (:name presenter))))
+             [:td.series :p :a]
+             (do->
+              (content (:name (:series i)))
+              (set-attr :href (str "/series/" (:_id (:series i)))))))
 
 
 

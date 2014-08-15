@@ -1,150 +1,152 @@
 <div class="view">
-  <div class="movie-details grid-50">
-    <h2><span class="title"></span></h2>
-    <section class="movie">
-      <img class="poster"/>
-      <p class="release"></p>
-      <p class="director"></p>
-      <p class="rating"></p>
-      <p class="runningTime"> minutes</p>
-      <p class="description"></p>
-    </section>
-  </div>
-
-  <div class="meta details grid-50">
-    <h2>Showtimes</h2>
-    <div class="datetime">
-      <h3></h3>
-      <p></p>
+    <div class="movie-details grid-50">
+        <h2><span class="title"></span></h2>
+        <section class="movie">
+            <img class="poster"/>
+            <p class="release"></p>
+            <p class="director"></p>
+            <p class="rating"></p>
+            <p class="runningTime"> minutes</p>
+            <p class="description"></p>
+        </section>
     </div>
-    <h2 class="venue"></h2>
-    <p class="price"></p>
-    <p class="address"></p>
 
-    <h2></h2>
+    <div class="meta details grid-50">
+        <h2>Showtimes</h2>
+        <div class="datetime">
+            <h3></h3>
+            <p></p>
+        </div>
+        <h2 class="venue"></h2>
+        <p class="price"></p>
+        <p class="address"></p>
+
+        <h2></h2>
 
 
-  </div>
+    </div>
 </div>
 
 
 <div class="all">
-  <table>
-    <tr>
-      <th>Movie(s)</th>
-      <th>Venue</th>
-      <th>Date(s)</th>
-      <th>Price</th>
-      <th>Presenter</th>
-      <th>Program</th>
-    </tr>
-    <tr class="screening">
-      <td class="screening">
-        <p class="screening">
-          <a class="screening" href="">
-            <span class="movie"></span>
-          </a>
-        </p>
-      </td>
-      <td class="venue">
-        <p class="venue">
-          <a class="venue">
-          </a>
-        </p>
-      </td>
-      <td class="showtimes"><p></p>
-      </td>
-      <td class="price">
-      </td>
-      <td class="presenters">
-        <br/>
-      </td>
-      <td class="series event">
-        <br/>
-      </td>
-    </tr>
-  </table>
+    <table>
+        <tr>
+            <th>Screening</th>
+            <th>Venue</th>
+            <th>Date(s)</th>
+            <th>Price</th>
+            <th>Presenter</th>
+            <th>Program</th>
+        </tr>
+        <tr class="screening">
+            <td class="screening">
+                <p class="screening">
+                    <a class="screening" href="">
+                        <span class="movie"></span>
+                    </a>
+                </p>
+            </td>
+            <td class="venue">
+                <p class="venue">
+                    <a class="venue">
+                    </a>
+                </p>
+            </td>
+            <td class="showtimes"><p></p>
+            </td>
+            <td class="price">
+            </td>
+            <td class="presenters">
+                <p><a></a></p>
+            </td>
+            <td class="series event">
+                <p><a></a></p>
+            </td>
+        </tr>
+    </table>
 </div>
 
 <div class="select-snippet">
-  <div class="singleItem film">
-    <select class="" name="">
-      <option value="" class=""></option>
-    </select>
-    <span class="remove">-</span>
-  </div>
+    <div class="singleItem film">
+        <select class="" name="">
+            <option value="" class=""></option>
+        </select>
+        <span class="remove">-</span>
+    </div>
 </div>
 
 
 <div class="add screening">
-  <form method="post">
-    <div class="film">
-      <label for="name">Film(s):</label>
-      <span class="add movie">Add Movie to Database</span>
-      <br/>
-      <span class="duplicate">Add Movie to Screening</span>
-      <div class="film selectsContainer">
-      </div>
-      <div class="add-movie"></div>
-    </div>
+    <form method="post">
+        <div class="film">
+            <label for="name">Film(s):</label>
+            <span class="add movie">Add Movie to Database</span>
+            <br/>
+            <span class="duplicate">Add Movie to Screening</span>
+            <div class="film selectsContainer">
+            </div>
+            <div class="add-movie"></div>
+        </div>
 
 
-    <div class="venue">
-      <label for="mail">Venue:</label>
-      <span class="add venue">Add Venue to Database</span>
-      <div class="venue selectsContainer">
-        <select class="venue" name="venue_id">
-          <option value="" class="venue"></option>
-        </select>
-      </div>
-      <div class="add-venue"></div>
-    </div>
+        <div class="venue">
+            <label for="mail">Venue:</label>
+            <span class="add venue">Add Venue to Database</span>
+            <div class="venue selectsContainer">
+                <select class="venue" name="venue_id">
+                    <option value="" class="venue"></option>
+                </select>
+            </div>
+            <div class="add-venue"></div>
+        </div>
 
 
-    <div class="presenters">
-      <label for="name">Presenter(s):</label>
-      <span class="add presenter">Add Presenter to Database</span>
-      <br/>
-      <span class="duplicate">Add Presenter to Screening</span>
-      <div class="presenter selectsContainer">
-      </div>
-      <div class="add-presenter"></div>
-    </div>
+        <div class="presenters">
+            <label for="name">Presenter(s):</label>
+            <span class="add presenter">Add Presenter to Database</span>
+            <br/>
+            <span class="duplicate">Add Presenter to Screening</span>
+            <div class="presenter selectsContainer">
+            </div>
+            <div class="add-presenter"></div>
+        </div>
 
-    <div class="series">
-      <label for="name">Series:</label>
-      <span class="add series">Add Series to Database</span>
-      <div class="series selectsContainer">
-        <select class="series" name="series_id">
-          <option value="" class="blank">None</option>
-          <option value="" class="series"></option>
-        </select>
-      </div>
-      <div class="add-series"></div>
-    </div>
+        <div class="series">
+            <label for="name">Series:</label>
+            <span class="add series">Add Series to Database</span>
+            <div class="series selectsContainer">
+                <select class="series" name="series_id">
+                    <option value="" class="blank">None</option>
+                    <option value="" class="series"></option>
+                </select>
+            </div>
+            <div class="add-series"></div>
+        </div>
 
-    <div class="events">
-    </div>
+        <div class="events">
+        </div>
 
-    <div class="showtimes">
-      <label for="name">Showtimes:</label>
-      <span class="duplicate">Add Showtime</span>
-      <div class="singleItem">
-        <input name="showtime"/>
-        <span class="remove">-</span>
-      </div>
-    </div>
+        <div class="showtimes">
+            <label for="name">Showtimes:</label>
+            <span class="duplicate">Add Showtime</span>
+            <div class="singleItem">
+                <input name="showtime"/>
+                <span class="remove">-</span>
+            </div>
+        </div>
 
-    <div class="screening-data">
-      <label for="price">Price:</label>
-      <input name="price"/>
-      <label for="notes">Notes:</label>
-      <textarea name="notes"></textarea>
-    </div>
+        <div class="screening-data">
+            <label for="price">Price:</label>
+            <input name="price"/>
+            <label for="notes">Notes: (optional)</label>
+            <textarea name="notes"></textarea>
+            <label for="title">Title: (optional)</label>
+            <input class="title" name="title"/>
+        </div>
 
-    <div class="button">
-      <button type="submit">Add Screening</button>
-    </div>
-  </form>
+        <div class="button">
+            <button type="submit">Add Screening</button>
+        </div>
+    </form>
 
 </div>

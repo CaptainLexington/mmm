@@ -15,6 +15,9 @@
 (defn all [screenings]
   (layout/common (view/all screenings)))
 
+(defn current [screenings]
+  (layout/common (view/all screenings)))
+
 (defn addForm []
   (layout/common (view/add)))
 
@@ -29,7 +32,8 @@
 (defroutes routes
   (GET "/screenings/add" [] (render-request addForm))
   (GET ["/screenings/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
-  (GET "/screenings/" [] (render-request all (model/all)))
+  (GET "/screenings/all" [] (render-request all (model/all)))
+  (GET "/screenings/" [] (render-request current (model/current)))
   (GET ["/screenings/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
   (POST "/screenings/add" [& params] (add params)))
 

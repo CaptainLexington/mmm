@@ -85,7 +85,17 @@
              (content (utils/display-price (:price i)))
              [:td.showtimes :p]
              (clone-for [date (utils/date-range (:showtime i))]
-                        (content date))))
+                        (content date))
+             [:td.presenters :p]
+             (clone-for [presenter (:presenters i)]
+                        [:a]
+                        (do->
+                         (set-attr :href (str "/presenters/" (:_id presenter)))
+                         (content (:name presenter))))
+             [:td.series :p :a]
+             (do->
+              (content (:name (:series i)))
+              (set-attr :href (str "/series/" (:_id (:series i)))))))
 
 
 (defsnippet add

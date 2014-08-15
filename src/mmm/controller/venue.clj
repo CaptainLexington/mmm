@@ -9,6 +9,9 @@
             [mmm.view.venues :as view]
             [mmm.model.venue :as model]))
 
+(defn all [venues]
+  (layout/common (view/all venues)))
+
 
 (defn view [id]
   (layout/common (view/view (model/getByID id))))
@@ -22,5 +25,6 @@
 
 (defroutes routes
   (GET ["/venues/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
+  (GET "/venues/all" [] (render-request all (model/all)))
   (GET ["/venues/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
   (POST ["/venues/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params)))
