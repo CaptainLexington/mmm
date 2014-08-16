@@ -42,7 +42,7 @@
       )))
 
 (defn all []
-  (sort-by-date (map detailed-screening (local/all "screenings"))))
+  (reverse (sort-by-date (map detailed-screening (local/all "screenings")))))
 
 (defn screenings-in-range [in out]
   (sort-by-date
