@@ -35,8 +35,10 @@
   [:.view]
   [screening]
   [:div.movie-details :h2 :span.title]
-  (clone-for [i (title-list (:movies screening))]
-             (content i))
+  (if (not= (:title screening) "")
+    (content (:title screening))
+    (clone-for [i (title-list (:movies screening))]
+               (content i)))
   [:div.movie-details :section.movie]
   (clone-for [i (:movies screening)]
              [:img.poster]
@@ -66,17 +68,38 @@
   [:div.meta.details :p.address]
   (content (:address (:venue screening))))
 
+
+
+
+(defn exclude? [exclude key]
+  (some #(= key %) exclude))
+
+(defn display-or-exclude [excludes key]
+  (when-not (exclude? excludes :venue)
+    identity))
+
+
 (defsnippet all
   (layout/templateLocation "screening")
   [:.all]
-  [screenings]
+  [screenings & exclude]
+  ;[:th.screening]
+  [:th.venue]
+  (display-or-exclude exclude :venue)
+  ;[:th.showtime]
+  ;[:th.price]
+  ;[:th.presenter]
   [:tr.screening]
   (clone-for [i screenings]
              [:td.screening :p.screening :a.screening]
              (set-attr :href (str "/screenings/" (:_id i)))
              [:td.screening :p.screening :a.screening :span.movie]
-             (clone-for [j (:movies i)]
-                        (content (:title j)))
+             (if (not= (:title i) "")
+               (content (:title i))
+               (clone-for [j (:movies i)]
+                          (content (:title j))))
+             [:td.venue]
+             (display-or-exclude exclude :venue)
              [:td.venue :p.venue :a.venue]
              (do->
               (set-attr :href (str "/venues/" (:_id (:venue i))))

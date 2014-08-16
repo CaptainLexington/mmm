@@ -8,13 +8,16 @@
 ;;MOVIES
 (defremote addMovie [parameters]
   (movie/add
-   (:title parameters)
-   (:director parameters)
-   (read-string (:runningTime parameters))
-   (read-string (:releaseYear parameters))
-   (:mpaa parameters)
-   (:poster parameters)
-   (:description parameters))
+
+   parameters)
+
+;;    (:title parameters)
+;;    (:director parameters)
+;;    (read-string (:runningTime parameters))
+;;    (read-string (:releaseYear parameters))
+;;    (:mpaa parameters)
+;;    (:poster parameters)
+;;    (:description parameters))
   nil)
 
 (defremote allMovies []

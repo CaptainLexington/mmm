@@ -23,8 +23,13 @@
   (model/update id venue-map)
   (ring/redirect (str "/venues/" id)))
 
+(defn delete [id]
+  (model/delete id)
+  (ring/redirect "/venues/all"))
+
 (defroutes routes
   (GET ["/venues/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/venues/all" [] (render-request all (model/all)))
   (GET ["/venues/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
-  (POST ["/venues/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params)))
+  (POST ["/venues/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
+  (GET ["/venues/delete/:id" :id #"[0-9a-f]+"] [id] (delete id)))

@@ -7,9 +7,9 @@
 (defn all []
   (utils/alphabetize-by :title (local/all "movies")))
 
-(defn add [title director runningTime year mpaaRating poster description]
+(defn add [movie-map]
   (mc/insert local/db "movies"
-                {:title title :director director :runningTime runningTime :year year :mpaaRating mpaaRating :poster poster :description description}))
+                movie-map))
 
 
 (defn update [id movie-map]

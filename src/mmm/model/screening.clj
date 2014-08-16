@@ -15,73 +15,84 @@
 
 
 (defn vectorize [items]
-  (if (vector? items)
+  (if (or (vector? items) (nil? items))
     items
     [items]))
 
+(defn sort-by-date [screenings]
+  (sort-by #(first (:showtime %)) screenings))
 
 (defn add [screening-map]
-  (prn screening-map)
   (let [showtimes-vec (vectorize (:showtime screening-map))
         showtimes (utils/earliest-first (map utils/read-showtime showtimes-vec))
         screening (assoc screening-map :showtime showtimes)]
-  (:_id (mc/insert-and-return local/db "screenings" screening))))
+    (:_id (mc/insert-and-return local/db "screenings" screening))))
 
 (defn detailed-screening [screening]
   (let [venue_id (:venue_id screening)
         series_id (:series_id screening)
         presenter_ids (:presenter_id screening)
         movie_ids (:movie_id screening)]
-    {
-     :_id (str (:_id screening))
-     :price (:price screening)
-     :notes (:notes screening)
-     :showtime (:showtime screening)
-     :venue (venue/getByID venue_id)
-     :series (series/getByID series_id)
-     :movies (map movie/getByID (vectorize movie_ids))
-     :presenters (map presenter/getByID (vectorize presenter_ids))
-     }
-    ))
-
-
+    (assoc screening
+      :_id (str (:_id screening))
+      :venue (venue/getByID venue_id)
+      :series (series/getByID series_id)
+      :movies (map movie/getByID (vectorize movie_ids))
+      :presenters (map presenter/getByID (vectorize presenter_ids))
+      )))
 
 (defn all []
-  (map detailed-screening (local/all "screenings")))
+  (sort-by-date (map detailed-screening (local/all "screenings"))))
 
 (defn screenings-in-range [in out]
-  (map
-   detailed-screening
-   (mc/find-maps
-    local/db
-    "screenings"
-    {:showtime {$elemMatch {$gte in $lt out}}})))
+  (sort-by-date
+   (map
+    detailed-screening
+    (mc/find-maps
+     local/db
+     "screenings"
+     {:showtime {$elemMatch {$gte in $lt out}}}))))
 
 (defn screenings-after-date [in]
-    (map
-   detailed-screening
-   (mc/find-maps
-    local/db
-    "screenings"
-    {:showtime {$elemMatch {$gte in}}})))
+  (sort-by-date
+   (map
+    detailed-screening
+    (mc/find-maps
+     local/db
+     "screenings"
+     {:showtime {$elemMatch {$gte in}}}))))
+
+(defn screenings-after-date-by-relation [in relation id]
+  (sort-by-date
+   (map
+    detailed-screening
+    (mc/find-maps
+     local/db
+     "screenings"
+     {:showtime {$elemMatch {$gte in}}
+      relation id}))))
 
 (defn current []
   (screenings-after-date (utils/right-now)))
 
+(defn current-by-venue [venue_id]
+  (screenings-after-date-by-relation (utils/right-now) :venue_id venue_id))
+
+
 (defn thisWeek []
- (screenings-in-range (utils/right-now) (utils/end-of-this-week)))
+  (screenings-in-range (utils/right-now) (utils/end-of-this-week)))
 
 (defn nextWeek []
- (screenings-in-range (utils/beginning-of-next-week) (utils/end-of-next-week)))
+  (screenings-in-range (utils/beginning-of-next-week) (utils/end-of-next-week)))
 
 (defn comingSoon []
- (screenings-in-range (utils/beginning-of-the-week-after-next) (utils/two-to-four-weeks-out)))
+  (screenings-in-range (utils/beginning-of-the-week-after-next) (utils/two-to-four-weeks-out)))
 
 (defn getByID [id]
   (detailed-screening (local/getItemByID "screenings" id)))
 
 (defn getByVenue [venue_id]
-  (map detailed-screening (local/getRelations "screenings" :venue_id venue_id)))
+  (sort-by-date (map detailed-screening (local/getRelations "screenings" :venue_id venue_id))))
 
 ;; (defn delete [id]
 ;;   (korma/delete local/screening

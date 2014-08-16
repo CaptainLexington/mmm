@@ -18,11 +18,8 @@
    venue-map
    id))
 
-
-
 (defn getByID [id]
   (local/getItemByID "venues" id))
 
-;; (defn delete [id]
-;;   (korma/delete local/venue
-;;                 (korma/where (:id [= id]))))
+ (defn delete [id]
+   (local/deleteByID "venues" id))

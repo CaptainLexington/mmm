@@ -22,6 +22,8 @@
   (mc/update-by-id db collection (ObjectId. id) item))
 
 (defn getRelations [item relation id]
-  (prn item)
-  (prn id)
   (mc/find-maps db item {relation id}))
+
+
+(defn deleteByID [collection id]
+  (mc/remove-by-id db collection (ObjectId. id)))
