@@ -8,7 +8,7 @@
                  [org.clojure/clojure "1.5.1"]
                  [org.clojure/tools.namespace "0.2.4"]
                  [org.clojure/tools.reader "0.8.3"]
-                 [korma "0.3.0-RC5"]
+                 [cheshire "5.3.1"]
                  [com.novemberain/monger "2.0.0"]
                  [lobos "1.0.0-beta1"]
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]

@@ -10,6 +10,11 @@
 (defn getByID [id]
   (local/getItemByID "presenters" id))
 
+(defn update [id presenter-map]
+  (local/updateItemByID "presenters" presenter-map id))
 
 (defn all []
   (local/all "presenters"))
+
+(defn delete [id]
+  (local/deleteByID "presenters" id))

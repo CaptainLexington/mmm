@@ -70,7 +70,9 @@
      local/db
      "screenings"
      {:showtime {$elemMatch {$gte in}}
-      relation id}))))
+      relation (if (= relation :presenter_id)
+                 id
+                 {$in [id]})}))))
 
 (defn current []
   (screenings-after-date (utils/right-now)))
@@ -78,6 +80,8 @@
 (defn current-by-venue [venue_id]
   (screenings-after-date-by-relation (utils/right-now) :venue_id venue_id))
 
+(defn current-by-presenter [venue_id]
+  (screenings-after-date-by-relation (utils/right-now) :presenter_id venue_id))
 
 (defn thisWeek []
   (screenings-in-range (utils/right-now) (utils/end-of-this-week)))

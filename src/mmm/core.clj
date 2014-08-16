@@ -11,6 +11,7 @@
             [mmm.controller.screening :as screenings]
             [mmm.controller.venue :as venues]
             [mmm.controller.series :as series]
+            [mmm.controller.presenter :as presenter]
             [mmm.view.layout :as layout]
             [mmm.view.index :as index]
             [mmm.view.admin :as admin]
@@ -43,6 +44,7 @@
   movies/routes
   screenings/routes
   series/routes
+  presenter/routes
   (GET "/" [] (render-request index))
   (GET "/admin" [] (render-request admin))
   (GET "/about" [] (render-request about))
