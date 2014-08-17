@@ -10,5 +10,14 @@
 (defn all []
   (local/all "series"))
 
+(defn update [id series-map]
+  (local/updateItemByID
+   "series"
+   series-map
+   id))
+
 (defn getByID [id]
   (local/getItemByID "series" id))
+
+(defn delete [id]
+  local/deleteByID "series" id)

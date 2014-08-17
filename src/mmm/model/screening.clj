@@ -80,8 +80,13 @@
 (defn current-by-venue [venue_id]
   (screenings-after-date-by-relation (utils/right-now) :venue_id venue_id))
 
-(defn current-by-presenter [venue_id]
-  (screenings-after-date-by-relation (utils/right-now) :presenter_id venue_id))
+(defn current-by-presenter [presenter_id]
+  (screenings-after-date-by-relation (utils/right-now) :presenter_id presenter_id))
+
+(defn current-by-series [series_id]
+  (screenings-after-date-by-relation (utils/right-now) :series_id series_id))
+
+(current-by-series "53edc27e6d6e2828675998bd")
 
 (defn thisWeek []
   (screenings-in-range (utils/right-now) (utils/end-of-this-week)))
