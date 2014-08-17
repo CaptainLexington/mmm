@@ -10,6 +10,7 @@
                  [org.clojure/tools.reader "0.8.3"]
                  [cheshire "5.3.1"]
                  [com.novemberain/monger "2.0.0"]
+                 [com.novemberain/validateur "2.2.0"]
                  [lobos "1.0.0-beta1"]
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
                  [ring "1.2.0"]

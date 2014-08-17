@@ -4,9 +4,11 @@
    [monger.collection :as mc])
   (:import org.bson.types.ObjectId))
 
-(def conn (mg/connect))
+(def uri (mg/connect-via-uri "mongodb://mmm:midnight@kahana.mongohq.com:10080/app17886619"))
 
-(def db (mg/get-db conn "mmm"))
+(def conn (:conn uri))
+
+(def db (:db uri))
 
 (defn stringify-id [datamap]
   (assoc datamap :_id (str (:_id datamap))))
