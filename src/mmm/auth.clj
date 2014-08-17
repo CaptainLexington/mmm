@@ -6,9 +6,6 @@
             [monger.collection :as mc]
             [mmm.model.db :as db]))
 
-(mc/insert db/db "users" {:username "dale" :password (creds/hash-bcrypt "test") :roles #{::admin}})
-
-
 (defn all-users []
   (mc/find-maps db/db "users"))
 

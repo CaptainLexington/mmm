@@ -37,9 +37,6 @@
       wrap-session
       ))
 
-
-
-
 (defn index
   ([] (layout/common (index/index (screening/all)))))
 
