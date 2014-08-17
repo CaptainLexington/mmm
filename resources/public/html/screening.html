@@ -37,6 +37,7 @@
             <th class="price">Price</th>
             <th class="presenter">Presenter</th>
             <th class="program">Program</th>
+            <th></th>
         </tr>
         <tr class="screening">
             <td class="screening">
@@ -62,6 +63,9 @@
             <td class="series event">
                 <p><a></a></p>
             </td>
+            <td class="edit">
+                <a>edit</a>
+            </td>
         </tr>
     </table>
 </div>
@@ -84,6 +88,8 @@
             <br/>
             <span class="duplicate">Add Movie to Screening</span>
             <div class="film selectsContainer">
+                <div class="prior-films">
+                </div>
             </div>
             <div class="add-movie"></div>
         </div>
@@ -107,6 +113,8 @@
             <br/>
             <span class="duplicate">Add Presenter to Screening</span>
             <div class="presenter selectsContainer">
+                <div class="prior-presenters">
+                </div>
             </div>
             <div class="add-presenter"></div>
         </div>
@@ -129,7 +137,7 @@
         <div class="showtimes">
             <label for="name">Showtimes:</label>
             <span class="duplicate">Add Showtime</span>
-            <div class="singleItem">
+            <div class="showtimes singleItem">
                 <input name="showtime"/>
                 <span class="remove">-</span>
             </div>
@@ -137,9 +145,9 @@
 
         <div class="screening-data">
             <label for="price">Price:</label>
-            <input name="price"/>
+            <input class="price" name="price"/>
             <label for="notes">Notes: (optional)</label>
-            <textarea name="notes"></textarea>
+            <textarea class="notes"name="notes"></textarea>
             <label for="title">Title: (optional)</label>
             <input class="title" name="title"/>
         </div>

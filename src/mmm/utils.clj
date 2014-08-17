@@ -109,12 +109,20 @@
   []
   (.withDayOfWeek (time/plus (right-now) (time/weeks 3)) 7)) ;;Returns three Sundays from now
 
-(def showtime-format (time-fm/formatter "yyyy.MM.dd h:mm a"))
+(def showtime-format (time-fm/formatter-local "yyyy.MM.dd h:mm a"))
 
 (defn read-showtime [showtime-str]
   (time/from-time-zone
    (time-fm/parse showtime-format showtime-str)
    (time/time-zone-for-offset -6)))
+
+
+(defn write-showtime [showtime]
+  (time-fm/unparse
+   showtime-format
+   (time/to-time-zone
+    showtime
+    (time/time-zone-for-offset -6))))
 
 
 (def weekday-month-date (time-fm/formatter-local "EEEE, MMMM d"))
@@ -156,8 +164,6 @@
    (time/to-time-zone
     date
     (time/time-zone-for-offset -6))))
-
-
 
 (defn display-date-and-time [showtime]
   (str (display-date showtime)

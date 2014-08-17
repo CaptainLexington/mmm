@@ -22,11 +22,17 @@
 (defn sort-by-date [screenings]
   (sort-by #(first (:showtime %)) screenings))
 
-(defn add [screening-map]
+(defn process-screening-map [screening-map]
   (let [showtimes-vec (vectorize (:showtime screening-map))
         showtimes (utils/earliest-first (map utils/read-showtime showtimes-vec))
         screening (assoc screening-map :showtime showtimes)]
-    (:_id (mc/insert-and-return local/db "screenings" screening))))
+  screening))
+
+(defn add [screening-map]
+    (:_id (mc/insert-and-return local/db "screenings" (process-screening-map screening-map))))
+
+(defn update [id screening-map]
+  (local/updateItemByID "screenings" (process-screening-map screening-map) id))
 
 (defn detailed-screening [screening]
   (let [venue_id (:venue_id screening)

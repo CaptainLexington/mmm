@@ -37,7 +37,8 @@
   (content
    (screenings/all
     (screening/current-by-venue (:_id venue))
-    :venue)))
+    :venue
+    :edit)))
 
 (defsnippet edit
   (layout/templateLocation "venues")

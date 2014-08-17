@@ -31,7 +31,8 @@
   [:div.screenings]
   (content
    (screenings/all
-    (screening/current-by-presenter (:_id presenter)))))
+    (screening/current-by-presenter (:_id presenter))
+    :edit)))
 
 
 

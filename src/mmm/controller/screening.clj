@@ -16,13 +16,17 @@
   (layout/common (view/all screenings)))
 
 (defn current [screenings]
-  (layout/common (view/all screenings)))
+  (layout/common (view/all screenings :edit)))
 
 (defn addForm []
   (layout/common (view/add)))
 
 (defn edit [id]
   (layout/common (view/edit (model/getByID id))))
+
+(defn update [id params]
+  (model/update id params)
+  (ring/redirect (str "/screenings/" id)))
 
 (defn add [params]
   (ring/redirect
@@ -35,5 +39,6 @@
   (GET "/screenings/all" [] (render-request all (model/all)))
   (GET "/screenings/" [] (render-request current (model/current)))
   (GET ["/screenings/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
+  (POST ["/screenings/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (POST "/screenings/add" [& params] (add params)))
 

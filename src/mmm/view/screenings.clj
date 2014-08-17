@@ -4,6 +4,7 @@
             [mmm.model.movie :as movie]
             [mmm.model.venue :as venue]
             [mmm.model.series :as series]
+            [mmm.model.presenter :as presenter]
             [mmm.utils :as utils]
             [clj-time.core :as time]
             [clj-time.format :as timef]))
@@ -75,7 +76,7 @@
   (some #(= key %) exclude))
 
 (defn display-or-exclude [excludes key]
-  (when-not (exclude? excludes :venue)
+  (when-not (exclude? excludes key)
     identity))
 
 
@@ -118,7 +119,11 @@
              [:td.series :p :a]
              (do->
               (content (:name (:series i)))
-              (set-attr :href (str "/series/" (:_id (:series i)))))))
+              (set-attr :href (str "/series/" (:_id (:series i)))))
+             [:td.edit]
+             (display-or-exclude exclude :edit)
+             [:td.edit :a]
+             (set-attr :href (str "/screenings/edit/" (:_id i)))))
 
 
 (defsnippet add
@@ -138,12 +143,54 @@
               (set-attr :value (str (:_id series)))
               (content (str (:name series))))))
 
+
+; EDIT STUFF
+
+
+(defn movieSelect [film screening-film]
+  (do->
+   (set-attr :value (str (:_id film)))
+   (set-attr (if (= (:_id film) (:_id screening-film))
+               :selected
+               :unselected)
+             true)
+   (content (str (:title film) " (" (:year film) ")"))))
+
+
+(defn presenterSelect [presenter screening-presenter]
+  (do->
+   (set-attr :value (str (:_id presenter)))
+   (set-attr (if  (= (:_id presenter) (:_id screening-presenter))
+               :selected
+               :unselected)
+             true)
+   (content (str (:name presenter) ))))
+
+(defsnippet itemSelect
+  (layout/templateLocation "screening")
+  [:div.select-snippet :div.singleItem]
+  [items item option value]
+  [:select]
+  (set-attr :name (str value "_id"))
+  [:option]
+  (clone-for [i items]
+             (option i item)))
+
+
+
+
 (defsnippet edit
   (layout/templateLocation "screening")
   [:.add.screening]
   [screening]
   [:form]
-  (set-attr :action "/screenings/update")
+  (set-attr :action (str "/screenings/update/" (:_id screening)))
+  [:div.prior-films]
+  (clone-for [movie (:movies screening)]
+             (content (itemSelect (movie/all) movie movieSelect "movie")))
+  [:div.prior-presenters]
+  (clone-for [presenter (:presenters screening)]
+             (content (itemSelect (presenter/all) presenter presenterSelect "presenter")))
   [:form :select.venue :option.venue]
   (clone-for [venue (venue/all)]
              (do->
@@ -161,5 +208,17 @@
                           :selected
                           :unselected)
                         true)
-              (content (str (:name series))))))
+              (content (str (:name series)))))
+  [:div.showtimes.singleItem]
+  (clone-for [showtime (:showtime screening)]
+             [:input]
+             (set-attr :value (utils/write-showtime showtime)))
+  [:input.price]
+  (set-attr :value (:price screening))
+  [:textarea.notes]
+  (set-attr :value (:notes screening))
+  [:input.title]
+  (set-attr :value (:title screening))
+  [:button]
+  (content "Save Screening Info"))
 

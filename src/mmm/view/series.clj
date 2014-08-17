@@ -31,7 +31,8 @@
   [:div.screenings]
   (content
    (screenings/all
-    (screening/current-by-series (:_id series)))))
+    (screening/current-by-series (:_id series))
+    :edit)))
 
 (defsnippet edit
   (layout/templateLocation "series")
