@@ -34,6 +34,9 @@
 (defn update [id screening-map]
   (local/updateItemByID "screenings" (process-screening-map screening-map) id))
 
+(defn delete [id]
+  (local/deleteByID "screenings" id))
+
 (defn detailed-screening [screening]
   (let [venue_id (:venue_id screening)
         series_id (:series_id screening)

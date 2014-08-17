@@ -33,6 +33,10 @@
    (str "/screenings/"
    (model/add params))))
 
+(defn delete [id]
+  (model/delete id)
+  (ring/redirect "/screenings/all"))
+
 (defroutes routes
   (GET "/screenings/add" [] (render-request addForm))
   (GET ["/screenings/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
@@ -40,5 +44,6 @@
   (GET "/screenings/" [] (render-request current (model/current)))
   (GET ["/screenings/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
   (POST ["/screenings/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
-  (POST "/screenings/add" [& params] (add params)))
+  (POST "/screenings/add" [& params] (add params))
+  (GET ["/screenings/delete/:id" :id #"[0-9a-f]+"] [id] (delete id)))
 

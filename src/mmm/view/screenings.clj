@@ -220,5 +220,7 @@
   [:input.title]
   (set-attr :value (:title screening))
   [:button]
-  (content "Save Screening Info"))
+  (content "Save Screening Info")
+  [:a.delete]
+  (set-attr :href (str "/screenings/delete/" (:_id screening))))
 

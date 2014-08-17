@@ -30,7 +30,7 @@
   (set-attr :value (:year movie))
   [:input.running-time]
   (set-attr :value (:runningTime movie))
-  [:select.mpaa [:option (attr= :value (:mpaa-rating movie))]]
+  [[:option.mpaa (attr= :value (:mpaa-rating movie))]]
   (set-attr :selected "true")
   [:input.poster]
   (set-attr :value (:poster movie))
