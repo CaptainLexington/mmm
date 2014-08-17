@@ -27,3 +27,4 @@
 
 (defn deleteByID [collection id]
   (mc/remove-by-id db collection (ObjectId. id)))
+

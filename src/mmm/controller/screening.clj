@@ -2,6 +2,7 @@
   (:use [compojure.core :only (defroutes GET POST)]
         [mmm.utils])
   (:require [clojure.string :as str]
+            [cemerick.friend :as friend]
             [mmm.view.layout :as layout]
             [ring.util.response :as ring]
             [mmm.view.screenings :as view]
@@ -38,12 +39,12 @@
   (ring/redirect "/screenings/all"))
 
 (defroutes routes
-  (GET "/screenings/add" [] (render-request addForm))
+  (GET "/screenings/add" [] (friend/authorize #{"admin"}) (render-request addForm))
   (GET ["/screenings/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
-  (GET "/screenings/all" [] (render-request all (model/all)))
+  (GET "/screenings/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
   (GET "/screenings/" [] (render-request current (model/current)))
-  (GET ["/screenings/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
+  (GET ["/screenings/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/screenings/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (POST "/screenings/add" [& params] (add params))
-  (GET ["/screenings/delete/:id" :id #"[0-9a-f]+"] [id] (delete id)))
+  (GET ["/screenings/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (delete id)))
 

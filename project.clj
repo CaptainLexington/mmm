@@ -1,4 +1,4 @@
-(defproject mmm "0.1.0-SNAPSHOT"
+(defproject mmm "0.9.0"
   :description "Midnight Movies Mpls app"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"

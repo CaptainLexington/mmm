@@ -4,6 +4,7 @@
   (:require [clojure.string :as str]
             [ring.util.response :as ring]
             [ring.middleware [multipart-params :as mp]]
+            [cemerick.friend :as friend]
             [mmm.files :as files]
             [mmm.view.layout :as layout]
             [mmm.view.presenters :as view]
@@ -31,7 +32,7 @@
 
 (defroutes routes
   (GET ["/presenters/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
-  (GET "/presenters/all" [] (render-request all (model/all)))
-  (GET ["/presenters/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
+  (GET "/presenters/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
+  (GET ["/presenters/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/presenters/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
-  (GET ["/presenters/delete/:id" :id #"[0-9a-f]+"] [id] (delete id)))
+  (GET ["/presenters/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (delete id)))

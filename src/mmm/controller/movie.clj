@@ -4,6 +4,7 @@
   (:require [clojure.string :as str]
             [ring.util.response :as ring]
             [ring.middleware [multipart-params :as mp]]
+            [cemerick.friend :as friend]
             [mmm.files :as files]
             [mmm.view.layout :as layout]
             [mmm.view.movies :as view]
@@ -29,7 +30,7 @@
 (defroutes routes
   ;(GET ["/movies/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/movies/all" [] (render-request all (model/all)))
-  (GET ["/movies/edit/:id" :id #"[0-9a-f]+"] [id] (render-request edit id))
+  (GET ["/movies/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/movies/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (POST "/movies/add-poster" [& params] (add-poster params)))
 
