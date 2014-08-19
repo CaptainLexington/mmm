@@ -135,6 +135,7 @@ ul.poster-list {
   box-shadow: 0 0 25px Black inset;
   border-radius: 3px;
   white-space: nowrap;
+  overflow-y: hidden;
   overflow-x: auto;
 }
 
