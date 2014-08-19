@@ -63,7 +63,9 @@
   [:p.notes]
   (content (:notes screening))
   [:a.series]
-  (content (:name (:series screening)))
+  (do->
+   (set-attr :href (str "/series/" (:_id (:series screening))))
+   (content (:name (:series screening))))
   [:div.meta.details :div.datetime]
   (clone-for [showtime (arrange-datetime (:showtime screening))]
              [:h3]
