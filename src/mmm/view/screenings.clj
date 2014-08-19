@@ -45,7 +45,7 @@
              [:img.poster]
              (set-attr :src (:poster i))
              [:p.release]
-             (content (:year i))
+             (content (:y$ear i))
              [:p.director]
              (content (:director i))
              [:p.rating]
