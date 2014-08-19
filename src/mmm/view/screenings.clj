@@ -45,11 +45,11 @@
              [:img.poster]
              (set-attr :src (:poster i))
              [:p.release]
-             (content (:releaseYear i))
+             (content (:year i))
              [:p.director]
              (content (:director i))
              [:p.rating]
-             (content (:mpaaRating i))
+             (content (:mpaa-rating i))
              [:p.runningTime]
              (prepend (str (:runningTime i)))
              [:p.description]
