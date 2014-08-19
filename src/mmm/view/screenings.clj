@@ -45,7 +45,7 @@
              [:img.poster]
              (set-attr :src (:poster i))
              [:p.release]
-             (content (:y$ear i))
+             (content (:year i))
              [:p.director]
              (content (:director i))
              [:p.rating]
@@ -73,8 +73,10 @@
              [:p]
              (clone-for [time (:time showtime)]
                         (content time)))
-  [:div.meta.details :h2.venue]
-  (content (:name (:venue screening)))
+  [:div.meta.details :h2.venue :a.venue]
+  (do->
+   (set-attr :href (str "/venues/" (:_id (:venue screening))))
+   (content (:name (:venue screening))))
   [:div.meta.details :p.price]
   (content (utils/display-price (:price screening)))
   [:div.meta.details :p.address]
