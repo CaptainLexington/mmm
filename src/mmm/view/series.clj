@@ -24,8 +24,10 @@
   [series]
   [:h2.name]
   (content (:name series))
-  [:p.website]
-  (content (:website series))
+  [:p.website :a]
+  (do->
+   (set-attr :href (:website series))
+   (content "Website"))
   [:p.description]
   (content (:description series))
   [:div.screenings]

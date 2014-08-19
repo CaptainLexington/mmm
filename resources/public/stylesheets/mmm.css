@@ -34,7 +34,7 @@ a {
   text-decoration: none;
 }
 
-nav a, h2 a, nav a:hover, h2 a:hover {
+nav a, h2 a, nav a:hover, h2 a:hover, a.poster {
   border: 0;
 }
 

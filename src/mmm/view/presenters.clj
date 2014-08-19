@@ -24,8 +24,10 @@
   [presenter]
   [:h2.name]
   (content (:name presenter))
-  [:p.website]
-  (content (:website presenter))
+  [:p.website :a]
+  (do->
+   (set-attr :href (:website presenter))
+   (content "Website"))
   [:p.description]
   (content (:description presenter))
   [:div.screenings]

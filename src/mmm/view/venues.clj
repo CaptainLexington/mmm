@@ -25,8 +25,10 @@
   [venue]
   [:h2.name]
   (content (:name venue))
-  [:p.website]
-  (content (:website venue))
+  [:p.website :a]
+  (do->
+   (set-attr :href (:website venue))
+   (content "Website"))
   [:p.phone-number]
   (content (:phone-number venue))
   [:p.description]
