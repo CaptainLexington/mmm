@@ -28,7 +28,7 @@ p {
 
 a {
   color: inherit;
-  text-decoration: none;
+/*  text-decoration: none; */
 }
 
 a:hover {
@@ -347,4 +347,8 @@ span.add, span.duplicate {
 footer {
   padding: 20px;
   clear: both;
+}
+
+footer a.issue {
+  float: right;
 }
