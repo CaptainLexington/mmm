@@ -34,6 +34,10 @@ a {
   text-decoration: none;
 }
 
+nav a, h2 a, nav a:hover, h2 a:hover {
+  border: 0;
+}
+
 a:hover {
   color: Yellow;
 }
@@ -237,10 +241,11 @@ th p, td p {
 }
 
 
-th p a span, td p a span {
-  /*font-weight: bold;
+th p a p, td p a p {
+  font-weight: bold;
   border-bottom-width: 1px;
-  border-bottom-style: dashed;*/
+  border-bottom-style: dashed;
+  display: inline;
 }
 
 tr:nth-child(even) a {

@@ -100,17 +100,17 @@
   ;[:th.screening]
   [:th.venue]
   (display-or-exclude exclude :venue)
-  ;[:th.showtime]
-  ;[:th.price]
-  ;[:th.presenter]
   [:tr.screening]
   (clone-for [i screenings]
-             [:td.screening :p.screening :a.screening]
+             [:td.screening :p.movie :a.movie]
              (set-attr :href (str "/screenings/" (:_id i)))
-             [:td.screening :p.screening :a.screening :span.movie]
+             [:td.screening :p.movie]
              (if (not= (:title i) "")
-               (content (:title i))
+               #(at %
+                [:a.movie]
+                (content (:title i)))
                (clone-for [j (:movies i)]
+                          [:a.movie]
                           (content (:title j))))
              [:td.venue]
              (display-or-exclude exclude :venue)
