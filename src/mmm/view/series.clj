@@ -32,6 +32,7 @@
   (content
    (screenings/all
     (screening/current-by-series (:_id series))
+    :series
     :edit)))
 
 (defsnippet edit

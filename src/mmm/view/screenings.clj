@@ -100,6 +100,8 @@
   ;[:th.screening]
   [:th.venue]
   (display-or-exclude exclude :venue)
+  [:th.program]
+  (display-or-exclude exclude :series)
   [:tr.screening]
   (clone-for [i screenings]
              [:td.screening :p.movie :a.movie]
@@ -129,6 +131,8 @@
                         (do->
                          (set-attr :href (str "/presenters/" (:_id presenter)))
                          (content (:name presenter))))
+             [:td.series :p]
+             (display-or-exclude exclude :series)
              [:td.series :p :a]
              (do->
               (content (:name (:series i)))
