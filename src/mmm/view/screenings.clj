@@ -55,6 +55,15 @@
              [:p.description]
              (content (:description i))
              )
+  [:p.presenter :a.presenter]
+  (clone-for [presenter (:presenters screening)]
+             (do->
+              (set-attr :href (str "/presenters/" (:_id presenter)))
+              (content (:name presenter))))
+  [:p.notes]
+  (content (:notes screening))
+  [:a.series]
+  (content (:name (:series screening)))
   [:div.meta.details :div.datetime]
   (clone-for [showtime (arrange-datetime (:showtime screening))]
              [:h3]
