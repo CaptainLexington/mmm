@@ -21,7 +21,9 @@
              (content (:name (:venue i)))
              [:img.poster.main_page]
              (clone-for [j (:movies i)]
-                        (set-attr :src (:poster j)))
+                        (do->
+                         (set-attr :src (:poster j))
+                         (set-attr :title (:title j))))
              [:a]
              (set-attr :href (str "/screenings/" (:_id i)))
              [:span.datetime]
