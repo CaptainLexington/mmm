@@ -55,6 +55,10 @@
              [:p.description]
              (content (:description i))
              )
+
+  [:p.presenter]
+  (when-not (= (:presenters screening) [])
+    identity)
   [:p.presenter :a.presenter]
   (clone-for [presenter (:presenters screening)]
              (do->
@@ -62,6 +66,9 @@
               (content (:name presenter))))
   [:p.notes]
   (content (:notes screening))
+  [:p.series]
+  (when-not (= (:series screening) nil)
+    identity)
   [:a.series]
   (do->
    (set-attr :href (str "/series/" (:_id (:series screening))))
