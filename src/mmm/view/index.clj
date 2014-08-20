@@ -6,15 +6,6 @@
 
 
 
-;; (defn time-list [screening]
-;;   (let [showtimes (:showtime screening)]
-;;     (if (= (count showtimes) 1)
-;;       showtimes
-;;       (list (first showtimes) (last showtimes))
-;;       )))
-
-
-
 (defn show-movies-for-week [screenings]
   (clone-for [i screenings]
              [:h3.venue]
