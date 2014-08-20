@@ -6,12 +6,12 @@
 
 
 
-(defn time-list [screening]
-  (let [showtimes (:showtime screening)]
-    (if (= (count showtimes) 1)
-      showtimes
-      (list (first showtimes) (last showtimes))
-      )))
+;; (defn time-list [screening]
+;;   (let [showtimes (:showtime screening)]
+;;     (if (= (count showtimes) 1)
+;;       showtimes
+;;       (list (first showtimes) (last showtimes))
+;;       )))
 
 
 
@@ -27,8 +27,8 @@
              [:a]
              (set-attr :href (str "/screenings/" (:_id i)))
              [:span.datetime]
-             (clone-for [j (time-list i)]
-                        (content (utils/display-date j)))
+             (clone-for [j (utils/date-range (:showtime i))]
+                        (content j))
              ))
 
 
