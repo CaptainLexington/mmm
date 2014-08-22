@@ -3,6 +3,7 @@
         [ring.middleware params
                          keyword-params
                          session]
+        [ring.util.response :as response]
         [ring.adapter.jetty :as ring]
         [mmm.utils])
   (:require [compojure.route :as route]
@@ -36,6 +37,7 @@
       wrap-params
       wrap-session
       ))
+
 
 (defn index
   ([] (layout/common (index/index (screening/all)))))

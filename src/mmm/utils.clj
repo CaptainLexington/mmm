@@ -2,7 +2,7 @@
   (:require [net.cgrand.enlive-html :as html]
             [clojure.java.io :as io])
   (:use     [ring.adapter.jetty :only [run-jetty]]
-            [ring.util.response :only [response file-response]]
+            [ring.util.response :only [response response? charset content-type file-response]]
             [ring.middleware.reload :only [wrap-reload]]
             [ring.middleware.file :only [wrap-file]]
             [ring.middleware.stacktrace :only [wrap-stacktrace]]
@@ -20,7 +20,8 @@
   (apply str (html/emit* s)))
 
 (def render-to-response
-  (comp response render))
+  (comp #(content-type (charset (response %) "utf-8") "text/html") render))
+  ;(comp response render))
 
 (defn page-not-found [req]
   {:status 404
@@ -28,7 +29,7 @@
    :body "Page Not Found"})
 
 (defn render-request [afn & args]
-  (fn [req] (render-to-response (apply afn args))))
+  (fn [req] (render-to-response (apply afn args)) ))
 
 (defn serve-file [filename]
   (file-response
