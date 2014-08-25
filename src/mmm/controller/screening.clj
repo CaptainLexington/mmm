@@ -11,7 +11,7 @@
 
 
 (defn view [id]
-  (layout/common (view/view (model/getByID id))))
+  (layout/common (view/view (model/getByID id)) (model/title id)))
 
 (defn all [screenings]
   (layout/common (view/all screenings)))

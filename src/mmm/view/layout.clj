@@ -8,9 +8,13 @@
 
 
 (deftemplate common
-            (templateLocation "layout")
-            [body] ;parameter list
-            [:main] ;first selector
-            (content body)
-            )
+  (templateLocation "layout")
+  [body & title] ;parameter list
+  [:head :title]
+  (if-not (nil? title)
+    (content title)
+    identity)
+  [:main] ;first selector
+  (content body)
+  )
 

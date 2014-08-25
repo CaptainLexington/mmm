@@ -3,8 +3,8 @@
 /*Fonts*/
 
 @font-face {
-  font-family: DayPosterBlack;
-  src: url(/fonts/dayposterblack.ttf);
+  font-family: Otago;
+  src: url(/fonts/otago.otf);
 }
 
 
@@ -12,9 +12,9 @@
 
 html, body {
   margin: 1% 5% 1% 5%;
-  background-color: #A15A5A;
-  color: White;
-  font-family: Georgia;
+  background-color: White;
+  color: Black;
+  font-family: sans;
 }
 
 main {
@@ -23,7 +23,7 @@ main {
 }
 
 p {
-  color: Tan;
+ /* color: Tan;*/
 }
 
 a {
@@ -49,13 +49,13 @@ label {
 /*Universal Elements*/
 
 h1, h2, h3, h4, h5 {
-  text-shadow: 3px 3px 3px Black;
+  color: #79ABED;
 }
 
 h1 {
-  font-family: DayPosterBlack;
+ font-family: Otago;
   font-size: 3em;
-  text-shadow: 5px 5px 5px Black;
+ /* text-shadow: 5px 5px 5px Black;*/
 }
 
 
@@ -63,9 +63,9 @@ h1 {
 nav {
   display: inline-block;
   padding: 2px;
-  color: Black;
-  background-color: Tan;
-  border-radius: 2px;
+  color: White;
+  background-color: #79ABED;
+  border-radius: 5px;
   padding-left: 40px;
 }
 
@@ -79,7 +79,8 @@ nav li {
 nav li a {
   padding: 4px;
   text-decoration: none;
-  color: Black;
+  font-family: Otago;
+  color: White;
 }
 
 nav li a.active {
@@ -87,7 +88,7 @@ nav li a.active {
 }
 
 div.meta {
-  background-color: Tan;
+  background-color: #79ABED;
   margin-top: -40px;
   min-height: 800px;
   border-radius: 20px;
@@ -95,8 +96,9 @@ div.meta {
 }
 
 
-div.meta h2 {
-  font-family: DayPosterBlack;
+div.meta h2, div.meta h3 {
+  color: White;
+  font-family: Otago;
   text-shadow: none;
 }
 
@@ -122,7 +124,7 @@ div.meta.main .twitter-timeline {
 
 h2.list-label {
 
-  font-family: DayPosterBlack;
+  font-family: Otago;
   text-align: right;
   float: left;
   clear: both;
@@ -134,11 +136,11 @@ h2.list-label {
 }
 
 h3.venue {
-  font-family: DayPosterBlack;
+  font-family: Otago;
 }
 
 ul.poster-list {
-  background-color: #731F3B;
+  background-color: #bbb;
   box-shadow: 0 0 25px Black inset;
   border-radius: 3px;
   white-space: nowrap;
@@ -162,10 +164,10 @@ ul.poster-list::after {
 
 ul.poster-list li.screening {
   display: inline-block;
-  background-color: Black;
+  background-color: transparent;
   margin: 10px 10px 5px 10px;
   list-style-type: none;
-  border: Black solid 10px;
+  border: transparent solid 10px;
   border-top-width: 35px;
   text-align: center;
   font-size: .75em;
@@ -173,12 +175,13 @@ ul.poster-list li.screening {
 }
 
 
-ul.poster-list li.screening:hover {
+ul.poster-list li.screening a:hover {
   color: Yellow;
 }
 
 
 ul.poster-list li.screening h3.venue {
+  color: White;
   padding: 0;
   margin-left: 0;
   margin-right: 0;
@@ -196,15 +199,11 @@ ul.poster-list li.screening img.poster.main_page {
   float: none;
 }
 
-ul.poster-list li.screening:hover img.poster.main_page {
-  border: Yellow dashed 1px;
-  margin: -1px;
-}
-
 
 ul.poster-list li.screening span.datetime {
   display: block;
-  font-family: DayPosterBlack;
+  color: White;
+  font-family: Otago;
   clear: both;
 }
 
@@ -248,14 +247,9 @@ th p a p, td p a p {
   display: inline;
 }
 
-tr:nth-child(even) a {
+tr a {
   color: Black;
   border-color: Black;
-}
-
-tr:nth-child(odd) a {
-  color: White;
-  border-color: White;
 }
 
 th a:hover, td a:hover {
@@ -264,17 +258,7 @@ th a:hover, td a:hover {
 }
 
 tr:nth-child(even) {
-  background-color: Tan;
-  color: Black;
-}
-
-
-tr:nth-child(odd) p {
-  color: White;
-}
-
-
-tr:nth-child(even) p {
+  background-color: #79ABED;
   color: Black;
 }
 

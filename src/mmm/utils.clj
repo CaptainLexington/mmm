@@ -21,7 +21,6 @@
 
 (def render-to-response
   (comp #(content-type (charset (response %) "utf-8") "text/html") render))
-  ;(comp response render))
 
 (defn page-not-found [req]
   {:status 404

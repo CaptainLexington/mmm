@@ -51,6 +51,9 @@
 (defn admin
   ([] (layout/common (admin/admin))))
 
+(defn four-oh-four
+  [] (layout/common "404 Not Found"))
+
 ;;ROUTING BRO
 
 (defroutes routes
@@ -73,5 +76,4 @@
   (let [port (Integer/parseInt
               (or (System/getenv "PORT") "8080"))]
     (do
-      ;(init-db)
       (start port))))

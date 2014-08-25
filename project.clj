@@ -20,6 +20,7 @@
                  [enlive "1.1.4"]
                  [clj-time "0.6.0"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [ithayer/clj-ical "1.2"]
                  [clj-aws-s3 "0.3.7"]
                  ;;;cljs deps
                  [org.clojure/clojurescript "0.0-2120"]
