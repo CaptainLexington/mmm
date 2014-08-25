@@ -105,6 +105,7 @@
 (defn nextWeek []
   (screenings-in-range (utils/beginning-of-next-week) (utils/end-of-next-week)))
 
+
 (defn comingSoon []
   (screenings-in-range (utils/beginning-of-the-week-after-next) (utils/two-to-four-weeks-out)))
 

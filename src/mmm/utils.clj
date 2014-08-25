@@ -85,34 +85,44 @@
   (coerce/from-long (.getTime sql-time)))
 
 (defn right-now []
-  (time/now))
+  (time/to-time-zone
+  (time/now)
+   (time/time-zone-for-offset -6)))
+
+
 (defn start-of-day [datetime]
   (.withTime datetime 0 0 0 0))
 
 (defn end-of-day [datetime]
   (.withTime datetime 23 59 59 999))
 
+(defn on-sunday [datetime]
+  (.withDayOfWeek datetime 7))
+
 (defn yesterday []
   (time/minus (right-now) (time/days 1)))
 
 (defn end-of-this-week
   []
-  (end-of-day (.withDayOfWeek (right-now) 7)) ;;Returns this Sunday
+  (end-of-day (on-sunday (right-now))) ;;Returns this Sunday
   )
 
 (defn beginning-of-next-week []
-  (time/plus (end-of-this-week) (time/days 1)))
+  (start-of-day (time/plus (end-of-this-week) (time/days 1))))
 
 (defn end-of-next-week
   []
-  (.withDayOfWeek (time/plus (right-now) (time/weeks 1)) 7)) ;;Returns next Sunday
+  (end-of-day (on-sunday (time/plus (right-now) (time/weeks 1))))) ;;Returns next Sunday
+
+(end-of-this-week)
+(beginning-of-next-week)
 
 (defn beginning-of-the-week-after-next []
   (start-of-day (time/plus (end-of-next-week) (time/days 1))))
 
 (defn two-to-four-weeks-out
   []
-  (start-of-day (.withDayOfWeek (time/plus (right-now) (time/weeks 3)) 7))) ;;Returns three Sundays from now
+  (end-of-day (on-sunday (time/plus (right-now) (time/weeks 3))))) ;;Returns three Sundays from now
 
 (def showtime-format (time-fm/formatter-local "yyyy.MM.dd h:mm a"))
 
