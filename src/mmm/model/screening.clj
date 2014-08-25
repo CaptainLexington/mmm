@@ -116,29 +116,15 @@
   (sort-by-date (map detailed-screening (local/getRelations "screenings" :venue_id venue_id))))
 
 
-(defn stringify-titles [titles]
-  (let [length (count titles)]
-    (cond (= length 1)
-          (first titles)
-          (= length 2)
-          (str (first titles) " and " (second titles))
-          :else
-          (str
-           (apply )(take (- length 1) titles)))))
-
-
 (defn title [id]
   (let [screening (getByID id)
         movie-titles (map :title (:movies screening))
         venue-name (:name (:venue screening))]
     (str (if (= (:title screening) "")
-           (apply str movie-titles)
+           (utils/stringify-items movie-titles)
            (:title screening))
          " at "
          venue-name)))
-
-
-(title "53f20056e4b045b8715a5999")
 
 ;; (defn delete [id]
 ;;   (korma/delete local/screening

@@ -86,8 +86,8 @@
 
 (defn right-now []
   (time/to-time-zone
-  (time/now)
-   (time/time-zone-for-offset -6)))
+   (time/now)
+   (time/time-zone-for-offset -6)))A
 
 
 (defn start-of-day [datetime]
@@ -200,6 +200,21 @@
       (first daterange)
       [(first daterange)
        (last daterange)])))
+
+(defn stringify-items [items]
+  (let [length (count items)]
+    (cond (= length 1)
+          (first items)
+          (= length 2)
+          (str (first items) " and " (second items))
+          :else
+          (str
+           (apply
+            #(str ", ")
+            (take (- length 1) items))
+           "& "
+           (last items)))))
+
 
 (defn display-price [price]
   (str "$" price))

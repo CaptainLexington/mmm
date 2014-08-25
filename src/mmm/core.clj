@@ -25,7 +25,8 @@
             [mmm.model.screening :as screening]
             [mmm.model.db :as db]
             [mmm.remotes :as remotes]
-            [mmm.auth :as auth]))
+            [mmm.auth :as auth]
+            [mmm.cal :as cal]))
 
 (defn wrappers [routes]
   (-> routes
@@ -66,6 +67,7 @@
   (GET "/login" [] (render-request login))
   (GET "/admin" [] (friend/authorize #{"admin"}) (render-request admin))
   (GET "/about" [] (render-request about))
+  (GET "/cal" [] (render-request cal/cal))
   (route/resources "/"))
 
 (defn start [port]

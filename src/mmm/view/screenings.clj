@@ -35,11 +35,10 @@
   (layout/templateLocation "screening")
   [:.view]
   [screening]
-  [:div.movie-details :h2 :span.title]
+  [:div.movie-details :h2]
   (if (not= (:title screening) "")
     (content (:title screening))
-    (clone-for [i (title-list (:movies screening))]
-               (content i)))
+    (content (utils/stringify-items (map :title (:movies screening)))))
   [:div.movie-details :section.movie]
   (clone-for [i (:movies screening)]
              [:img.poster]
@@ -53,9 +52,7 @@
              [:p.runningTime]
              (prepend (str (:runningTime i)))
              [:p.description]
-             (content (:description i))
-             )
-
+             (content (:description i)))
   [:p.presenter]
   (when-not (= (:presenters screening) [])
     identity)
@@ -116,8 +113,8 @@
              [:td.screening :p.movie]
              (if (not= (:title i) "")
                #(at %
-                [:a.movie]
-                (content (:title i)))
+                    [:a.movie]
+                    (content (:title i)))
                (clone-for [j (:movies i)]
                           [:a.movie]
                           (content (:title j))))
