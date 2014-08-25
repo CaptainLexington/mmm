@@ -86,13 +86,18 @@
 
 (defn right-now []
   (time/now))
+(defn start-of-day [datetime]
+  (.withTime datetime 0 0 0 0))
+
+(defn end-of-day [datetime]
+  (.withTime datetime 23 59 59 999))
 
 (defn yesterday []
   (time/minus (right-now) (time/days 1)))
 
 (defn end-of-this-week
   []
-  (.withDayOfWeek (right-now) 7) ;;Returns this Sunday
+  (end-of-day (.withDayOfWeek (right-now) 7)) ;;Returns this Sunday
   )
 
 (defn beginning-of-next-week []
@@ -103,11 +108,11 @@
   (.withDayOfWeek (time/plus (right-now) (time/weeks 1)) 7)) ;;Returns next Sunday
 
 (defn beginning-of-the-week-after-next []
-  (time/plus (end-of-next-week) (time/days 1)))
+  (start-of-day (time/plus (end-of-next-week) (time/days 1))))
 
 (defn two-to-four-weeks-out
   []
-  (.withDayOfWeek (time/plus (right-now) (time/weeks 3)) 7)) ;;Returns three Sundays from now
+  (start-of-day (.withDayOfWeek (time/plus (right-now) (time/weeks 3)) 7))) ;;Returns three Sundays from now
 
 (def showtime-format (time-fm/formatter-local "yyyy.MM.dd h:mm a"))
 
