@@ -8,7 +8,7 @@
                 {:name name :website website :description description}))
 
 (defn all []
-  (local/all "series"))
+  (reverse (local/all "series")))
 
 (defn update [id series-map]
   (local/updateItemByID

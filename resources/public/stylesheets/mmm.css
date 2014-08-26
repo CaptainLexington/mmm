@@ -22,6 +22,11 @@ main {
   padding:20px;
 }
 
+
+header {
+  float: left;
+}
+
 p {
  /* color: Tan;*/
 }
@@ -47,6 +52,9 @@ label {
 }
 
 /*Universal Elements*/
+
+
+
 
 h1, h2, h3, h4, h5 {
   color: #79ABED;
@@ -203,7 +211,6 @@ ul.poster-list li.screening img.poster.main_page {
 ul.poster-list li.screening span.datetime {
   display: block;
   color: White;
-  font-family: Otago;
   clear: both;
 }
 
