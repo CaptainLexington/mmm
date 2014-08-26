@@ -87,7 +87,7 @@
 (defn right-now []
   (time/to-time-zone
    (time/now)
-   (time/time-zone-for-offset -6)))A
+   (time/time-zone-for-offset -6)))
 
 
 (defn start-of-day [datetime]
