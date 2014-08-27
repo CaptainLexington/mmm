@@ -206,7 +206,7 @@
     (cond (= length 1)
           (first items)
           (= length 2)
-          (str (first items) " and " (second items))
+          (str (first items) " and " (first (rest items)))
           :else
           (str
            (apply
