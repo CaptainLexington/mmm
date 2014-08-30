@@ -121,7 +121,7 @@
         movie-titles (map :title (:movies screening))
         venue-name (:name (:venue screening))]
     (str (if (= (:title screening) "")
-           (utils/stringify-items movie-titles)
+           (apply str (utils/listify-items movie-titles))
            (:title screening))
          " at "
          venue-name)))

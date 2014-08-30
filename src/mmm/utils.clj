@@ -201,20 +201,17 @@
       [(first daterange)
        (last daterange)])))
 
-(defn stringify-items [items]
+(defn listify-items [items]
   (let [length (count items)]
     (cond (= length 1)
-          (first items)
+          items
           (= length 2)
-          (str (first items) " and " (first (rest items)))
+          [(first items)
+           (str " and " (first (rest items)))]
           :else
-          (str
-           (apply
-            #(str ", ")
-            (take (- length 1) items))
-           "& "
-           (last items)))))
-
+          (concat
+           (map #(str % ", ") (take (- length 1) items))
+           [(str " and " (last items))]))))
 
 (defn display-price [price]
   (str "$" price))

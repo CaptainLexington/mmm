@@ -38,7 +38,7 @@
   [:div.movie-details :h2]
   (if (not= (:title screening) "")
     (content (:title screening))
-    (content (utils/stringify-items (map :title (:movies screening)))))
+    (content (apply str (utils/listify-items (map :title (:movies screening))))))
   [:div.movie-details :section.movie]
   (clone-for [i (:movies screening)]
              [:img.poster]
@@ -57,7 +57,7 @@
   (when-not (= (:presenters screening) [])
     identity)
   [:p.presenter :a.presenter]
-  (clone-for [presenter (:presenters screening)]
+  (clone-for [presenter (map #(assoc {} :name %1 :_id (:_id %2)) (utils/listify-items (map :name (:presenters screening))) (:presenters screening))]
              (do->
               (set-attr :href (str "/presenters/" (:_id presenter)))
               (content (:name presenter))))

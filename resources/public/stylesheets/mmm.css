@@ -99,7 +99,8 @@ div.meta {
   background-color: #79ABED;
   margin-top: -40px;
   min-height: 800px;
-  border-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   border-color: Black;
 }
 
@@ -293,6 +294,11 @@ span.title:nth-last-of-type(2)::after{
 
 div.movie-details {
   overflow-y: auto;
+}
+
+div.movie-details p.attrib {
+  clear: both;
+  padding-top: 20px;
 }
 
 img.poster {

@@ -7,28 +7,34 @@
 
 
 (defn total-running-time [screening]
-  (reduce + (map #(read-string (:runningTime %)) (:movies screening))))
+  (let [runningTimes (map #(read-string (:runningTime %)) (:movies screening))]
+    (reduce + runningTimes)))
 
 (defn event-from-showtime [showtime runtime title location]
   (let [end-time (time/plus showtime (time/minutes runtime))]
-    [:vevent
-     [:dtstart (tf/unparse (tf/formatters :basic-date-time-no-ms) showtime)]
-     [:dtend (tf/unparse (tf/formatters :basic-date-time-no-ms) end-time)]
-     [:summary title]
-     [:location location]]))
+    (str "BEGIN:VEVENT\n"
+         "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) showtime) "\n"
+         "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) end-time) "\n"
+         "SUMMARY:" title "\n"
+         "LOCATION:" location "\n"
+         "END:VEVENT" "\n")))
 
 (defn events-from-screening [screening]
-  (into [] (map #(event-from-showtime
-                  %
-                  (total-running-time screening)
-                  (if (nil? (:title screening))
-                    (:title screening)
-                    (utils/stringify-items (map :title (:movies screening))))
-                  (:address (:venue screening)))
-                (:showtime screening))))
+  (apply str (map #(event-from-showtime
+                    %
+                    (total-running-time screening)
+                    (if (nil? (:title screening))
+                      (:title screening)
+                      (utils/stringify-items (map :title (:movies screening))))
+                    (:address (:venue screening)))
+                  (:showtime screening))))
 
 (defn cal []
   (let [screenings (screenings/current)]
-    (concat
-    [:vcalendar]
-     (into [] (apply concat (map events-from-screening screenings))))))
+    (str
+     "BEGIN:VCALENDAR\n"
+     (apply str (map events-from-screening screenings))
+     "END:VCALENDAR\n")))
+
+(cal)
+
