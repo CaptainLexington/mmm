@@ -25,7 +25,7 @@
                     (total-running-time screening)
                     (if (nil? (:title screening))
                       (:title screening)
-                      (utils/stringify-items (map :title (:movies screening))))
+                      (apply str (utils/listify-items (map :title (:movies screening)))))
                     (:address (:venue screening)))
                   (:showtime screening))))
 
