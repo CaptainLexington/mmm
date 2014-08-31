@@ -7,7 +7,7 @@
             [mmm.model.screening :as screenings]))
 
 
-(def calendate (time-fm/formatter-local "YYYYMMDDTHHmmss"))
+(def calendate (tf/formatter-local "YYYYMMdd'T'HHmmss"))
 
 (defn total-running-time [screening]
   (let [runningTimes (map #(read-string (:runningTime %)) (:movies screening))]
@@ -16,10 +16,8 @@
 (defn event-from-showtime [showtime runtime title location id]
   (let [end-time (time/plus showtime (time/minutes runtime))]
     (str "BEGIN:VEVENT" \return \newline
-         "DTSTART:" (tf/unparse calendate showtime) \return \newline
-         "DTEND:" (tf/unparse calendate end-time) \return \newline
-         ;"DTSTART:" (utils/display-date-and-time showtime) \return \newline
-         ;"DTEND:" (utils/display-date-and-time end-time) \return \newline
+         "DTSTART:" (tf/unparse calendate (utils/local-time showtime)) \return \newline
+         "DTEND:" (tf/unparse calendate (utils/local-time end-time)) \return \newline
          "SUMMARY:\"" title "\"" \return \newline
          "LOCATION:\"" location "\"" \return \newline
          "DESCRIPTION:http://www.midnightmoviesmpls.com/screenings/" id \return \newline
