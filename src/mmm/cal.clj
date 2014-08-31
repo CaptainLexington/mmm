@@ -34,9 +34,17 @@
    (let [screenings (screenings/current)]
      (str
       "BEGIN:VCALENDAR" \return \newline
-      "VERSION:1.0" \return \newline
+      "VERSION:2.0" \return \newline
+      "BEGIN:VTIMEZONE" \return \newline
+      "TZID:CST" \return \newline
+      "BEGIN:STANDARD" \return \newline
+      "TZNAME:CST" \return \newline
+      "TZOFFSETFROM:-0600" \return \newline
+      "TZOFFSETTO:-0600" \return \newline
+      "END:STANDARD" \return \newline
+      "END:VTIMEZONE" \return \newline
       "PRODID:MindightMoviesMPLS" \return \newline
       (apply str (map events-from-screening screenings))
       "END:VCALENDAR" \return \newline))
-  ","
-  "\\,"))
+   ","
+   "\\,"))
