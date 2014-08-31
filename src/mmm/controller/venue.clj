@@ -15,7 +15,8 @@
 
 
 (defn view [id]
-  (layout/common (view/view (model/getByID id))))
+  (let [venue (model/getByID id)]
+    (layout/common (view/view venue) (str "Coming Soon to " (:name venue) "!"))))
 
 (defn edit [id]
   (layout/common (view/edit (model/getByID id))))

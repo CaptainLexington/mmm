@@ -14,9 +14,9 @@
   (layout/common (view/all presenters)))
 
 
- (defn view [id]
-   (layout/common (view/view (model/getByID id))))
-
+(defn view [id]
+  (let [presenter (model/getByID id)]
+    (layout/common (view/view presenter) (str "Coming Soon from " (:name presenter) "!"))))
 (defn edit [id]
   (layout/common (view/edit (model/getByID id))))
 
