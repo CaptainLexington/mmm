@@ -20,7 +20,7 @@
     [items]))
 
 (defn earliest-future-date [showtimes]
-  (first (filter #(time/after? (utils/right-now) %) showtimes)))
+  (first (filter #(time/after? % (utils/right-now)) showtimes)))
 
 (defn sort-by-date [screenings]
   (sort-by #(earliest-future-date (:showtime %)) screenings))
