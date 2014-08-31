@@ -2,6 +2,7 @@
   (:require [clj-ical.format :as ical]
             [clj-time.core :as time]
             [clj-time.format :as tf]
+            [clj-time.local :as tl]
             [mmm.utils :as utils]
             [mmm.model.screening :as screenings]))
 
@@ -13,8 +14,8 @@
 (defn event-from-showtime [showtime runtime title location id]
   (let [end-time (time/plus showtime (time/minutes runtime))]
     (str "BEGIN:VEVENT" \return \newline
-         "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) (utils/local-time showtime)) \return \newline
-         "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) (utils/local-time end-time)) \return \newline
+         "DTSTART:" (tl/format-local-time showtime :basic-date-time-no-ms) \return \newline
+         "DTEND:" (tl/format-local-time end-time :basic-date-time-no-ms) \return \newline
          "SUMMARY:\"" title "\"" \return \newline
          "LOCATION:\"" location "\"" \return \newline
          "URL:http://www.midnightmoviesmpls.com/screenings/" id \return \newline
@@ -50,3 +51,6 @@
       "END:VCALENDAR" \return \newline))
    ","
    "\\,"))
+
+
+
