@@ -10,13 +10,14 @@
   (let [runningTimes (map #(read-string (:runningTime %)) (:movies screening))]
     (reduce + runningTimes)))
 
-(defn event-from-showtime [showtime runtime title location]
+(defn event-from-showtime [showtime runtime title location id]
   (let [end-time (time/plus showtime (time/minutes runtime))]
     (str "BEGIN:VEVENT" \return \newline
          "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) showtime) \return \newline
          "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) end-time) \return \newline
          "SUMMARY:\"" title "\"" \return \newline
          "LOCATION:\"" location "\"" \return \newline
+         "URL:http://www.midnightmoviesmpls.com/screenings/" id \return \newline
          "END:VEVENT" \return \newline)))
 
 (defn events-from-screening [screening]
@@ -26,7 +27,8 @@
                     (if (nil? (:title screening))
                       (:title screening)
                       (apply str (utils/listify-items (map :title (:movies screening)))))
-                    (:address (:venue screening)))
+                    (:address (:venue screening))
+                    (:_id screening))
                   (:showtime screening))))
 
 (defn cal []
