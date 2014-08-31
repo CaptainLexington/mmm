@@ -20,7 +20,7 @@
          ;"DTEND:" (utils/display-date-and-time end-time) \return \newline
          "SUMMARY:\"" title "\"" \return \newline
          "LOCATION:\"" location "\"" \return \newline
-         "URL:http://www.midnightmoviesmpls.com/screenings/" id \return \newline
+         "DESCRIPTION:http://www.midnightmoviesmpls.com/screenings/" id \return \newline
          "END:VEVENT" \return \newline)))
 
 
