@@ -39,6 +39,10 @@ a {
   text-decoration: none;
 }
 
+nav a:hover {
+  color: Yellow;
+}
+
 nav a, h2 a, nav a:hover, h2 a:hover, a.poster {
   border: 0;
 }
