@@ -14,8 +14,10 @@
 (defn event-from-showtime [showtime runtime title location id]
   (let [end-time (time/plus showtime (time/minutes runtime))]
     (str "BEGIN:VEVENT" \return \newline
-         "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) (utils/local-time showtime)) \return \newline
-         "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) (utils/local-time end-time)) \return \newline
+         "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) showtime) \return \newline
+         "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) end-time) \return \newline
+         ;"DTSTART:" (utils/display-date-and-time showtime) \return \newline
+         ;"DTEND:" (utils/display-date-and-time end-time) \return \newline
          "SUMMARY:\"" title "\"" \return \newline
          "LOCATION:\"" location "\"" \return \newline
          "URL:http://www.midnightmoviesmpls.com/screenings/" id \return \newline
@@ -52,10 +54,3 @@
       "END:VCALENDAR" \return \newline))
    ","
    "\\,"))
-
-
-
-(utils/display-date-and-time (utils/right-now))
-(tl/format-local-time (utils/right-now) :basic-date-time-no-ms)
-(tl/format-local-time (utils/local-time (utils/right-now)) :basic-date-time-no-ms)
-(tf/unparse (tf/formatters :basic-date-time-no-ms) (utils/right-now))
