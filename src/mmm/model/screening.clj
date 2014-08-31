@@ -19,8 +19,11 @@
     items
     [items]))
 
+(defn earliest-future-date [showtimes]
+  (first (filter #(time/after? (utils/right-now) %) showtimes)))
+
 (defn sort-by-date [screenings]
-  (sort-by #(first (:showtime %)) screenings))
+  (sort-by #(earliest-future-date (:showtime %)) screenings))
 
 (defn process-screening-map [screening-map]
   (let [showtimes-vec (vectorize (:showtime screening-map))
@@ -49,8 +52,7 @@
       :venue (venue/getByID venue_id)
       :series (series/getByID series_id)
       :movies (map movie/getByID (vectorize movie_ids))
-      :presenters (map presenter/getByID (vectorize presenter_ids))
-      )))
+      :presenters (map presenter/getByID (vectorize presenter_ids)))))
 
 (defn all []
   (reverse (sort-by-date (map detailed-screening (local/all "screenings")))))

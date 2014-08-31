@@ -37,8 +37,7 @@
       rpc/wrap-rpc
       wrap-keyword-params
       wrap-params
-      wrap-session
-      ))
+      wrap-session))
 
 
 (defn index
