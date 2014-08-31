@@ -67,7 +67,7 @@
   (GET "/login" [] (render-request login))
   (GET "/admin" [] (friend/authorize #{"admin"}) (render-request admin))
   (GET "/about" [] (render-request about))
-  (GET "/cal" [] (render-request cal/cal))
+  (GET "/cal" [] (render-calendar cal/cal))
   (route/resources "/"))
 
 (defn start [port]

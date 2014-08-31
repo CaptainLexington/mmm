@@ -30,6 +30,13 @@
 (defn render-request [afn & args]
   (fn [req] (render-to-response (apply afn args)) ))
 
+(def render-to-calendar
+  (comp #(content-type (charset (response %) "utf-8") "text/calendar") render))
+
+
+(defn render-calendar [afn & args]
+  (fn [req] (render-to-calendar (apply afn args)) ))
+
 (defn serve-file [filename]
   (file-response
    {:root *webdir*

@@ -12,12 +12,12 @@
 
 (defn event-from-showtime [showtime runtime title location]
   (let [end-time (time/plus showtime (time/minutes runtime))]
-    (str "BEGIN:VEVENT\n"
-         "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) showtime) "\n"
-         "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) end-time) "\n"
-         "SUMMARY:" title "\n"
-         "LOCATION:" location "\n"
-         "END:VEVENT" "\n")))
+    (str "BEGIN:VEVENT" \return \newline
+         "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) showtime) \return \newline
+         "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) end-time) \return \newline
+         "SUMMARY:\"" title "\"" \return \newline
+         "LOCATION:\"" location "\"" \return \newline
+         "END:VEVENT" \return \newline)))
 
 (defn events-from-screening [screening]
   (apply str (map #(event-from-showtime
@@ -30,11 +30,13 @@
                   (:showtime screening))))
 
 (defn cal []
-  (let [screenings (screenings/current)]
-    (str
-     "BEGIN:VCALENDAR\n"
-     (apply str (map events-from-screening screenings))
-     "END:VCALENDAR\n")))
-
-(cal)
-
+  (clojure.string/replace
+   (let [screenings (screenings/current)]
+     (str
+      "BEGIN:VCALENDAR" \return \newline
+      "VERSION:1.0" \return \newline
+      "PRODID:MindightMoviesMPLS" \return \newline
+      (apply str (map events-from-screening screenings))
+      "END:VCALENDAR" \return \newline))
+  ","
+  "\\,"))
