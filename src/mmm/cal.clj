@@ -13,8 +13,8 @@
 (defn event-from-showtime [showtime runtime title location id]
   (let [end-time (time/plus showtime (time/minutes runtime))]
     (str "BEGIN:VEVENT" \return \newline
-         "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) showtime) \return \newline
-         "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) end-time) \return \newline
+         "DTSTART:" (tf/unparse (tf/formatters :basic-date-time-no-ms) (utils/local-time showtime)) \return \newline
+         "DTEND:" (tf/unparse (tf/formatters :basic-date-time-no-ms) (utils/local-time end-time)) \return \newline
          "SUMMARY:\"" title "\"" \return \newline
          "LOCATION:\"" location "\"" \return \newline
          "URL:http://www.midnightmoviesmpls.com/screenings/" id \return \newline

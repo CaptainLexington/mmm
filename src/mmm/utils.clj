@@ -78,19 +78,6 @@
 (defn alphabetize-by [key items]
   (sort-by #(clojure.string/lower-case (key %)) items))
 
-
-(defn to-sql-time2
-  "Convert `obj` to a java.sql.Time instance."
-  [obj]
-  (if-let [dt (coerce/to-date-time obj)]
-    (java.sql.Time. (.getMillis dt))))
-
-(defn from-sql-time2
-  "Returns a DateTime instance in the UTC time zone corresponding to the given
-  java.sql.Time object."
-  [#^java.sql.Time sql-time]
-  (coerce/from-long (.getTime sql-time)))
-
 (defn right-now []
   (time/to-time-zone
    (time/now)
@@ -167,9 +154,9 @@
     dateB)))
 
 
-(defn local-time [time]
+(defn local-time [showtime]
   (time/to-time-zone
-   (from-sql-time2 time)
+   showtime
    (time/time-zone-for-offset -6)))
 
 (defn display-date [date]
