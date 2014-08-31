@@ -233,8 +233,8 @@ main article {
 /*All screenings*/
 
 table {
-  width: 75%;
-  margin: auto;
+ /* width: 75%;
+  margin: auto; */
 }
 
 th, td {

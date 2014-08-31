@@ -26,7 +26,8 @@
             [mmm.model.db :as db]
             [mmm.remotes :as remotes]
             [mmm.auth :as auth]
-            [mmm.cal :as cal]))
+            [mmm.cal :as cal]
+            [mmm.special :as special]))
 
 (defn wrappers [routes]
   (-> routes
@@ -63,11 +64,12 @@
   screenings/routes
   series/routes
   presenter/routes
+  special/routes
   (GET "/" [] (render-request index))
   (GET "/login" [] (render-request login))
   (GET "/admin" [] (friend/authorize #{"admin"}) (render-request admin))
   (GET "/about" [] (render-request about))
-  (GET "/cal" [] (render-calendar cal/cal))
+  (GET "/cal" [] (render-calendar cal/cal (screening/current)))
   (route/resources "/"))
 
 (defn start [port]

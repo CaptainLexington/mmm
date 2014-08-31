@@ -35,9 +35,8 @@
                     (:_id screening))
                   (:showtime screening))))
 
-(defn cal []
+(defn cal [screenings]
   (clojure.string/replace
-   (let [screenings (screenings/current)]
      (str
       "BEGIN:VCALENDAR" \return \newline
       "VERSION:2.0" \return \newline
@@ -51,6 +50,6 @@
       "END:VTIMEZONE" \return \newline
       "PRODID:MindightMoviesMPLS" \return \newline
       (apply str (map events-from-screening screenings))
-      "END:VCALENDAR" \return \newline))
+      "END:VCALENDAR" \return \newline)
    ","
    "\\,"))
