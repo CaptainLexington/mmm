@@ -16,6 +16,9 @@
    series-map
    id))
 
+(defn title [series]
+  (str (:name series)))
+
 (defn getByID [id]
   (local/getItemByID "series" id))
 

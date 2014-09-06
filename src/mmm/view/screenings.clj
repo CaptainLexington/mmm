@@ -237,7 +237,7 @@
   [:input.price]
   (set-attr :value (:price screening))
   [:textarea.notes]
-  (set-attr :value (:notes screening))
+  (content (:notes screening))
   [:input.title]
   (set-attr :value (:title screening))
   [:button]

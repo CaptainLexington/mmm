@@ -15,7 +15,8 @@
 
 
 (defn view [id]
-  (layout/common (view/view (model/getByID id))))
+  (let [series (model/getByID id)]
+    (layout/common (view/view series) (model/title series))))
 
 (defn edit [id]
   (layout/common (view/edit (model/getByID id))))
