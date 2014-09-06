@@ -18,6 +18,11 @@
    venue-map
    id))
 
+(defn short-name [venue]
+  (if (:short-name venue)
+    (:short-name venue)
+    (:name venue)))
+
 (defn getByID [id]
   (local/getItemByID "venues" id))
 

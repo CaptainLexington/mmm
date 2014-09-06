@@ -2,14 +2,14 @@
   (:use [net.cgrand.enlive-html])
   (:require [mmm.view.layout :as layout]
             [mmm.model.screening :as screening]
+            [mmm.model.venue :as venue]
             [mmm.utils :as utils]))
-
 
 
 (defn show-movies-for-week [screenings]
   (clone-for [i screenings]
              [:h3.venue]
-             (content (:name (:venue i)))
+             (content (venue/short-name (:venue i)))
              [:img.poster.main_page]
              (clone-for [j (:movies i)]
                         (do->

@@ -50,6 +50,8 @@
   (set-attr :action (str "/venues/update/" (:_id venue)))
   [:input.name]
   (set-attr :value (:name venue))
+  [:input.short-name]
+  (set-attr :value (:short-name venue))
   [:input.address]
   (set-attr :value (:address venue))
   [:input.website]
