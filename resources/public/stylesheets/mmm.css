@@ -28,7 +28,7 @@ header {
 }
 
 p {
- /* color: Tan;*/
+  /* color: Tan;*/
 }
 
 a {
@@ -65,9 +65,9 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
- font-family: Otago;
+  font-family: Otago;
   font-size: 3em;
- /* text-shadow: 5px 5px 5px Black;*/
+  /* text-shadow: 5px 5px 5px Black;*/
 }
 
 
@@ -221,8 +221,14 @@ ul.poster-list li.screening span.datetime {
   clear: both;
 }
 
+span.datetime:nth-of-type(2)::before {
+  content: "through";
+  display: block;
+}
+
+
 ul.poster-list li.screening span.datetime:only-of-type {
-  margin-top: 1.4em;
+  margin-top: 2.4em;
 }
 
 
@@ -239,7 +245,7 @@ main article {
 /*All screenings*/
 
 table {
- /* width: 75%;
+  /* width: 75%;
   margin: auto; */
 }
 

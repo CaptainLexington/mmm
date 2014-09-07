@@ -134,6 +134,7 @@
     (time/time-zone-for-offset -6))))
 
 
+(def dd-mm (time-fm/formatter-local "MM/dd"))
 (def weekday-month-date (time-fm/formatter-local "EEEE, MMMM d"))
 (def am-pm (time-fm/formatter-local "h:mm a"))
 
@@ -158,6 +159,11 @@
   (time/to-time-zone
    showtime
    (time/time-zone-for-offset -6)))
+
+(defn display-concise-date [date]
+  (time-fm/unparse
+   dd-mm
+   (local-time date)))
 
 (defn display-date [date]
   (time-fm/unparse

@@ -127,7 +127,7 @@
              [:td.price]
              (content (utils/display-price (:price i)))
              [:td.showtimes :p]
-             (clone-for [date (utils/date-range (:showtime i))]
+             (clone-for [date (distinct (map utils/display-concise-date (:showtime i)))]
                         (content date))
              [:td.presenters :p]
              (clone-for [presenter (:presenters i)]
