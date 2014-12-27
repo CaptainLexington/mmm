@@ -228,7 +228,8 @@ span.datetime:nth-of-type(2)::before {
 
 
 ul.poster-list li.screening span.datetime:only-of-type {
-  margin-top: 2.4em;
+  display: block;
+  margin-bottom: 2.4em;
 }
 
 

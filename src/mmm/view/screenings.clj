@@ -83,6 +83,8 @@
    (content (:name (:venue screening))))
   [:div.meta.details :p.price]
   (content (utils/display-price (:price screening)))
+  [:div.meta.details :p.tickets :a]
+  (set-attr :href (:tickets screening))
   [:div.meta.details :p.address]
   (content (:address (:venue screening))))
 
@@ -236,6 +238,8 @@
              (set-attr :value (utils/write-showtime showtime)))
   [:input.price]
   (set-attr :value (:price screening))
+  [:input.tickets]
+  (set-attr :value (:tickets screening))
   [:textarea.notes]
   (content (:notes screening))
   [:input.title]
