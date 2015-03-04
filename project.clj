@@ -15,7 +15,6 @@
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
                  [ring "1.2.0"]
                  [com.cemerick/friend "0.2.0"]
-                 [com.cemerick/drawbridge "0.0.6"]
                  [compojure "1.1.3"]
                  [org.clojars.ed_sumitra/clojure-webmvc "1.0.0-SNAPSHOT"]
                  [enlive "1.1.4"]

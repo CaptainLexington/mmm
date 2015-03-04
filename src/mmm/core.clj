@@ -39,19 +39,6 @@
       wrap-params
       wrap-session))
 
-(def drawbridge-handler
-  (-> (cemerick.drawbridge/ring-handler)
-      (keyword-params/wrap-keyword-params)
-      (nested-params/wrap-nested-params)
-      (params/wrap-params)
-      (session/wrap-session)))
-
-(defn wrap-drawbridge [handler]
-  (fn [req]
-    (if (= "/repl" (:uri req))
-      (drawbridge-handler req)
-      (wrappers req))))
-
 
 (defn index
   ([] (layout/common (index/index (screening/all)))))
@@ -85,7 +72,7 @@
   (route/resources "/"))
 
 (defn start [port]
-  (run-jetty (drawbridge-handler #'routes) {:port port :join? false}))
+  (run-jetty (wrappers #'routes) {:port port :join? false}))
 
 
 (defn -main []
