@@ -12,6 +12,8 @@
             (cemerick.friend [workflows :as workflows]
                              [credentials :as creds])
             [shoreleave.middleware.rpc :as rpc]
+            [monger.core :as mg]
+            [monger.ring.session-store :refer [session-store]]
             [mmm.controller.movie :as movies]
             [mmm.controller.screening :as screenings]
             [mmm.controller.venue :as venues]
@@ -30,14 +32,15 @@
             [mmm.special :as special]))
 
 (defn wrappers [routes]
-  (-> routes
-      (friend/authenticate {:login-uri "/login"
-                            :credential-fn #(creds/bcrypt-credential-fn auth/get-user-by-username %)
-                            :workflows [(workflows/interactive-form)]})
-      rpc/wrap-rpc
-      wrap-keyword-params
-      wrap-params
-      wrap-session))
+  (let [store (session-store db/db "sessions")]
+    (-> routes
+        (friend/authenticate {:login-uri     "/login"
+                              :credential-fn #(creds/bcrypt-credential-fn auth/get-user-by-username %)
+                              :workflows     [(workflows/interactive-form)]})
+        rpc/wrap-rpc
+        wrap-keyword-params
+        wrap-params
+        (wrap-session {:store store}))))
 
 
 (defn index
