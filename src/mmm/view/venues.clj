@@ -58,6 +58,8 @@
   (set-attr :value (:website venue))
   [:input.phone-number]
   (set-attr :value (:phone-number venue))
+  [:input.twitter-handle]
+  (set-attr :value (:twitter-handle venue))
   [:textarea.description]
   (content (:description venue))
   [:button]

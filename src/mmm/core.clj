@@ -29,6 +29,7 @@
             [mmm.remotes :as remotes]
             [mmm.auth :as auth]
             [mmm.cal :as cal]
+            [mmm.scheduled :as sched]
             [mmm.special :as special]))
 
 (defn wrappers [routes]
@@ -82,5 +83,6 @@
   (let [port (Integer/parseInt
               (or (System/getenv "PORT") "8080"))]
     (do
+      (sched/init-schedules)
       (start port))))
 

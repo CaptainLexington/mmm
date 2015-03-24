@@ -1,10 +1,14 @@
 (ns mmm.model.db
   (:require
    [monger.core :as mg]
-   [monger.collection :as mc])
+   [monger.collection :as mc]
+   [mmm.config :as config])
   (:import org.bson.types.ObjectId))
 
-(def uri (mg/connect-via-uri "mongodb://mmm:midnight@kahana.mongohq.com:10080/app17886619"))
+(def uri (mg/connect-via-uri (str "mongodb://"
+                                  config/mongo-user
+                                  ":midnight@kahana.mongohq.com:10080/"
+                                  config/mongo-db)))
 
 (def conn (:conn uri))
 

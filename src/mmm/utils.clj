@@ -96,6 +96,9 @@
 (defn yesterday []
   (time/minus (right-now) (time/days 1)))
 
+(defn tomorrow []
+  (time/plus (right-now) (time/days 1)))
+
 (defn end-of-this-week
   []
   (end-of-day (on-sunday (right-now))) ;;Returns this Sunday
