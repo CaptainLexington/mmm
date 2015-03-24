@@ -5,9 +5,10 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :plugins [[lein-cljsbuild "1.0.1"]]
   :dependencies [;;;clj deps
-                 [org.clojure/clojure "1.5.1"]
+                 [org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.namespace "0.2.4"]
                  [org.clojure/tools.reader "0.8.3"]
+                 [org.clojure/core.memoize "0.5.6"]
                  [cheshire "5.3.1"]
                  [com.novemberain/monger "2.0.0"]
                  [com.novemberain/validateur "2.2.0"]
@@ -19,6 +20,12 @@
                  [org.clojars.ed_sumitra/clojure-webmvc "1.0.0-SNAPSHOT"]
                  [enlive "1.1.4"]
                  [clj-time "0.6.0"]
+                 [jarohen/chime "0.1.6"  :exclusions [org.clojure/core.cache]]
+                 [twitter-api "0.7.8" :exclusions [org.apache.httpcomponents/httpclient
+                                                   org.apache.httpcomponents/httpcore
+                                                   slingshot
+                                                   commons-codec]]
+                 [org.apache.httpcomponents/httpclient "4.3.5"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [ithayer/clj-ical "1.2"]
                  [clj-aws-s3 "0.3.7"]

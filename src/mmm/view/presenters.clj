@@ -48,6 +48,8 @@
   (set-attr :value (:name presenter))
   [:input.website]
   (set-attr :value (:website presenter))
+  [:input.twitter-handle]
+  (set-attr :value (:twitter-handle presenter))
   [:textarea.description]
   (content (:description presenter))
   [:button]

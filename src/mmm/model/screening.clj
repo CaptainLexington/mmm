@@ -101,6 +101,17 @@
 
 (current-by-series "53edc27e6d6e2828675998bd")
 
+
+(defn one-day [day]
+  (screenings-in-range (utils/start-of-day day) (utils/end-of-day day)))
+
+(defn today []
+  (one-day (utils/right-now)))
+
+(defn tomorrow []
+  (one-day (time/plus (utils/right-now)
+                      (time/days 1))))
+
 (defn thisWeek []
   (screenings-in-range (utils/right-now) (utils/end-of-this-week)))
 
