@@ -16,6 +16,12 @@
   (statuses-update :oauth-creds my-creds
                    :params {:status status}))
 
-
-
+(defn daily-tweets [time]
+  (let [screenings (map identity (screenings/one-day time))]
+    (doseq [screening screenings]
+      (tweet (str
+               "TONIGHT: "
+               (:tweet-text screening)
+               "http://www.midnightmoviesmpls.com/screenings/"
+               (:_id screening))))))
 
