@@ -4,7 +4,8 @@
     [twitter.callbacks]
     [twitter.callbacks.handlers]
     [twitter.api.restful])
-  (:require [mmm.config :as config]))
+  (:require [mmm.config :as config]
+            [mmm.model.screening :as screenings]))
 
 (def my-creds (make-oauth-creds config/twitter-app-consumer-key
                                 config/twitter-app-consumer-secret
