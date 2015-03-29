@@ -15,10 +15,10 @@
   (chime-at
     (periodic-seq (.. (time/now)
                       (withZone (DateTimeZone/forID "America/Chicago"))
-                      (withTime 9 0 0 0))
+                      (withTime 7 0 0 0))
                   (-> 1 time/days))
     (fn [time]
-      (twitter/daily-tweets time))))
+      (twitter/daily-tweets (time/now)))))
 
 
 
