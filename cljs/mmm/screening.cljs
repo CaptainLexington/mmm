@@ -27,11 +27,21 @@
        ))
     ))
 
+
+;(defn get-tweet-text []
+;  (let [values (ef/from
+;                    :presenters [:select.presenter]
+;                    :venue     [:select.venue]
+;                    :movies    [:select.venue])
+;
+;
+;        ]))
+
 (defn addMovie [mouseEvent]
-  (addAnItem mouseEvent :addMovie))
+  (addAnItem mouseEvent :addMovie nil))
 
 (defn addPresenter [mouseEvent]
-  (addAnItem mouseEvent :addPresenter))
+  (addAnItem mouseEvent :addPresenter nil))
 
 (defn addVenue [mouseEvent]
   (addAnItem mouseEvent
