@@ -19,7 +19,7 @@
                   (-> 1 time/days))
     (fn [time]
       (twitter/daily-tweets  (time/from-time-zone
-                               (time-fm/now)
+                               (time/now)
                                (time/time-zone-for-offset -6))))))
 
 
