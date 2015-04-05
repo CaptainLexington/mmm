@@ -18,7 +18,9 @@
                       (withTime 7 0 0 0))
                   (-> 1 time/days))
     (fn [time]
-      (twitter/daily-tweets (time/now)))))
+      (twitter/daily-tweets  (time/from-time-zone
+                               (time-fm/now)
+                               (time/time-zone-for-offset -6))))))
 
 
 
