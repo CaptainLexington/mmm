@@ -10,6 +10,7 @@
                  [org.clojure/tools.reader "0.8.3"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/core.memoize "0.5.6"]
+
                  [org.slf4j/slf4j-log4j12 "1.7.1"]
                  [org.eclipse.jetty/jetty-util "7.6.1.v20120215"]
                  [cheshire "5.3.1"]
@@ -34,7 +35,7 @@
                  [clj-aws-s3 "0.3.7"]
                  ;;;cljs deps
                  [org.clojure/clojurescript "0.0-2120"]
-                 [enfocus "2.0.2"]
+                 [enfocus "2.1.1"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [cljs-ajax "0.2.3"]]
   :cljsbuild {

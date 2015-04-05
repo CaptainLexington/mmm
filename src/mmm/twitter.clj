@@ -23,6 +23,5 @@
       (tweet (str
                "TONIGHT: "
                (:tweet-text screening)
-               "http://www.midnightmoviesmpls.com/screenings/"
+               " http://www.midnightmoviesmpls.com/screenings/"
                (:_id screening))))))
-
