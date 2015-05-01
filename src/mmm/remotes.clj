@@ -3,52 +3,58 @@
   (:require [mmm.model.movie :as movie]
             [mmm.model.presenter :as presenter]
             [mmm.model.venue :as venue]
-            [mmm.model.series :as series]))
+            [mmm.model.series :as series]
+            [mmm.model.screening :as screening]))
 
 ;;MOVIES
 (defremote addMovie [parameters]
-  (movie/add
+           (movie/add
 
-   parameters)
+             parameters)
 
-;;    (:title parameters)
-;;    (:director parameters)
-;;    (read-string (:runningTime parameters))
-;;    (read-string (:releaseYear parameters))
-;;    (:mpaa parameters)
-;;    (:poster parameters)
-;;    (:description parameters))
-  nil)
+           ;;    (:title parameters)
+           ;;    (:director parameters)
+           ;;    (read-string (:runningTime parameters))
+           ;;    (read-string (:releaseYear parameters))
+           ;;    (:mpaa parameters)
+           ;;    (:poster parameters)
+           ;;    (:description parameters))
+           nil)
 
 (defremote allMovies []
-  (movie/all))
+           (movie/all))
 
 ;;PRESENTERS
 (defremote addPresenter [parameters]
-  (presenter/add
-   (:name parameters)
-   (:website parameters)
-   (:description parameters))
-  nil)
+           (presenter/add
+             (:name parameters)
+             (:website parameters)
+             (:description parameters))
+           nil)
 
 (defremote allPresenters []
-  (presenter/all))
+           (presenter/all))
 
 ;;SERIES
 (defremote addSeries [parameters]
-  (series/add
-   (:name parameters)
-   (:website parameters)
-   (:description parameters))
-  nil)
+           (series/add
+             (:name parameters)
+             (:website parameters)
+             (:description parameters))
+           nil)
 
 (defremote allSeries []
-  (into [{:name "None"}] (series/all)))
+           (into [{:name "None"}] (series/all)))
 
 ;;VENUES
 (defremote addVenue [venue-map]
-  (venue/add venue-map)
-  nil)
+           (venue/add venue-map)
+           nil)
 
 (defremote allVenues []
-  (venue/all))
+           (venue/all))
+
+;;SCREENINGS
+(defremote generate-tweet-text [movie-ids presenter-ids venue-id]
+           (screening/generate-tweet-text movie-ids presenter-ids venue-id))
+
