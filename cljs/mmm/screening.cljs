@@ -28,15 +28,6 @@
     ))
 
 
-;(defn get-tweet-text []
-;  (let [values (ef/from
-;                    :presenters [:select.presenter]
-;                    :venue     [:select.venue]
-;                    :movies    [:select.venue])
-;
-;
-;        ]))
-
 (defn addMovie [mouseEvent]
   (addAnItem mouseEvent :addMovie nil))
 
@@ -57,8 +48,22 @@
   (let [div (.-parentElement (.-target mouseEvent))]
     (ef/at
      div
-     (ef/remove-node)))
-  )
+     (ef/remove-node))))
+
+
+;(defn generate-tweet-text [mouse-event]
+;  (let [form (.-parentElement (.-parentElement (.-target mouse-event)))
+;        form-data (ef/from form (ef/read-form))
+;        movie-ids (:movie-id form-data)
+;        presenter-ids (:presenter-id form-data)
+;        venue-id (:venue-id form-data)]
+;    (rpc/remote-callback
+;      :generate-tweet-text [movie-ids presenter-ids venue-id]
+;      #(do
+;        (ef/at
+;          [:textarea.tweet-text]
+;          (ef/content %)))))
+;  )
 
 (em/defaction setup-remotes []
               [:button.add-movie] (events/listen :click addMovie)
@@ -78,6 +83,7 @@
                            (views/itemSelect % inputSnippet value)
                            ))
       (setup-selects))))
+
 
 
 
@@ -124,6 +130,7 @@
 (defn loadAddSeriesForm []
   (loadAddForm :div.add-series views/addSeriesForm))
 
+
 (em/defaction setup []
               [:div.film :span.duplicate] (events/listen :click duplicateMovieSelect)
               [:div.presenters :span.duplicate] (events/listen :click duplicatePresenterSelect)
@@ -132,4 +139,5 @@
               [:span.add.presenter] (events/listen :click loadAddPresenterForm)
               [:span.add.venue] (events/listen :click loadAddVenueForm)
               [:span.add.series] (events/listen :click loadAddSeriesForm)
+              ;[:button.tweet-text] (events/listen :click generate-tweet-text)
               )

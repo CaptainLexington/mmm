@@ -3,6 +3,7 @@
             [monger.collection :as mc]
             [monger.joda-time]
             [monger.operators :refer :all]
+            [clojure.string :as string]
             [mmm.utils :as utils]
             [clj-time.core :as time]
             [clj-time.coerce :as coerce]
@@ -29,12 +30,12 @@
   (let [showtimes-vec (vectorize (:showtime screening-map))
         showtimes (utils/earliest-first (map utils/read-showtime showtimes-vec))
         screening (assoc screening-map :showtime showtimes)]
-  screening))
+    screening))
 
 
 
 (defn add [screening-map]
-    (:_id (mc/insert-and-return local/db "screenings" (process-screening-map screening-map))))
+  (:_id (mc/insert-and-return local/db "screenings" (process-screening-map screening-map))))
 
 (defn update [id screening-map]
   (local/updateItemByID "screenings" (process-screening-map screening-map) id))
@@ -59,33 +60,33 @@
 
 (defn screenings-in-range [in out]
   (sort-by-date
-   (map
-    detailed-screening
-    (mc/find-maps
-     local/db
-     "screenings"
-     {:showtime {$elemMatch {$gte in $lt out}}}))))
+    (map
+      detailed-screening
+      (mc/find-maps
+        local/db
+        "screenings"
+        {:showtime {$elemMatch {$gte in $lt out}}}))))
 
 (defn screenings-after-date [in]
   (sort-by-date
-   (map
-    detailed-screening
-    (mc/find-maps
-     local/db
-     "screenings"
-     {:showtime {$elemMatch {$gte in}}}))))
+    (map
+      detailed-screening
+      (mc/find-maps
+        local/db
+        "screenings"
+        {:showtime {$elemMatch {$gte in}}}))))
 
 (defn screenings-after-date-by-relation [in relation id]
   (sort-by-date
-   (map
-    detailed-screening
-    (mc/find-maps
-     local/db
-     "screenings"
-     {:showtime {$elemMatch {$gte in}}
-      relation (if (= relation :presenter_id)
-                 id
-                 {$in [id]})}))))
+    (map
+      detailed-screening
+      (mc/find-maps
+        local/db
+        "screenings"
+        {:showtime {$elemMatch {$gte in}}
+         relation (if (= relation :presenter_id)
+                    id
+                    {$in [id]})}))))
 
 (defn current []
   (screenings-after-date (utils/right-now)))
@@ -138,6 +139,44 @@
            (:title screening))
          " at "
          venue-name)))
+
+(defn twitter-handle-or-name [venue]
+  (if (:twitter-handle venue)
+    (str "@" (:twitter-handle venue))
+    (:name venue)))
+
+(defn generate-tweet-text
+  ([screening]
+   (generate-tweet-text (map :_id (:movies screening))
+                        (map :_id (:presenters screening))
+                        (:_id (:venue screening))))
+  ([movie-ids presenter-ids venue-id]
+     (let [movie-titles (map #(-> %
+                                  movie/getByID
+                                  :title)
+                             movie-ids)
+           presenter-names (map #(-> %
+                                     presenter/getByID
+                                     twitter-handle-or-name)
+                                presenter-ids)
+           venue-name (-> venue-id
+                          venue/getByID
+                          twitter-handle-or-name)]
+       (str
+         (string/join
+           " "
+           presenter-names)
+         (case (count presenter-names)
+           0 ""
+           1 " presents "
+           " present ")
+         (string/join
+           " "
+           movie-titles)
+         " at "
+         venue-name
+         ))))
+
 
 ;; (defn delete [id]
 ;;   (korma/delete local/screening

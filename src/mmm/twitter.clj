@@ -17,11 +17,19 @@
   (statuses-update :oauth-creds my-creds
                    :params {:status status}))
 
+
+(defn tweet-text [screening]
+  (let [auto-tweet (screenings/generate-tweet-text screening)]
+    (if (or (nil? (:tweet-text screening))
+             (> 121 (count auto-tweet)))
+      (screenings/generate-tweet-text screening)
+      (:tweet-text screening))))
+
 (defn daily-tweets [time]
   (let [screenings (map identity (screenings/one-day time))]
     (doseq [screening screenings]
       (tweet (str
                "TONIGHT: "
-               (:tweet-text screening)
+               (tweet-text screening)
                " http://www.midnightmoviesmpls.com/screenings/"
                (:_id screening))))))
