@@ -46,7 +46,7 @@
         ; (See the ClojureScript compiler documentation for details.)
         :compiler {
           :output-to "resources/public/scripts/main.js"  ; default: target/cljsbuild-main.js
-          :optimizations :none
+          :optimizations :simple
           :pretty-print true}}]}
 
   :main mmm.core)
