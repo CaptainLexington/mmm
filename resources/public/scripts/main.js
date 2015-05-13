@@ -22809,8 +22809,7 @@ mmm.views.itemSelect = function(a, b, c) {
   var d = function() {
     return enfocus.core.get_cached_snippet.call(null, "remote/html/screening.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.select-snippet", "div.select-snippet", 911998907), new cljs.core.Keyword(null, "div.singleItem", "div.singleItem", 3459893354)], null));
   }.call(null), e = cljs.core.nth.call(null, d, 0, null), d = cljs.core.nth.call(null, d, 1, null), d = enfocus.core.create_hidden_dom.call(null, d);
-  enfocus.core.i_at.call(null, e, d, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "select", "select", 4402849902)], null), enfocus.core.set_attr.call(null, new cljs.core.Keyword(null, "name", "name", 1017277949), [cljs.core.str(c), cljs.core.str("_id")].join("")), enfocus.core.add_class.call(null, c), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "option", "option", 4298734567)], 
-  null), function(c) {
+  enfocus.core.i_at.call(null, e, d, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "select", "select", 4402849902)], null), enfocus.core.set_attr.call(null, new cljs.core.Keyword(null, "name", "name", 1017277949), [cljs.core.str(c), cljs.core.str("_id")].join("")), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "option", "option", 4298734567)], null), function(c) {
     for (var d = enfocus.core.create_hidden_dom.call(null, document.createDocumentFragment()), e = cljs.core.seq.call(null, a), k = null, l = 0, m = 0;;) {
       if (m < l) {
         var n = cljs.core._nth.call(null, k, m);

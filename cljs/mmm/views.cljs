@@ -45,7 +45,7 @@
                [items option value]
                [:select]
                (ef/set-attr :name (str value "_id"))
-               (ef/add-class value)
+               ;(ef/add-class value)
                [:option]
                (em/clone-for [item items]
                              (option item))
