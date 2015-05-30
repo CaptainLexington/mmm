@@ -1,6 +1,9 @@
 <div class="add movie inner-form">
   <form action="/movies/add" method="post">
     <div class="film">
+      <label for"moviedb-id">MovieDB ID:</label>
+      <input class="moviedb" name="moviedb-id">
+      <button class="moviedb" type="button">Get Data from TheMovieDB</button>
       <label for="name">Title:</label>
       <input class="title" name="title"/>
       <label for="name">Director:</label>
@@ -9,7 +12,7 @@
       <input class="release-year" name="year"/>
       <label for="name">Running Time:</label>
       <input class="running-time" name="runningTime"/>
-      <label>MPAA Rating:</label>
+      <!-- <label>MPAA Rating:</label>
       <select class="mpaa" name="mpaa-rating">
         <option value="G" class="mpaa">G</option>
         <option value="PG" class="mpaa">PG</option>
@@ -18,7 +21,8 @@
         <option value="X" class="mpaa">X</option>
         <option value="NC-17" class="mpaa">NC-17</option>
         <option value="NR" class="mpaa">NR</option>
-      </select>
+      </select> -->
+      <label>Poster URL</label>
       <input class="poster" name="poster" value="default"/>
       <label>Description:</label>
       <textarea class="description" name="description"></textarea>
