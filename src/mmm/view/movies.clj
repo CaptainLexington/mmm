@@ -30,8 +30,8 @@
   (set-attr :value (:year movie))
   [:input.running-time]
   (set-attr :value (:runningTime movie))
-  [[:option.mpaa (attr= :value (first (:mpaa-rating movie))) ]]
-  (set-attr :selected "true")
+  ; [[:option.mpaa (attr= :value (first (:mpaa-rating movie))) ]]
+  ; (set-attr :selected "true")
   [:input.poster]
   (set-attr :value (:poster movie))
   [:textarea.description]

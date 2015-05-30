@@ -4,7 +4,8 @@
    [enfocus.events :as events]
    [enfocus.effects :as effects]
    [shoreleave.remotes.http-rpc :as rpc]
-   [mmm.views :as views])
+   [mmm.views :as views]
+   [mmm.moviedb :as moviedb])
   (:require-macros [enfocus.macros :as em]
                    [shoreleave.remotes.macros :as slm]))
 
@@ -50,22 +51,43 @@
      div
      (ef/remove-node))))
 
+(defn generate-tweet-text [mouse-event]
+  (let [form (.-parentElement (.-parentElement (.-target mouse-event)))
+        form-data (ef/from form (ef/read-form))
+        movie-ids (:movie-id form-data)
+        presenter-ids (:presenter-id form-data)
+        venue-id (:venue-id form-data)]
+    (rpc/remote-callback
+      :generate-tweet-text [movie-ids presenter-ids venue-id]
+      #(do
+        (ef/at
+          [:textarea.tweet-text]
+          (ef/content %))))))
 
-;(defn generate-tweet-text [mouse-event]
-;  (let [form (.-parentElement (.-parentElement (.-target mouse-event)))
-;        form-data (ef/from form (ef/read-form))
-;        movie-ids (:movie-id form-data)
-;        presenter-ids (:presenter-id form-data)
-;        venue-id (:venue-id form-data)]
-;    (rpc/remote-callback
-;      :generate-tweet-text [movie-ids presenter-ids venue-id]
-;      #(do
-;        (ef/at
-;          [:textarea.tweet-text]
-;          (ef/content %)))))
-;  )
+
+(defn fill-in-movie-data [movie]
+  (ef/at
+    [:input.title]
+    (ef/set-attr :value (:title movie))
+    [:input.director]
+    (ef/set-attr :value (:director movie))
+    [:input.release-year]
+    (ef/set-attr :value (:release-year movie))
+    [:input.running-time]
+    (ef/set-attr :value (:running-time movie))
+    [:input.poster]
+    (ef/set-attr :value (:poster movie))
+    [:textarea.description]
+    (ef/content (:description movie))))
+
+
+(defn query-moviedb-with-input []
+  (let [id (ef/from
+              [:input.moviedb] (ef/get-prop :value))]
+    (moviedb/fill-in-movie fill-in-movie-data id)))
 
 (em/defaction setup-remotes []
+              [:button.moviedb] (events/listen :click query-moviedb-with-input)
               [:button.add-movie] (events/listen :click addMovie)
               [:button.add-presenter] (events/listen :click addPresenter)
               [:button.add-venue] (events/listen :click addVenue)
@@ -74,7 +96,7 @@
 (em/defaction setup-selects []
               [:span.remove] (events/listen :click removeSelect))
 
-5
+
 (defn refreshSelect [selector remote inputSnippet value]
   (rpc/remote-callback
    remote
@@ -139,5 +161,5 @@
               [:span.add.presenter] (events/listen :click loadAddPresenterForm)
               [:span.add.venue] (events/listen :click loadAddVenueForm)
               [:span.add.series] (events/listen :click loadAddSeriesForm)
-              ;[:button.tweet-text] (events/listen :click generate-tweet-text)
+             ;[:button.tweet-text] (events/listen :click generate-tweet-text)
               )
