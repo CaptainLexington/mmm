@@ -26536,8 +26536,13 @@ mmm.moviedb.movie_by_id = function(a) {
 mmm.moviedb.full_poster_path = function(a) {
   return[cljs.core.str("https://image.tmdb.org/t/p/w185"), cljs.core.str(a)].join("");
 };
+mmm.moviedb.get_director = function(a) {
+  return cljs.core.first.call(null, cljs.core.filter.call(null, function(a) {
+    return cljs.core._EQ_.call(null, (new cljs.core.Keyword(null, "job", "job", 1014009647)).cljs$core$IFn$_invoke$arity$1(a), "Director");
+  }, a));
+};
 mmm.moviedb.cherry_pick_movie = function(a) {
-  var b = (new cljs.core.Keyword(null, "title", "title", 1124275658)).cljs$core$IFn$_invoke$arity$1(a), c = (new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(cljs.core.first.call(null, (new cljs.core.Keyword(null, "crew", "crew", 1016966355)).cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "credits", "credits", 2042537996)).cljs$core$IFn$_invoke$arity$1(a)))), d = cljs.core.apply.call(null, cljs.core.str, cljs.core.take.call(null, 4, (new cljs.core.Keyword(null, 
+  var b = (new cljs.core.Keyword(null, "title", "title", 1124275658)).cljs$core$IFn$_invoke$arity$1(a), c = (new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(mmm.moviedb.get_director.call(null, (new cljs.core.Keyword(null, "crew", "crew", 1016966355)).cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "credits", "credits", 2042537996)).cljs$core$IFn$_invoke$arity$1(a)))), d = cljs.core.apply.call(null, cljs.core.str, cljs.core.take.call(null, 4, (new cljs.core.Keyword(null, 
   "release_date", "release_date", 3343016024)).cljs$core$IFn$_invoke$arity$1(a))), e = (new cljs.core.Keyword(null, "runtime", "runtime", 2564866890)).cljs$core$IFn$_invoke$arity$1(a), f = mmm.moviedb.full_poster_path.call(null, (new cljs.core.Keyword(null, "poster_path", "poster_path", 2682805065)).cljs$core$IFn$_invoke$arity$1(a));
   a = (new cljs.core.Keyword(null, "overview", "overview", 1544020203)).cljs$core$IFn$_invoke$arity$1(a);
   return new cljs.core.PersistentArrayMap(null, 6, [new cljs.core.Keyword(null, "title", "title", 1124275658), b, new cljs.core.Keyword(null, "director", "director", 1259947774), c, new cljs.core.Keyword(null, "release-year", "release-year", 3297468853), d, new cljs.core.Keyword(null, "running-time", "running-time", 1807946125), e, new cljs.core.Keyword(null, "poster", "poster", 4326420671), f, new cljs.core.Keyword(null, "description", "description", 3584325486), a], null);
