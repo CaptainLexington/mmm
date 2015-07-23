@@ -29,6 +29,7 @@
             [mmm.remotes :as remotes]
             [mmm.auth :as auth]
             [mmm.cal :as cal]
+            [mmm.digest :as digest]
             [mmm.scheduled :as sched]
             [mmm.special :as special]))
 
@@ -56,6 +57,9 @@
 (defn admin
   ([] (layout/common (admin/admin))))
 
+(defn digest
+  ([month] (layout/common (digest/digest-by-month month))))
+
 (defn four-oh-four
   [] (layout/common "404 Not Found"))
 
@@ -73,6 +77,7 @@
   (GET "/admin" [] (friend/authorize #{"admin"}) (render-request admin))
   (GET "/about" [] (render-request about))
   (GET "/cal" [] (render-calendar cal/cal (screening/current)))
+  (GET ["/digest/:year/:month" :year #"[0-9]+" :month #"[0-9]+"] [year month] (render-request digest/digest-by-month (read-string year) (read-string month)))
   (route/resources "/"))
 
 (defn start [port]
