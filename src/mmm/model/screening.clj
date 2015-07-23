@@ -130,15 +130,21 @@
   (sort-by-date (map detailed-screening (local/getRelations "screenings" :venue_id venue_id))))
 
 
-(defn title [id]
-  (let [screening (getByID id)
-        movie-titles (map :title (:movies screening))
-        venue-name (:name (:venue screening))]
-    (str (if (= (:title screening) "")
+(defn screening-title [screening]
+  (let [movie-titles (map :title (:movies screening))]
+    (if (= (:title screening) "")
            (apply str (utils/listify-items movie-titles))
-           (:title screening))
+           (:title screening))))
+
+(defn title-by-screening [screening]
+  (let [venue-name (:name (:venue screening))]
+    (str (screening-title screening) 
          " at "
          venue-name)))
+
+
+(defn title [id]
+  (title-by-screening (getByID id)))
 
 (defn twitter-handle-or-name [venue]
   (if (:twitter-handle venue)
