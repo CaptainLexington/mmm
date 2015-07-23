@@ -67,7 +67,7 @@
 
 (defn fill-in-movie-data [movie]
   (ef/at
-    [:input.title]
+    [:div.film :input.title]
     (ef/set-attr :value (:title movie))
     [:input.director]
     (ef/set-attr :value (:director movie))
