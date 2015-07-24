@@ -8,12 +8,12 @@
 (defn get-screenings-by-month [year month]
 	(let [month-date (time/date-time year month)
 		  first (time/first-day-of-the-month  month-date)
-		  last (time/last-day-of-the-month month-date)]
+		  last (time/plus (time/last-day-of-the-month month-date) (time/days 2))]
 		  (screenings/screenings-in-range first last)))
 
 
 (defn get-dates [screening]
-	(distinct (map time/day (:showtime screening))))
+	(distinct (map #(time/day (utils/local-time %)) (:showtime screening))))
 
 
 (defn get-venue [screening]
