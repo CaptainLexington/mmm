@@ -14,7 +14,7 @@
   (local/updateItemByID "presenters" presenter-map id))
 
 (defn all []
-  (local/all "presenters"))
+  (sort-by :name (local/all "presenters")))
 
 (defn delete [id]
   (local/deleteByID "presenters" id))

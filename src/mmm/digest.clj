@@ -19,10 +19,15 @@
 (defn get-venue [screening]
 	(:name (:venue screening)))
 
+
+(defn get-presenters [screening]
+	(map :name (:presenters  screening)))
+
 (defn extract-relevant-data [screening]
 	{:title (screenings/screening-title screening)
 	 :venue (get-venue screening)
-	 :dates (get-dates screening)})
+	 :dates (get-dates screening)
+	 :presenters (get-presenters screening)})
 
 
 (defn create-listing-from-extract [extract]
@@ -32,6 +37,11 @@
 		(:title extract)
 		" - "
 		(apply str (utils/listify-items (:dates extract)))
+		(if (zero? (count (:presenters extract)))
+			""
+			(str " ("
+				(clojure.string/join "/" (:presenters extract))
+				")"))
 		"<br/>"))
 
 

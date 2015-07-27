@@ -4,7 +4,7 @@
             [mmm.model.db :as local]))
 
 (defn all []
-  (local/all "venues"))
+  (sort-by :name (local/all "venues")))
 
 (defn add [venue-map]
   (mc/insert
