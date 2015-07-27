@@ -84,6 +84,11 @@
   [:div.meta.details :p.price]
   (content (utils/display-price (:price screening)))
   [:div.meta.details :p.tickets :a]
+  (when-not (or 
+              (= (:tickets screening) "") 
+              (= (:tickets screening) "#"))
+    identity)
+  [:div.meta.details :p.tickets :a]
   (set-attr :href (:tickets screening))
   [:div.meta.details :p.address]
   (content (:address (:venue screening))))
