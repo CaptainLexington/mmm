@@ -34,7 +34,7 @@
                  [ithayer/clj-ical "1.2"]
                  [clj-aws-s3 "0.3.7"]
                  ;;;cljs deps
-                 [org.clojure/clojurescript "1.7.228"]
+                 [org.clojure/clojurescript "0.0-2120"]
                  [enfocus "2.1.1"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [cljs-ajax "0.2.3"]]
