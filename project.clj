@@ -3,11 +3,11 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :plugins [[lein-cljsbuild "1.0.1"]]
+  :plugins [[lein-cljsbuild "1.1.2"]]
   :dependencies [;;;clj deps
-                 [org.clojure/clojure "1.6.0"]
+                 [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.namespace "0.2.4"]
-                 [org.clojure/tools.reader "0.8.3"]
+                 [org.clojure/tools.reader "1.0.0-alpha3"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/core.memoize "0.5.6"]
 
@@ -37,7 +37,7 @@
                  [org.clojure/clojurescript "1.7.228"]
                  [enfocus "2.1.1"]
                  [shoreleave/shoreleave-remote "0.3.0"]
-                 [cljs-ajax "0.2.3"]]
+                 [cljs-ajax "0.5.3"]]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:
