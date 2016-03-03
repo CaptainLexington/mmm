@@ -11,14 +11,11 @@
   (mc/insert local/db "movies"
                 movie-map))
 
-
 (defn update [id movie-map]
   (local/updateItemByID
    "movies"
    movie-map
    id))
-
-
 
 (defn getByID [id]
   (local/getItemByID "movies" id))

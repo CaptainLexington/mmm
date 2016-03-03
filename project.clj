@@ -3,7 +3,8 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :plugins [[lein-cljsbuild "1.0.1"]]
+  :plugins [[lein-cljsbuild "1.0.1"]
+            [lein-ancient "0.6.8"]]
   :dependencies [;;;clj deps
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.namespace "0.2.4"]
@@ -13,7 +14,7 @@
 
                  [org.slf4j/slf4j-log4j12 "1.7.1"]
                  [org.eclipse.jetty/jetty-util "7.6.1.v20120215"]
-                 [cheshire "5.3.1"]
+                 [cheshire "5.5.0"]
                  [com.novemberain/monger "2.0.0"]
                  [com.novemberain/validateur "2.2.0"]
                  [lobos "1.0.0-beta1"]

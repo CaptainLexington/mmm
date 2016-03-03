@@ -5,6 +5,7 @@
             [ring.util.response :as ring]
             [ring.middleware [multipart-params :as mp]]
             [cemerick.friend :as friend]
+            [cheshire.core :as cheshire]
             [mmm.files :as files]
             [mmm.view.layout :as layout]
             [mmm.view.series :as view]
@@ -33,6 +34,8 @@
 (defroutes routes
   (GET ["/series/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/series/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
+  (POST "/series/all" []  (cheshire/generate-string (model/all)))
+  (POST "/series/add" [& params]  (model/add params))
   (GET ["/series/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/series/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (GET ["/series/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request delete id)))

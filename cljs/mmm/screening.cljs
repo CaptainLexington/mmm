@@ -4,6 +4,7 @@
    [enfocus.events :as events]
    [enfocus.effects :as effects]
    [shoreleave.remotes.http-rpc :as rpc]
+   [ajax.core :refer [GET POST]]
    [mmm.views :as views]
    [mmm.moviedb :as moviedb])
   (:require-macros [enfocus.macros :as em]
@@ -11,39 +12,52 @@
 
 
 
-(defn addAnItem [mouseEvent remote callback]
+(defn addAnItem [mouseEvent URL callback]
   (let [submit (.-target mouseEvent)
         form (.-parentElement (.-parentElement submit))
         formData (ef/from form (ef/read-form))]
     (do
       (.preventDefault mouseEvent)
-      (rpc/remote-callback
-       remote [formData]
-       #(do
-          (ef/at
-           [:div.add.inner-form]
-           (ef/remove-node))
-          (if (not (nil? callback))
-            (callback)))
-       ))
-    ))
-
+      (POST
+        URL
+       {:params formData
+        :format :raw
+        :handler #(do
+                    (ef/at
+                      [:div.add.inner-form]
+                      (ef/remove-node))
+                    (if (not (nil? callback))
+                      (callback)))}))))
 
 (defn addMovie [mouseEvent]
-  (addAnItem mouseEvent :addMovie nil))
+  (addAnItem 
+    mouseEvent 
+    "/movies/add"
+    nil))
 
 (defn addPresenter [mouseEvent]
-  (addAnItem mouseEvent :addPresenter nil))
+  (addAnItem
+    mouseEvent
+    "/presenters/add" 
+    nil))
 
 (defn addVenue [mouseEvent]
   (addAnItem mouseEvent
-             :addVenue
-             #(refreshSelect :div.venue.selectsContainer :allVenues views/venueSelect "venue")))
+             "/venues/add"
+             #(refreshSelect 
+                :div.venue.selectsContainer 
+                :allVenues 
+                views/venueSelect 
+                "venue")))
 
 (defn addSeries [mouseEvent]
   (addAnItem mouseEvent
-             :addSeries
-             #(refreshSelect :div.series.selectsContainer :allSeries views/seriesSelect "series")))
+             "/series/add"
+             #(refreshSelect 
+                :div.series.selectsContainer 
+                :allSeries 
+                views/seriesSelect 
+                "series")))
 
 (defn removeSelect [mouseEvent]
   (let [div (.-parentElement (.-target mouseEvent))]
@@ -80,7 +94,6 @@
     [:textarea.description]
     (ef/content (:description movie))))
 
-
 (defn query-moviedb-with-input []
   (let [id (ef/from
               [:input.moviedb] (ef/get-prop :value))]
@@ -96,7 +109,6 @@
 (em/defaction setup-selects []
               [:span.remove] (events/listen :click removeSelect))
 
-
 (defn refreshSelect [selector remote inputSnippet value]
   (rpc/remote-callback
    remote
@@ -106,16 +118,12 @@
                            ))
       (setup-selects))))
 
-
-
-
 (defn duplicateFormInput [mouseEvent formInput]
   (let [plus (.-target mouseEvent)
         item (.-parentElement plus)]
     (do
       (ef/at item (ef/append
-                   formInput
-                   ))
+                   formInput))
       (setup-selects))))
 
 (defn duplicateSelect [mouseEvent remote inputSnippet value]
@@ -127,10 +135,18 @@
      (views/itemSelect % inputSnippet value))))
 
 (defn duplicateMovieSelect [mouseEvent]
-  (duplicateSelect mouseEvent :allMovies views/movieSelect "movie"))
+  (duplicateSelect
+    mouseEvent
+    :allMovies
+    views/movieSelect 
+    "movie"))
 
 (defn duplicatePresenterSelect [mouseEvent]
-  (duplicateSelect mouseEvent :allPresenters views/presenterSelect "presenter"))
+  (duplicateSelect
+    mouseEvent
+    :allPresenters
+    views/presenterSelect
+    "presenter"))
 
 
 (defn loadAddForm [selector form]
@@ -141,16 +157,24 @@
     (setup-selects)))
 
 (defn loadAddMovieForm []
-  (loadAddForm :div.add-movie views/addMovieForm))
+  (loadAddForm 
+    :div.add-movie 
+    views/addMovieForm))
 
 (defn loadAddPresenterForm []
-  (loadAddForm :div.add-presenter views/addPresenterForm))
+  (loadAddForm 
+    :div.add-presenter
+    views/addPresenterForm))
 
 (defn loadAddVenueForm []
-  (loadAddForm :div.add-venue views/addVenueForm))
+  (loadAddForm 
+    :div.add-venue 
+    views/addVenueForm))
 
 (defn loadAddSeriesForm []
-  (loadAddForm :div.add-series views/addSeriesForm))
+  (loadAddForm 
+    :div.add-series 
+    views/addSeriesForm))
 
 
 (em/defaction setup []

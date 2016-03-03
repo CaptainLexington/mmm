@@ -5,6 +5,7 @@
             [ring.util.response :as ring]
             [ring.middleware [multipart-params :as mp]]
             [cemerick.friend :as friend]
+            [cheshire.core :as cheshire]
             [mmm.files :as files]
             [mmm.view.layout :as layout]
             [mmm.view.venues :as view]
@@ -33,5 +34,7 @@
   (GET ["/venues/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/venues/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
   (GET ["/venues/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
+  (POST "/venues/all" []  (cheshire/generate-string (model/all)))
+  (POST "/venues/add" [& params]  (model/all params))
   (POST ["/venues/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (GET ["/venues/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (delete id)))

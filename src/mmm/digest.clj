@@ -56,5 +56,8 @@
 
 
 (defn digest-by-month [year month]
-	(digest-from-screenings (get-screenings-by-month year month)))
+	(digest-from-screenings 
+          (get-screenings-by-month 
+            year 
+            month)))
 
