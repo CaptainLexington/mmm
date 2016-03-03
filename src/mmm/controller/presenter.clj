@@ -2,6 +2,7 @@
   (:use [compojure.core :only (defroutes GET POST)]
         [mmm.utils])
   (:require [clojure.string :as str]
+            [cheshire.core :as cheshire]
             [ring.util.response :as ring]
             [ring.middleware [multipart-params :as mp]]
             [cemerick.friend :as friend]
@@ -12,7 +13,6 @@
 
 (defn all [presenters]
   (layout/common (view/all presenters)))
-
 
 (defn view [id]
   (let [presenter (model/getByID id)]
@@ -33,6 +33,8 @@
 (defroutes routes
   (GET ["/presenters/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/presenters/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
+  (POST "/presenters/add" [& params]  (model/add params))
+  (POST "/presenters/all" []  (cheshire/generate-string (model/all)))
   (GET ["/presenters/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/presenters/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (GET ["/presenters/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (delete id)))
