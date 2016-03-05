@@ -6,39 +6,34 @@
   :plugins [[lein-cljsbuild "1.0.1"]
             [lein-ancient "0.6.8"]]
   :dependencies [;;;clj deps
-                 [org.clojure/clojure "1.6.0"]
-                 [org.clojure/tools.namespace "0.2.4"]
-                 [org.clojure/tools.reader "0.8.3"]
+                 [org.clojure/clojure "1.8.0"]
+                 [org.clojure/tools.namespace "0.2.10"]
+                 [org.clojure/tools.reader "0.10.0"]
                  [org.clojure/tools.logging "0.3.1"]
-                 [org.clojure/core.memoize "0.5.6"]
+                 [org.clojure/core.memoize "0.5.8"]
 
-                 [org.slf4j/slf4j-log4j12 "1.7.1"]
-                 [org.eclipse.jetty/jetty-util "7.6.1.v20120215"]
                  [cheshire "5.5.0"]
-                 [com.novemberain/monger "2.0.0"]
-                 [com.novemberain/validateur "2.2.0"]
-                 [lobos "1.0.0-beta1"]
-                 [org.postgresql/postgresql "9.2-1002-jdbc4"]
-                 [ring "1.2.0"]
-                 [com.cemerick/friend "0.2.0"]
-                 [compojure "1.1.3"]
+                 [com.novemberain/monger "3.0.2"]
+                 [com.novemberain/validateur "2.5.0"]
+                 [ring "1.4.0"]
+                 [com.cemerick/friend "0.2.1"]
+                 [compojure "1.4.0"]
                  [org.clojars.ed_sumitra/clojure-webmvc "1.0.0-SNAPSHOT"]
-                 [enlive "1.1.4"]
-                 [clj-time "0.6.0"]
-                 [jarohen/chime "0.1.6"  :exclusions [org.clojure/core.cache]]
-                 [twitter-api "0.7.8" :exclusions [org.apache.httpcomponents/httpclient
+                 [enlive "1.1.6"]
+                 [clj-time "0.11.0"]
+                 [jarohen/chime "0.1.9"  :exclusions [org.clojure/core.cache]]
+                 [clj-oauth "1.5.5"]
+                 [twitter-api "0.7.8" :exclusions [clj-oauth
+                                                   org.apache.httpcomponents/httpclient
                                                    org.apache.httpcomponents/httpcore
                                                    slingshot
                                                    commons-codec]]
-                 [org.apache.httpcomponents/httpclient "4.3.5"]
-                 [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [org.apache.httpcomponents/httpclient "4.5.2"]
                  [ithayer/clj-ical "1.2"]
-                 [clj-aws-s3 "0.3.7"]
                  ;;;cljs deps
                  [org.clojure/clojurescript "0.0-2120"]
                  [enfocus "2.1.1"]
-                 [shoreleave/shoreleave-remote "0.3.0"]
-                 [cljs-ajax "0.2.3"]]
+                 [cljs-ajax "0.5.3"]]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:

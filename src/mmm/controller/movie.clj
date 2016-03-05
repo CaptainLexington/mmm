@@ -6,13 +6,11 @@
             [ring.util.response :as ring]
             [ring.middleware [multipart-params :as mp]]
             [cemerick.friend :as friend]
-            [mmm.files :as files]
             [mmm.view.layout :as layout]
             [mmm.view.movies :as view]
             [mmm.model.movie :as model]))
 
-(defn add-poster [params]
-  (files/add-poster params))
+
 
 (defn all [movies]
   (layout/common (view/all movies)))
@@ -29,5 +27,4 @@
   (GET ["/movies/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST "/movies/add" [& params] (print params))
   (POST "/movies/all" [] (cheshire/generate-string (model/all)))
-  (POST ["/movies/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
-  (POST "/movies/add-poster" [& params] (add-poster params)))
+  (POST ["/movies/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params)))

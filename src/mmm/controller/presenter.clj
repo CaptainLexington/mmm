@@ -6,7 +6,6 @@
             [ring.util.response :as ring]
             [ring.middleware [multipart-params :as mp]]
             [cemerick.friend :as friend]
-            [mmm.files :as files]
             [mmm.view.layout :as layout]
             [mmm.view.presenters :as view]
             [mmm.model.presenter :as model]))

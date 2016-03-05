@@ -6,7 +6,6 @@
             [ring.middleware [multipart-params :as mp]]
             [cemerick.friend :as friend]
             [cheshire.core :as cheshire]
-            [mmm.files :as files]
             [mmm.view.layout :as layout]
             [mmm.view.series :as view]
             [mmm.model.series :as model]))
