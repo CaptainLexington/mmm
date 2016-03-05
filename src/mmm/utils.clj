@@ -1,15 +1,16 @@
 (ns mmm.utils
   (:require [net.cgrand.enlive-html :as html]
+            [clj-time.core :as time]
+            [clj-time.format :as time-fm]
+            [clj-time.coerce :as coerce]
+            [clj-time.local :as local]  
             [clojure.java.io :as io])
   (:use     [ring.adapter.jetty :only [run-jetty]]
             [ring.util.response :only [response response? charset content-type file-response]]
             [ring.middleware.reload :only [wrap-reload]]
             [ring.middleware.file :only [wrap-file]]
             [ring.middleware.stacktrace :only [wrap-stacktrace]]
-            [clj-time.core :as time]
-            [clj-time.format :as time-fm]
-            [clj-time.coerce :as coerce]
-            [clj-time.local :as local]))
+            ))
 
 (def ^:dynamic *webdir* (str (.getCanonicalFile (io/file ".")) "/src/tutorial/"))
 

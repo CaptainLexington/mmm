@@ -11,7 +11,6 @@
             [cemerick.friend :as friend]
             (cemerick.friend [workflows :as workflows]
                              [credentials :as creds])
-            [shoreleave.middleware.rpc :as rpc]
             [monger.core :as mg]
             [monger.ring.session-store :refer [session-store]]
             [mmm.controller.movie :as movies]
@@ -26,7 +25,6 @@
             [mmm.model.movie :as movie]
             [mmm.model.screening :as screening]
             [mmm.model.db :as db]
-            [mmm.remotes :as remotes]
             [mmm.auth :as auth]
             [mmm.cal :as cal]
             [mmm.digest :as digest]
@@ -39,7 +37,6 @@
         (friend/authenticate {:login-uri     "/login"
                               :credential-fn #(creds/bcrypt-credential-fn auth/get-user-by-username %)
                               :workflows     [(workflows/interactive-form)]})
-        rpc/wrap-rpc
         wrap-keyword-params
         wrap-params
         (wrap-session {:store store}))))
