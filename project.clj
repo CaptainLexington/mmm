@@ -4,12 +4,12 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :plugins [[lein-cljsbuild "1.0.1"]
-            [lein-ancient "0.6.8"]]
+            [lein-ancient "0.6.8"]
+            [lein-ring "0.9.7"]]
   :dependencies [;;;clj deps
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.namespace "0.2.10"]
                  [org.clojure/tools.reader "0.10.0"]
-                 [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/core.memoize "0.5.8"]
 
                  [cheshire "5.5.0"]
@@ -18,7 +18,6 @@
                  [ring "1.4.0"]
                  [com.cemerick/friend "0.2.1"]
                  [compojure "1.4.0"]
-                 [org.clojars.ed_sumitra/clojure-webmvc "1.0.0-SNAPSHOT"]
                  [enlive "1.1.6"]
                  [clj-time "0.11.0"]
                  [jarohen/chime "0.1.9"  :exclusions [org.clojure/core.cache]]
@@ -44,5 +43,6 @@
           :output-to "resources/public/scripts/main.js"  ; default: target/cljsbuild-main.js
           :optimizations :simple
           :pretty-print true}}]}
+  :ring {:handler mmm.core/handler}
 
   :main mmm.core)

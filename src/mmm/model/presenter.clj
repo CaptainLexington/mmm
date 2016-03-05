@@ -3,9 +3,9 @@
             [monger.collection :as mc]
             [mmm.model.db :as local]))
 
-(defn add [name website description]
+(defn add [presenter-map]
   (mc/insert local/db "presenters"
-                {:name name :website website :description description}))
+             presenter-map))
 
 (defn getByID [id]
   (local/getItemByID "presenters" id))

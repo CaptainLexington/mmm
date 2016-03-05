@@ -3,9 +3,9 @@
             [monger.collection :as mc]
             [mmm.model.db :as local]))
 
-(defn add [name website description]
+(defn add [series-map]
   (mc/insert local/db "series"
-                {:name name :website website :description description}))
+             series-map))
 
 (defn all []
   (reverse (local/all "series")))
