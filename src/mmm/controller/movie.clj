@@ -25,6 +25,6 @@
 (defroutes routes
   (GET "/movies/all" [] (render-request all (model/all)))
   (GET ["/movies/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
-  (POST "/movies/add" [& params] (print params))
+  (POST "/movies/add" [& params] (model/add params))
   (POST "/movies/all" [] (cheshire/generate-string (model/all)))
   (POST ["/movies/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params)))

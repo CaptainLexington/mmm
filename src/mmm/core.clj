@@ -2,7 +2,8 @@
   (:use [compojure.core :only (defroutes GET)]
         [ring.middleware params
                          keyword-params
-                         session]
+                         session
+                         stacktrace]
         [ring.util.response :as response]
         [ring.adapter.jetty :as ring]
         [mmm.utils])
@@ -39,6 +40,7 @@
                               :workflows     [(workflows/interactive-form)]})
         wrap-keyword-params
         wrap-params
+        ;wrap-stacktrace
         (wrap-session {:store store}))))
 
 
@@ -77,8 +79,12 @@
   (GET ["/digest/:year/:month" :year #"[0-9]+" :month #"[0-9]+"] [year month] (render-request digest/digest-by-month (read-string year) (read-string month)))
   (route/resources "/"))
 
+
+(defn handler [request]
+  ((wrappers #'routes) request))
+
 (defn start [port]
-  (run-jetty (wrappers #'routes) {:port port :join? false}))
+  (run-jetty handler {:port port :join? false}))
 
 
 (defn -main []

@@ -46,7 +46,7 @@
              "/venues/add"
              #(refreshSelect 
                 :div.venue.selectsContainer 
-                :allVenues 
+                "/venues/all" 
                 views/venueSelect 
                 "venue")))
 
@@ -55,7 +55,7 @@
              "/series/add"
              #(refreshSelect 
                 :div.series.selectsContainer 
-                :allSeries 
+                "/series/all"
                 views/seriesSelect 
                 "series")))
 
@@ -109,14 +109,15 @@
 (em/defaction setup-selects []
               [:span.remove] (events/listen :click removeSelect))
 
-(defn refreshSelect [selector remote inputSnippet value]
-  (rpc/remote-callback
-   remote
-   []
-   #(do (ef/at [selector] (ef/content
-                           (views/itemSelect % inputSnippet value)
-                           ))
-      (setup-selects))))
+(defn refreshSelect [selector URL inputSnippet value]
+  (POST
+   URL
+   {:handler  #(do (ef/at [selector] 
+                          (ef/content
+                            (views/itemSelect % inputSnippet value)))
+                   (setup-selects))
+    :response-format :json
+    :keywords? true}))
 
 (defn duplicateFormInput [mouseEvent formInput]
   (let [plus (.-target mouseEvent)
@@ -126,25 +127,26 @@
                    formInput))
       (setup-selects))))
 
-(defn duplicateSelect [mouseEvent remote inputSnippet value]
-  (rpc/remote-callback
-   remote
-   []
-   #(duplicateFormInput
-     mouseEvent
-     (views/itemSelect % inputSnippet value))))
+(defn duplicateSelect [mouseEvent URL inputSnippet value]
+  (POST
+   URL
+   {:handler  #(duplicateFormInput
+                 mouseEvent
+                 (views/itemSelect % inputSnippet value))
+    :response-format :json
+    :keywords? true}))
 
 (defn duplicateMovieSelect [mouseEvent]
   (duplicateSelect
     mouseEvent
-    :allMovies
+    "/movies/all"
     views/movieSelect 
     "movie"))
 
 (defn duplicatePresenterSelect [mouseEvent]
   (duplicateSelect
     mouseEvent
-    :allPresenters
+    "/presenters/all"
     views/presenterSelect
     "presenter"))
 
@@ -184,6 +186,4 @@
               [:span.add.movie] (events/listen :click loadAddMovieForm)
               [:span.add.presenter] (events/listen :click loadAddPresenterForm)
               [:span.add.venue] (events/listen :click loadAddVenueForm)
-              [:span.add.series] (events/listen :click loadAddSeriesForm)
-             ;[:button.tweet-text] (events/listen :click generate-tweet-text)
-              )
+              [:span.add.series] (events/listen :click loadAddSeriesForm))
