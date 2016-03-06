@@ -3,12 +3,10 @@
    [enfocus.core :as ef]
    [enfocus.events :as events]
    [enfocus.effects :as effects]
-   [shoreleave.remotes.http-rpc :as rpc]
    [ajax.core :refer [GET POST]]
    [mmm.views :as views]
    [mmm.moviedb :as moviedb])
-  (:require-macros [enfocus.macros :as em]
-                   [shoreleave.remotes.macros :as slm]))
+  (:require-macros [enfocus.macros :as em]))
 
 
 
@@ -65,18 +63,6 @@
      div
      (ef/remove-node))))
 
-(defn generate-tweet-text [mouse-event]
-  (let [form (.-parentElement (.-parentElement (.-target mouse-event)))
-        form-data (ef/from form (ef/read-form))
-        movie-ids (:movie-id form-data)
-        presenter-ids (:presenter-id form-data)
-        venue-id (:venue-id form-data)]
-    (rpc/remote-callback
-      :generate-tweet-text [movie-ids presenter-ids venue-id]
-      #(do
-        (ef/at
-          [:textarea.tweet-text]
-          (ef/content %))))))
 
 
 (defn fill-in-movie-data [movie]
