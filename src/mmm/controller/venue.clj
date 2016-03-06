@@ -6,6 +6,7 @@
             [ring.middleware [multipart-params :as mp]]
             [cemerick.friend :as friend]
             [cheshire.core :as cheshire]
+            [monger.result :refer [acknowledged?]]
             [mmm.view.layout :as layout]
             [mmm.view.venues :as view]
             [mmm.model.venue :as model]))
@@ -21,6 +22,14 @@
 (defn edit [id]
   (layout/common (view/edit (model/getByID id))))
 
+(defn add [venue-map]
+  (let [result (model/add venue-map)]
+    (if (acknowledged? result)
+      {:status 200
+       :body "Write success!"}
+      {:status 500
+       :body "Error writing results to db"})))
+
 (defn update [id venue-map]
   (model/update id venue-map)
   (ring/redirect (str "/venues/" id)))
@@ -34,6 +43,6 @@
   (GET "/venues/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
   (GET ["/venues/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST "/venues/all" []  (cheshire/generate-string (model/all)))
-  (POST "/venues/add" [& params]  (model/all params))
+  (POST "/venues/add" [& params]  (all params))
   (POST ["/venues/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (GET ["/venues/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (delete id)))
