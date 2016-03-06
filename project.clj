@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :plugins [[lein-cljsbuild "1.0.1"]
+  :plugins [[lein-cljsbuild "1.1.2"]
             [lein-ancient "0.6.8"]
             [lein-ring "0.9.7"]]
   :dependencies [;;;clj deps
@@ -30,7 +30,7 @@
                  [org.apache.httpcomponents/httpclient "4.5.2"]
                  [ithayer/clj-ical "1.2"]
                  ;;;cljs deps
-                 [org.clojure/clojurescript "0.0-2120"]
+                 [org.clojure/clojurescript "1.7.228"]
                  [enfocus "2.1.1"]
                  [cljs-ajax "0.5.3"]]
   :cljsbuild {
