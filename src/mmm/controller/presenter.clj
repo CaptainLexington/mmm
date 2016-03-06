@@ -6,6 +6,7 @@
             [ring.util.response :as ring]
             [ring.middleware [multipart-params :as mp]]
             [cemerick.friend :as friend]
+            [monger.result :refer [acknowledged?]]
             [mmm.view.layout :as layout]
             [mmm.view.presenters :as view]
             [mmm.model.presenter :as model]))
@@ -18,6 +19,14 @@
     (layout/common (view/view presenter) (str "Coming Soon from " (:name presenter) "!"))))
 (defn edit [id]
   (layout/common (view/edit (model/getByID id))))
+
+(defn add [presenter-map]
+  (let [result (model/add presenter-map)]
+    (if (acknowledged? result)
+      {:status 200
+       :body "Write success!"}
+      {:status 500
+       :body "Error writing results to db"})))
 
 (defn update [id venue-map]
   (model/update id venue-map)
@@ -32,7 +41,7 @@
 (defroutes routes
   (GET ["/presenters/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/presenters/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
-  (POST "/presenters/add" [& params]  (model/add params))
+  (POST "/presenters/add" [& params]  (add params))
   (POST "/presenters/all" []  (cheshire/generate-string (model/all)))
   (GET ["/presenters/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/presenters/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
