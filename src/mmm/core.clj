@@ -3,7 +3,8 @@
         [ring.middleware params
                          keyword-params
                          session
-                         stacktrace]
+                         stacktrace
+                         json]
         [ring.util.response :as response]
         [ring.adapter.jetty :as ring]
         [mmm.utils])
@@ -40,6 +41,7 @@
                               :workflows     [(workflows/interactive-form)]})
         wrap-keyword-params
         wrap-params
+        wrap-json-response
         ;wrap-stacktrace
         (wrap-session {:store store}))))
 
