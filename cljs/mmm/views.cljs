@@ -10,33 +10,33 @@
 (defn movieSelect [film]
   (ef/do->
    (ef/set-attr :value (str (:_id film)))
-   (ef/content (str (:title film) " (" (:year film) ")"))
-   ))
+   (ef/content (str (:title film) " (" (:year film) ")"))))
 
 
 (defn presenterSelect [presenter]
   (ef/do->
    (ef/set-attr :value (str (:_id presenter)))
-   (ef/content (str (:name presenter) ))
-   ))
+   (ef/content (str (:name presenter) ))))
 
 (defn seriesSelect [series]
   (ef/do->
    (ef/set-attr :value (str (:_id series)))
-   (ef/content (str (:name series) ))
-   ))
+   (ef/content (str (:name series) ))))
 
 (defn venueSelect [venue]
   (ef/do->
    (ef/set-attr :value (str (:_id venue)))
-   (ef/content (str (:name venue) ))
-   ))
+   (ef/content (str (:name venue) ))))
+
+(em/defsnippet movieAutocomplete
+               "/html/screening.html"
+               [:div.mac-container]
+               [])
 
 (em/defsnippet showtimesInput
                "/html/screening.html"
                [:div.showtimes :div.singleItem]
-               []
-  )
+               [])
 
 
 (em/defsnippet itemSelect
@@ -48,43 +48,36 @@
                ;(ef/add-class value)
                [:option]
                (em/clone-for [item items]
-                             (option item))
-               )
+                             (option item)))
 
 
 (em/defsnippet addMovieForm
                "/html/movie.html"
                [:div.add.movie]
-               []
-               )
+               [])
 
 (em/defsnippet addPosterForm
                "/html/movie.html"
                [:div.add.poster]
-               []
-               )
+               [])
 
 (em/defsnippet addPresenterForm
                "/html/presenters.html"
                [:div.add.presenter]
-               []
-               )
+               [])
 
 (em/defsnippet addSeriesForm
                "/html/series.html"
                [:div.add.series]
-               []
-               )
+               [])
 
 (em/defsnippet addEventForm
                "/html/events.html"
                [:div.add-event]
-               []
-               )
+               [])
 
 
 (em/defsnippet addVenueForm
                "/html/venues.html"
                [:div.add.venue]
-               []
-               )
+               [])

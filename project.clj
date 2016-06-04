@@ -16,6 +16,8 @@
                  [com.novemberain/monger "3.0.2"]
                  [com.novemberain/validateur "2.5.0"]
                  [ring "1.4.0"]
+                 [ring/ring-json "0.4.0"]
+                 [clj-http "2.1.0"]
                  [com.cemerick/friend "0.2.1"]
                  [compojure "1.4.0"]
                  [enlive "1.1.6"]
@@ -32,6 +34,10 @@
                  ;;;cljs deps
                  [org.clojure/clojurescript "1.7.228"]
                  [enfocus "2.1.1"]
+                 [org.omcljs/om "0.9.0"]
+                 [kioo "0.4.2"]
+                 [org.clojars.fterrier/om-autocomplete "0.1.0"]
+                 [cljsjs/jquery-ui "1.11.4-0"] 
                  [cljs-ajax "0.5.3"]]
   :cljsbuild {
     :builds [{

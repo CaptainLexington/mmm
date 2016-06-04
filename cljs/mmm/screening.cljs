@@ -3,10 +3,38 @@
    [enfocus.core :as ef]
    [enfocus.events :as events]
    [enfocus.effects :as effects]
+   [cljsjs.jquery-ui :as jQuery]
    [ajax.core :refer [GET POST]]
    [mmm.views :as views]
    [mmm.moviedb :as moviedb])
   (:require-macros [enfocus.macros :as em]))
+
+
+(js* "
+ $.widget('ui.autocomplete', $.ui.autocomplete,{    
+
+     _renderItem: function( ul, item ) {
+          return $( '<li>' )
+          .attr( 'data-value', item.id )
+          .append( item.title + ' (' + item.year + ')' + ' ' + item.source)
+          .appendTo( ul );
+}});
+
+$('input.movie-autocomplete').autocomplete({
+     source: '/movies/search',
+     minLength: 2,
+     select: function (event, ui) {
+      if (ui.item.source == 'mmm') {  
+          $(this).siblings('input.movie_id').attr('value', ui.item.id);
+      }else if (ui.item.source == 'mdb') {
+          $('span.add.movie').click();
+          $('input.moviedb').attr('value', ui.item.id);
+      }
+     
+        
+     }
+});")
+
 
 
 
@@ -121,6 +149,10 @@
                  (views/itemSelect % inputSnippet value))
     :response-format :json
     :keywords? true}))
+
+
+(defn duplicateMovieAutocomplete [mouseEvent]
+  (duplicateFormInput mouseEvent "hello"))
 
 (defn duplicateMovieSelect [mouseEvent]
   (duplicateSelect

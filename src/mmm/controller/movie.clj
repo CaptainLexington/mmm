@@ -9,7 +9,8 @@
             [cemerick.friend :as friend]
             [mmm.view.layout :as layout]
             [mmm.view.movies :as view]
-            [mmm.model.movie :as model]))
+            [mmm.model.movie :as model]
+            [mmm.moviedb :as mdb]))
 
 
 
@@ -31,9 +32,18 @@
   (model/update id movie-map)
   (ring/redirect "/admin"))
 
+(defn search [string]
+  (let [results (concat (mdb/search string)
+                        (model/search string))]
+    (sort-by :title (map #(assoc % :label (:id %)
+                                   :value (:title %)) 
+                         results))))
+
+
 (defroutes routes
   (GET "/movies/all" [] (render-request all (model/all)))
   (GET ["/movies/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
+  (GET "/movies/search" [& params] (search (:term params)))
   (POST "/movies/add" [& params] (add params))
   (POST "/movies/all" [] (cheshire/generate-string (model/all)))
   (POST ["/movies/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params)))
