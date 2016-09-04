@@ -1,0 +1,6 @@
+{:twitter-consumer-key "FZpPpKXF2mijnv7VfWr0u5iI3"
+ :twitter-consumer-secret "hBlcmzIwJfs1XqpLklzCD2lWZqG139KUCUZnBbv3xSYJNbEaVD"
+ :twitter-user-access-token "339879841-1xhVUpHtRZpbP9LITwdMXSji6UXuggXBsO3IK7Gv"
+ :twitter-user-access-secret "xXwjoJYOjJ3sJMoibtaTRmB7IlTaNT6TJe4RcUBgxDxyl"
+ :mongo-user "mmm"
+ :mongo-db "app17886619" }
