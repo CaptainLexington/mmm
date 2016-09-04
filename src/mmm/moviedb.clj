@@ -14,7 +14,6 @@
   (request (str "search/movie?query=" string "&")))
 
 (defn process-movie [movie]
-  (println (:release_date movie))
   (let [release-year (if (empty? (:release_date movie))
                        "????"
                        (subs (:release_date movie) 0 4))]
