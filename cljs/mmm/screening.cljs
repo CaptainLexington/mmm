@@ -55,6 +55,7 @@ $('input.movie-autocomplete').autocomplete({
                     (if (not (nil? callback))
                       (callback)))}))))
 
+
 (defn addMovie [mouseEvent]
   (addAnItem 
     mouseEvent 
@@ -96,7 +97,7 @@ $('input.movie-autocomplete').autocomplete({
 (defn fill-in-movie-data [movie]
   (ef/at
     [:div.film :input.title]
-    (ef/set-attr :value (:title movie))
+   (ef/set-attr :value (:title movie))
     [:input.director]
     (ef/set-attr :value (:director movie))
     [:input.release-year]
@@ -132,6 +133,7 @@ $('input.movie-autocomplete').autocomplete({
                    (setup-selects))
     :response-format :json
     :keywords? true}))
+
 
 (defn duplicateFormInput [mouseEvent formInput]
   (let [plus (.-target mouseEvent)
@@ -197,6 +199,7 @@ $('input.movie-autocomplete').autocomplete({
     views/addSeriesForm))
 
 
+
 (em/defaction setup []
               [:div.film :span.duplicate] (events/listen :click duplicateMovieSelect)
               [:div.presenters :span.duplicate] (events/listen :click duplicatePresenterSelect)
@@ -204,4 +207,4 @@ $('input.movie-autocomplete').autocomplete({
               [:span.add.movie] (events/listen :click loadAddMovieForm)
               [:span.add.presenter] (events/listen :click loadAddPresenterForm)
               [:span.add.venue] (events/listen :click loadAddVenueForm)
-              [:span.add.series] (events/listen :click loadAddSeriesForm))
+              [:span.add.series] (events/listen :click loadAddSeriesForm)))
