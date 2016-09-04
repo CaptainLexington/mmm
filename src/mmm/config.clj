@@ -1,7 +1,5 @@
 (ns mmm.config)
 
-(def configs (read-string (slurp "config")))
-
 (def twitter-app-consumer-key (System/getenv "TWITTER_CONSUMER_KEY"))
 (def twitter-app-consumer-secret (System/getenv "TWITTER-CONSUMER-SECRET"))
 (def twitter-user-access-token (System/getenv "TWITTER_USER_ACCESS_TOKEN"))
