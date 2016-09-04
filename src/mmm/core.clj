@@ -91,7 +91,7 @@
 
 (defn -main []
   (let [port (Integer/parseInt
-              (or (System/getenv "PORT") "8080"))]
+              (or (System/getenv "PORT") "3449"))]
     (do
       (sched/init-schedules)
       (start port))))

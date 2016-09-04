@@ -15,17 +15,15 @@
    (utils/display-time showtime)])
 
 (defn arrange-datetime
-  [showtimes]
-  (let [date-times (map split-date-time showtimes)]
-    (sort
-     #(utils/earliest-first-string (:date %1) (:date %2))
-     (mapv
-      (fn [[k v]] {:date k :time (flatten (conj [] v))})
-      (apply
-       merge-with
-       #(flatten (conj [%1] %2))
-       (mapv (fn [m] {(first m) (second m)})
-             date-times))))))
+    [showtimes]
+    (let [date-times (map split-date-time (utils/earliest-first showtimes))]
+      (mapv
+        (fn [[k v]] {:date k :time (flatten (conj [] v))})
+        (apply
+          merge-with
+          #(flatten (conj [%1] %2))
+          (mapv (fn [m] {(first m) (second m)})
+                date-times)))))
 
 
 (defn title-list [movies]
