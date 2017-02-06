@@ -7,7 +7,11 @@
 
 (def uri (mg/connect-via-uri (str "mongodb://"
                                   config/mongo-user
-                                  ":midnight@kahana.mongohq.com:10080/"
+                                  ":"
+                                  config/mongo-password
+                                  "@"
+                                  config/mongo-url
+                                  "/"
                                   config/mongo-db)))
 
 (def conn (:conn uri))

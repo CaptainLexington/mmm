@@ -7,4 +7,6 @@
 
 
 (def mongo-user (System/getenv "MONGO_USER"))
+(def mongo-password (System/getenv "MONGO_PASSWORD"))
+(def mongo-url (System/getenv "MONGO_URL"))
 (def mongo-db (System/getenv "MONGO_DB"))
