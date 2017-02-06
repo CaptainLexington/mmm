@@ -47,7 +47,7 @@
 
 
 (defn index
-  ([] (layout/common (index/index (screening/all)))))
+  ([] (layout/common (index/index))))
 
 (defn about
   ([] (layout/common (index/about))))

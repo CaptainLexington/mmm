@@ -13,14 +13,13 @@
              [:img.poster.main_page]
              (clone-for [j (:movies i)]
                         (do->
-                         (set-attr :src (:poster j))
-                         (set-attr :title (:title j))))
+                          (set-attr :src (:poster j))
+                          (set-attr :title (:title j))))
              [:a]
              (set-attr :href (str "/screenings/" (:_id i)))
              [:span.datetime]
              (clone-for [j (utils/date-range (:showtime i))]
-                        (content j))
-             ))
+                        (content j))))
 
 
 (defn screeningsForHomePage []
@@ -30,15 +29,13 @@
         full-page [["THIS WEEK", this-week],
                    ["NEXT WEEK", next-week],
                    ["COMING SOON", coming-soon]]]
-
     (filter #(not (empty? (last %)))
-            full-page
-            )))
+            full-page)))
 
 (defsnippet index
   (layout/templateLocation "index")
   [:.index]
-  [screenings]
+  []
   [:.movies-main :.week-container]
   (clone-for [i (screeningsForHomePage)]
              [:h2.list-label]
