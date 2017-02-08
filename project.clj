@@ -38,7 +38,9 @@
                  [kioo "0.4.2"]
                  [org.clojars.fterrier/om-autocomplete "0.1.0"]
                  [cljsjs/jquery-ui "1.11.4-0"] 
-                 [cljs-ajax "0.5.3"]]
+                 [cljs-ajax "0.5.3"]
+                 [re-frame "0.9.1"]
+                 [re-com "0.9.0"]]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:
