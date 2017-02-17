@@ -15,15 +15,15 @@
    (utils/display-time showtime)])
 
 (defn arrange-datetime
-    [showtimes]
-    (let [date-times (map split-date-time (utils/earliest-first showtimes))]
-      (mapv
-        (fn [[k v]] {:date k :time (flatten (conj [] v))})
-        (apply
-          merge-with
-          #(flatten (conj [%1] %2))
-          (mapv (fn [m] {(first m) (second m)})
-                date-times)))))
+  [showtimes]
+  (let [date-times (map split-date-time (utils/earliest-first showtimes))]
+    (mapv
+      (fn [[k v]] {:date k :time (flatten (conj [] v))})
+      (apply
+        merge-with
+        #(flatten (conj [%1] %2))
+        (mapv (fn [m] {(first m) (second m)})
+              date-times)))))
 
 
 (defn title-list [movies]
@@ -57,8 +57,8 @@
   [:p.presenter :a.presenter]
   (clone-for [presenter (map #(assoc {} :name %1 :_id (:_id %2)) (utils/listify-items (map :name (:presenters screening))) (:presenters screening))]
              (do->
-              (set-attr :href (str "/presenters/" (:_id presenter)))
-              (content (:name presenter))))
+               (set-attr :href (str "/presenters/" (:_id presenter)))
+               (content (:name presenter))))
   [:p.notes]
   (content (:notes screening))
   [:p.series]
@@ -66,8 +66,8 @@
     identity)
   [:a.series]
   (do->
-   (set-attr :href (str "/series/" (:_id (:series screening))))
-   (content (:name (:series screening))))
+    (set-attr :href (str "/series/" (:_id (:series screening))))
+    (content (:name (:series screening))))
   [:div.meta.details :div.datetime]
   (clone-for [showtime (arrange-datetime (:showtime screening))]
              [:h3]
@@ -77,8 +77,8 @@
                         (content time)))
   [:div.meta.details :h2.venue :a.venue]
   (do->
-   (set-attr :href (str "/venues/" (:_id (:venue screening))))
-   (content (:name (:venue screening))))
+    (set-attr :href (str "/venues/" (:_id (:venue screening))))
+    (content (:name (:venue screening))))
   [:div.meta.details :p.price]
   (content (utils/display-price (:price screening)))
   [:div.meta.details :p.tickets :a]
@@ -127,8 +127,8 @@
              (display-or-exclude exclude :venue)
              [:td.venue :p.venue :a.venue]
              (do->
-              (set-attr :href (str "/venues/" (:_id (:venue i))))
-              (content (:name (:venue i))))
+               (set-attr :href (str "/venues/" (:_id (:venue i))))
+               (content (:name (:venue i))))
              [:td.price]
              (content (utils/display-price (:price i)))
              [:td.showtimes :p]
@@ -138,14 +138,14 @@
              (clone-for [presenter (:presenters i)]
                         [:a]
                         (do->
-                         (set-attr :href (str "/presenters/" (:_id presenter)))
-                         (content (:name presenter))))
+                          (set-attr :href (str "/presenters/" (:_id presenter)))
+                          (content (:name presenter))))
              [:td.series :p]
              (display-or-exclude exclude :series)
              [:td.series :p :a]
              (do->
-              (content (:name (:series i)))
-              (set-attr :href (str "/series/" (:_id (:series i)))))
+               (content (:name (:series i)))
+               (set-attr :href (str "/series/" (:_id (:series i)))))
              [:td.edit]
              (display-or-exclude exclude :edit)
              [:td.edit :a]
@@ -156,18 +156,19 @@
   (layout/templateLocation "screening")
   [:.add.screening]
   []
-  [:form]
-  (set-attr :action "/screenings/add")
-  [:form :select.venue :option.venue]
-  (clone-for [venue (venue/all)]
-             (do->
-              (set-attr :value (str (:_id venue)))
-              (content (str (:name venue)))))
-  [:form :select.series :option.series]
-  (clone-for [series (series/all)]
-             (do->
-              (set-attr :value (str (:_id series)))
-              (content (str (:name series))))))
+  nil
+  (comment  [:form]
+           (set-attr :action "/screenings/add")
+           [:form :select.venue :option.venue]
+           (clone-for [venue (venue/all)]
+                      (do->
+                        (set-attr :value (str (:_id venue)))
+                        (content (str (:name venue)))))
+           [:form :select.series :option.series]
+           (clone-for [series (series/all)]
+                      (do->
+                        (set-attr :value (str (:_id series)))
+                        (content (str (:name series)))))))
 
 
 ; EDIT STUFF
@@ -175,22 +176,22 @@
 
 (defn movieSelect [film screening-film]
   (do->
-   (set-attr :value (str (:_id film)))
-   (set-attr (if (= (:_id film) (:_id screening-film))
-               :selected
-               :unselected)
-             true)
-   (content (str (:title film) " (" (:year film) ")"))))
+    (set-attr :value (str (:_id film)))
+    (set-attr (if (= (:_id film) (:_id screening-film))
+                :selected
+                :unselected)
+              true)
+    (content (str (:title film) " (" (:year film) ")"))))
 
 
 (defn presenterSelect [presenter screening-presenter]
   (do->
-   (set-attr :value (str (:_id presenter)))
-   (set-attr (if  (= (:_id presenter) (:_id screening-presenter))
-               :selected
-               :unselected)
-             true)
-   (content (str (:name presenter) ))))
+    (set-attr :value (str (:_id presenter)))
+    (set-attr (if  (= (:_id presenter) (:_id screening-presenter))
+                :selected
+                :unselected)
+              true)
+    (content (str (:name presenter) ))))
 
 (defsnippet itemSelect
   (layout/templateLocation "screening")
@@ -220,21 +221,21 @@
   [:form :select.venue :option.venue]
   (clone-for [venue (venue/all)]
              (do->
-              (set-attr :value (str (:_id venue)))
-              (set-attr (if (= (:name venue) (:name (:venue screening)))
-                          :selected
-                          :unselected)
-                        true)
-              (content (str (:name venue)))))
+               (set-attr :value (str (:_id venue)))
+               (set-attr (if (= (:name venue) (:name (:venue screening)))
+                           :selected
+                           :unselected)
+                         true)
+               (content (str (:name venue)))))
   [:form :select.series :option.series]
   (clone-for [series (series/all)]
              (do->
-              (set-attr :value (str (:_id series)))
-              (set-attr (if (= (:name series) (:name (:series screening)))
-                          :selected
-                          :unselected)
-                        true)
-              (content (str (:name series)))))
+               (set-attr :value (str (:_id series)))
+               (set-attr (if (= (:name series) (:name (:series screening)))
+                           :selected
+                           :unselected)
+                         true)
+               (content (str (:name series)))))
   [:div.showtimes.singleItem]
   (clone-for [showtime (:showtime screening)]
              [:input]

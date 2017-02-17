@@ -10,37 +10,37 @@
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.namespace "0.2.10"]
                  [org.clojure/tools.reader "0.10.0"]
-                 [org.clojure/core.memoize "0.5.8"]
+                 [org.clojure/core.memoize "0.5.9"]
 
-                 [cheshire "5.5.0"]
-                 [com.novemberain/monger "3.0.2"]
+                 [cheshire "5.7.0"]
+                 [com.novemberain/monger "3.1.0" :exclusions  [com.google.guava/guava]]
                  [com.novemberain/validateur "2.5.0"]
-                 [ring "1.4.0"]
+                 [ring "1.5.1"]
                  [ring/ring-json "0.4.0"]
-                 [clj-http "2.1.0"]
-                 [com.cemerick/friend "0.2.1"]
-                 [compojure "1.4.0"]
+                 [clj-http "3.4.1"]
+                 [com.cemerick/friend "0.2.3"]
+                 [compojure "1.5.2"]
                  [enlive "1.1.6"]
-                 [clj-time "0.11.0"]
-                 [jarohen/chime "0.1.9"  :exclusions [org.clojure/core.cache]]
+                 [clj-time "0.13.0"]
+                 [jarohen/chime "0.2.0"  :exclusions [org.clojure/core.cache]]
                  [clj-oauth "1.5.5"]
-                 [twitter-api "0.7.8" :exclusions [clj-oauth
+                 [twitter-api "0.8.0" :exclusions [clj-oauth
                                                    org.apache.httpcomponents/httpclient
                                                    org.apache.httpcomponents/httpcore
                                                    slingshot
                                                    commons-codec]]
-                 [org.apache.httpcomponents/httpclient "4.5.2"]
+                 [org.apache.httpcomponents/httpclient "4.5.3"]
                  [ithayer/clj-ical "1.2"]
                  ;;;cljs deps
-                 [org.clojure/clojurescript "1.7.228"]
+                 [org.clojure/clojurescript "1.9.473" :exclusions  [com.google.guava/guava]]
                  [enfocus "2.1.1"]
-                 [org.omcljs/om "0.9.0"]
-                 [kioo "0.4.2"]
-                 [org.clojars.fterrier/om-autocomplete "0.1.0"]
                  [cljsjs/jquery-ui "1.11.4-0"] 
-                 [cljs-ajax "0.5.3"]
-                 [re-frame "0.9.1"]
-                 [re-com "0.9.0"]]
+                 [cljs-ajax "0.5.8"]
+                 [reagent "0.6.0-rc" :exclusions  [com.google.guava/guava]]
+                 [binaryage/devtools "0.9.1"]
+                 [com.google.guava/guava "20.0"]
+                 [re-frame "0.9.2" :exclusions  [com.google.guava/guava]]
+                 [re-com "2.0.0" :exclusions  [com.google.guava/guava]]]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:
