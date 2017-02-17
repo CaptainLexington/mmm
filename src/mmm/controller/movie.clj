@@ -7,6 +7,8 @@
             [ring.middleware [multipart-params :as mp]]
             [monger.result :refer [acknowledged?]]
             [cemerick.friend :as friend]
+            [medley.core :as medley]
+            [clj-fuzzy.metrics :as fuzzy]
             [mmm.view.layout :as layout]
             [mmm.view.movies :as view]
             [mmm.model.movie :as model]
@@ -33,11 +35,11 @@
   (ring/redirect "/admin"))
 
 (defn search [string]
-  (let [results (concat (mdb/search string)
-                        (model/search string))]
-    (sort-by :title (map #(assoc % :label (:id %)
-                                   :value (:title %)) 
-                         results))))
+  (let [results (medley/distinct-by 
+                  #(str (:title %) " " (:year %))
+                  (concat (mdb/search string)
+                        (model/search string)))]
+    (reverse (sort-by #(fuzzy/dice (:title %) string) results))))
 
 
 (defroutes routes

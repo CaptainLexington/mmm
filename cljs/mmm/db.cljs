@@ -4,13 +4,8 @@
 
 (def default-db
   {:name "Midnight Movies Minneapolis"
-  :screening {:movies [{:title "Jaws"
-                        :id "556cf5bae4b0b96d5595517c"
-                        }
-                       {:title "Jurassic Park"
-                        :id "573322a9d6f78e000300757e"
-                        }
-                       ]
+  :screening {:movies [{:title ""
+                        :id ""}]
               :venue "The Uptown Theater"
               :presenters ["Indeed Brewing"]
               :series ""

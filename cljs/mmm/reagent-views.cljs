@@ -38,12 +38,13 @@
 (defn add-a-movie [index movie]
   [re-com/h-box
    :children [[re-com/typeahead
-                           :data-source search-movies-by-title
-                           :model movie 
-                           :on-change #(re-frame/dispatch [:update-movie index %])
-                           :change-on-blur? true
-                           :render-suggestion movie-typeahead-row
-                           :suggestion-to-string #(:title %)] 
+               :data-source search-movies-by-title
+               :on-change #(re-frame/dispatch [:update-movie index %])
+               :model movie
+               :change-on-blur? true
+               :debounce-delay 750
+               :render-suggestion movie-typeahead-row
+               :suggestion-to-string #(:title %)] 
               [re-com/v-box
                :children [(add-new-input [:add-blank-movie])
                           (remove-this-input [:remove-movie index] (= index 0))]]]])
@@ -68,8 +69,11 @@
 
 (defn add-screening-form []
   (let [movies (re-frame/subscribe [:movies])]
-    [re-com/v-box :children
-     [[:div {:class "movies"}
+    [re-com/v-box
+     :children
+     [[:h2 "Add a New Screening"]
+      [:div {:class "movies"}
+       [:label "Movies"]
        (map-indexed
          add-a-movie
          @movies)]]]))

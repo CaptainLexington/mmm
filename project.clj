@@ -31,6 +31,8 @@
                                                    commons-codec]]
                  [org.apache.httpcomponents/httpclient "4.5.3"]
                  [ithayer/clj-ical "1.2"]
+                 [medley "0.8.4"]
+                 [clj-fuzzy "0.3.3"]   
                  ;;;cljs deps
                  [org.clojure/clojurescript "1.9.473" :exclusions  [com.google.guava/guava]]
                  [enfocus "2.1.1"]
