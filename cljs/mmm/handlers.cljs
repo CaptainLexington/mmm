@@ -8,33 +8,39 @@
   (fn  [_ _]
     db/default-db))
 
-(re-frame/reg-event-db
-  :add-blank-movie
-  (fn [db [_ index new-movie]]
+(re-frame/reg-event-db 
+  :add-new
+  (fn [db [_ category]]
     (update-in db
-               [:screening
-                :movies ]
-               #(conj
-                  % 
-                  {:title ""
-                   :id ""}))))
+               [:add-new?
+                category]
+               not)))
 
 (re-frame/reg-event-db
-  :remove-movie
-  (fn [db [_ index]]
+  :add-blank
+  (fn [db [_ category]]
     (update-in db
                [:screening
-                :movies]
+                category]
+               #(conj
+                  % 
+                  {}))))
+
+(re-frame/reg-event-db
+  :remove
+  (fn [db [_ category index]]
+    (update-in db
+               [:screening
+                category]
                #(utils/vec-remove
                   %
                   index))))
 
 (re-frame/reg-event-db
-  :update-movie
-  (fn [db [_ index new-movie]]
+  :update
+  (fn [db [_ category index new-item]]
     (assoc-in db
               [:screening
-               :movies
-               index ]
-              {:title (:title new-movie)
-               :id (:id new-movie)})))
+               category
+               index]
+              new-item)))

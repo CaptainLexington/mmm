@@ -4,10 +4,13 @@
 
 (def default-db
   {:name "Midnight Movies Minneapolis"
-  :screening {:movies [{:title ""
-                        :id ""}]
+  :screening {:movies [{}]
+              :add-new? {:movie false
+                         :series false
+                         :presenter false
+                         :venue false }
               :venue "The Uptown Theater"
-              :presenters ["Indeed Brewing"]
+              :presenters [{}]
               :series ""
               :showtimes [{:date "2017.04.01", :time "19:00"}]
               :price "9.00"

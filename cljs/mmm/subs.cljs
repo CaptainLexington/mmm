@@ -14,3 +14,12 @@
   (fn [db]
     (:movies (:screening db))))
 
+(re-frame/reg-sub
+  :presenters
+  (fn [db]
+    (:presenters (:screening db))))
+
+(re-frame/reg-sub
+  :add-new
+  (fn [db [_ category]]
+    (category (:add-new? db))))

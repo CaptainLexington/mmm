@@ -378,6 +378,10 @@ span.add, span.duplicate {
   cursor: pointer;
 }
 
+div#app * {
+  margin: 1px;
+}
+
 footer {
   padding: 20px;
   clear: both;

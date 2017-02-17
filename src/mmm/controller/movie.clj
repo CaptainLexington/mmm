@@ -37,9 +37,12 @@
 (defn search [string]
   (let [results (medley/distinct-by 
                   #(str (:title %) " " (:year %))
-                  (concat (mdb/search string)
-                        (model/search string)))]
-    (reverse (sort-by #(fuzzy/dice (:title %) string) results))))
+                  (concat (model/search string)
+                          (mdb/search string)))]
+    (reverse
+      (sort-by #(fuzzy/dice (:title %)
+                            string)
+               results))))
 
 
 (defroutes routes
