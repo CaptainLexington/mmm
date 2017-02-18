@@ -38,7 +38,7 @@
 (defn add-a-movie [movie index]
   [re-com/typeahead
    :data-source search-movies-by-title
-   :on-change #(re-frame/dispatch [:update :movies index %])
+   :on-change #(re-frame/dispatch [:update-in [:screening  :movies] index %])
    :model movie
    :change-on-blur? true
    :debounce-delay 750
@@ -51,7 +51,7 @@
    :children [(renderer item index) 
               [re-com/v-box
                :children [(add-new-input [:add-blank category])
-                          (remove-this-input [:remove category index] remove?)]]]])
+                          (remove-this-input [:remove [:screening category] index] remove?)]]]])
 
 (defn n-items
   [type renderer items]
@@ -97,58 +97,72 @@
    (n-items :movies add-a-movie movies)])
 
 
-(defn add-a-venue []
+(defn add-a-venue [venue-data]
   [re-com/v-box 
    :children [[:label "Venue"]
               [re-com/single-dropdown
-               :choices [{:id 1 :label "Uptown Theater"} {:id 2 :label "Trylon Microcinema"}]
-               :model 1
+               :choices venue-data 
+               :model nil
+               :id-fn :_id
+               :label-fn :name
                :on-change #(re-frame/dispatch [:update-venue %])
                :width "250px" ]]])
 
-(defn add-a-series []
+(defn add-a-series [series-data]
   [re-com/v-box 
    :children [[:label "Series"]
               [re-com/single-dropdown
-               :choices [{:id 1 :label "Mega Monsoon"} {:id 2 :label "Trying Too Hard"}]
-               :model 1
+               :choices series-data 
+               :model nil
+               :id-fn :_id
+               :label-fn :name
                :on-change #(re-frame/dispatch [:update-series %])
                :width "250px" ]]])
 
-(defn add-a-presenter [presenter index]
+(defn add-a-presenter [presenter-data presenter index]
   [re-com/single-dropdown
-   :choices [{:id 1 :label "Trash Film Debauchery"} {:id 2 :label "Tape Freaks"}]
-   :model (:id presenter)
-   :on-change #(re-frame/dispatch [:update :presenters index %])
+   :choices presenter-data 
+   :model presenter 
+   :id-fn :_id
+   :label-fn :name
+   :on-change #(re-frame/dispatch [:update-in [:screening :presenters] index %])
    :width "250px" ])
 
-(defn add-presenters [presenters]
+(defn add-presenters [presenters presenter-data]
   [re-com/v-box 
    :children [[:label "Presenters"]
-              (n-items :presenters add-a-presenter presenters)]])
+              (n-items :presenters (partial add-a-presenter presenter-data) presenters)]])
 
-(defn add-a-showtime []
+
+(defn add-a-showtime [showtime index]
   [re-com/h-box
    :children [[re-com/datepicker-dropdown
-               :on-change #(re-frame/dispatch [:add-date-to-movie])]
+               :on-change #(re-frame/dispatch [:add-date-to-showtime])]
               [re-com/input-time
-               :model 1930
+               :model (:time showtime)
                :show-icon? true
-               :on-change #(re-frame/dispatch [:add-time-to-movie]) ]
-              (add-new-input [:add-new-showtime])]])
+               :on-change #(re-frame/dispatch [:add-time-to-showtime])]]])
 
+(defn add-showtimes [showtimes]
+  [re-com/v-box
+   :children [[:label "Showtimes"]
+              (n-items :showtimes add-a-showtime showtimes)]])
 
 (defn add-screening-form []
   (let [movies (re-frame/subscribe [:movies])
         add-new-movie (re-frame/subscribe [:add-new :movie])
         presenters (re-frame/subscribe [:presenters])
-        ]
+        showtimes (re-frame/subscribe [:showtimes])
+        presenter-data (re-frame/subscribe [:data :presenters])
+        series-data (re-frame/subscribe [:data :series])
+        venue-data (re-frame/subscribe [:data :venues]) ]
     [re-com/v-box
      :children
      [(add-movies movies add-new-movie)
-      (add-a-venue)
-      (add-a-series)
-      (add-presenters presenters)]]))
+      (add-a-venue venue-data)
+      (add-a-series series-data)
+      (add-presenters presenters presenter-data)
+      (add-showtimes showtimes) ]]))
 
 (defn main-panel []
   (fn []

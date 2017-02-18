@@ -24,23 +24,29 @@
                 category]
                #(conj
                   % 
-                  {}))))
+                  (category db/blanks)))))
 
 (re-frame/reg-event-db
   :remove
-  (fn [db [_ category index]]
+  (fn [db [_ path index]]
     (update-in db
-               [:screening
-                category]
+               path 
                #(utils/vec-remove
                   %
                   index))))
 
 (re-frame/reg-event-db
-  :update
-  (fn [db [_ category index new-item]]
+  :update-in
+  (fn [db [_ path index new-item]]
     (assoc-in db
-              [:screening
-               category
-               index]
+             (conj
+               path
+               index) 
               new-item)))
+
+(re-frame/reg-event-db
+  :update
+  (fn [db [_ path items]]
+   (assoc-in db
+             path
+             items)))

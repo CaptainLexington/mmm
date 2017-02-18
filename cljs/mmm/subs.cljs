@@ -20,6 +20,16 @@
     (:presenters (:screening db))))
 
 (re-frame/reg-sub
+  :showtimes
+  (fn [db]
+    (:showtimes (:screening db))))
+
+(re-frame/reg-sub
   :add-new
   (fn [db [_ category]]
     (category (:add-new? db))))
+
+(re-frame/reg-sub
+  :data
+  (fn [db [_ category]]
+    (category (:data db))))

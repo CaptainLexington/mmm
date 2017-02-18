@@ -42,17 +42,18 @@
                  [binaryage/devtools "0.9.1"]
                  [com.google.guava/guava "20.0"]
                  [re-frame "0.9.2" :exclusions  [com.google.guava/guava]]
-                 [re-com "2.0.0" :exclusions  [com.google.guava/guava]]]
+                 [re-com "2.0.0" :exclusions  [com.google.guava/guava]]
+                 [re-frisk "0.3.2"]]
   :cljsbuild {
-    :builds [{
-        ; The path to the top-level ClojureScript source directory:
-        :source-paths ["cljs"]
-        ; The standard ClojureScript compiler options:
-        ; (See the ClojureScript compiler documentation for details.)
-        :compiler {
-          :output-to "resources/public/scripts/main.js"  ; default: target/cljsbuild-main.js
-          :optimizations :simple
-          :pretty-print true}}]}
+              :builds [{
+                        ; The path to the top-level ClojureScript source directory:
+                        :source-paths ["cljs"]
+                        ; The standard ClojureScript compiler options:
+                        ; (See the ClojureScript compiler documentation for details.)
+                        :compiler {
+                                   :output-to "resources/public/scripts/main.js"  ; default: target/cljsbuild-main.js
+                                   :optimizations :simple
+                                   :pretty-print true}}]}
   :ring {:handler mmm.core/handler}
 
   :main mmm.core)

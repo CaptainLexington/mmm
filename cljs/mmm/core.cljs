@@ -1,6 +1,7 @@
 (ns mmm.core
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
+            [re-frisk.core :refer [enable-re-frisk!]]
             [devtools.core :as devtools]
             [mmm.screening :as screening]
             [mmm.config :as config]
@@ -23,5 +24,5 @@
 (defn ^:export init []
   (re-frame/dispatch-sync [:initialize-db])
   (dev-setup)
-  (print "Hello??!")
+  (enable-re-frisk!)
   (mount-root))
