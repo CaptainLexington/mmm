@@ -43,7 +43,8 @@
                  [com.google.guava/guava "20.0"]
                  [re-frame "0.9.2" :exclusions  [com.google.guava/guava]]
                  [re-com "2.0.0" :exclusions  [com.google.guava/guava]]
-                 [re-frisk "0.3.2"]]
+                 [re-frisk "0.3.2"]
+                 [com.andrewmcveigh/cljs-time "0.4.0"]]
   :cljsbuild {
               :builds [{
                         ; The path to the top-level ClojureScript source directory:

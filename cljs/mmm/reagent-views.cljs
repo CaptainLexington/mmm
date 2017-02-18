@@ -105,7 +105,7 @@
                :model nil
                :id-fn :_id
                :label-fn :name
-               :on-change #(re-frame/dispatch [:update-venue %])
+               :on-change #(re-frame/dispatch [:update [:screening :venue] %])
                :width "250px" ]]])
 
 (defn add-a-series [series-data]
@@ -116,7 +116,7 @@
                :model nil
                :id-fn :_id
                :label-fn :name
-               :on-change #(re-frame/dispatch [:update-series %])
+               :on-change #(re-frame/dispatch [:update [:screening :series] %])
                :width "250px" ]]])
 
 (defn add-a-presenter [presenter-data presenter index]
