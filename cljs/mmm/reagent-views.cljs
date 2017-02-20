@@ -59,47 +59,50 @@
     #(nth-item type renderer %2 %1 (= (count @items) 1))
     @items))
 
+(defn add-new-item-input [category field]
+  [re-com/v-box
+   :children [[:label (name field)]
+              [(if (= field :description)
+                 re-com/input-textarea
+                 re-com/input-text)
+               :model ""
+               :on-change #(re-frame/dispatch [:update [:add-new category field] %])]]])
+
+(defn add-new-item [enabled? category fields]
+  [re-com/v-box 
+   :children
+   [[re-com/h-box 
+     :children [[:label (name category)]
+                [re-com/md-icon-button
+                 :md-icon-name (if @enabled?
+                                 "zmdi-minus-circle-outline"
+                                 "zmdi-plus-circle-o")
+                 :size :smaller
+                 :on-click #(re-frame/dispatch [:add-new category])]]]
+    (when @enabled?
+      [re-com/v-box
+       :children [[:div {:class "add-new"}
+                   (map (partial add-new-item-input category)
+                        fields)
+                   [re-com/button
+                    :label "Add"]]]])]])
+
 (defn add-movies [movies add-new-movie]
   [:h2 "Add a New Screening"]
   [:div {:class "movies"}
-   [re-com/h-box 
-    :children [[:label "Movies"]
-               [re-com/md-icon-button
-                :md-icon-name (if @add-new-movie
-                                "zmdi-minus-circle-outline"
-                                "zmdi-plus-circle-o")
-                :size :smaller
-                :on-click #(re-frame/dispatch [:add-new :movie])]]]
-   (when @add-new-movie
-     [re-com/v-box
-      :children [[:label "Title"]
-                 [re-com/input-text
-                  :model ""
-                  :on-change #(re-frame/dispatch [:add-new-movie-title])]
-                 [:label "Director"]
-                 [re-com/input-text
-                  :model ""
-                  :on-change #(re-frame/dispatch [:add-new-movie-director])]
-                 [:label "Release Year"]
-                 [re-com/input-text
-                  :model ""
-                  :on-change #(re-frame/dispatch [:add-new-movie-year])]
-                 [:label "Running Time"]
-                 [re-com/input-text
-                  :model ""
-                  :on-change #(re-frame/dispatch [:add-new-movie-time])]
-                 [:label "Description"]
-                 [re-com/input-textarea
-                  :model ""
-                  :on-change #(re-frame/dispatch [:add-new-movie-description])]
-                 [re-com/button 
-                  :label "Add"]]])
+   (add-new-item
+     add-new-movie
+     :movie 
+     [:title :director :running-time :release-year :poster-url :description])
    (n-items :movies add-a-movie movies)])
 
 
-(defn add-a-venue [venue-data]
+(defn add-a-venue [venue-data add-new-venue]
   [re-com/v-box 
-   :children [[:label "Venue"]
+   :children [(add-new-item
+                add-new-venue
+                :venue
+                [:name :short-name :address :website :description])
               [re-com/single-dropdown
                :choices venue-data 
                :model nil
@@ -108,9 +111,12 @@
                :on-change #(re-frame/dispatch [:update [:screening :venue] %])
                :width "250px" ]]])
 
-(defn add-a-series [series-data]
+(defn add-a-series [series-data add-new-series]
   [re-com/v-box 
-   :children [[:label "Series"]
+   :children [(add-new-item
+                add-new-series
+                :series
+                [:name :website :description])
               [re-com/single-dropdown
                :choices series-data 
                :model nil
@@ -128,20 +134,25 @@
    :on-change #(re-frame/dispatch [:update-in [:screening :presenters] index %])
    :width "250px" ])
 
-(defn add-presenters [presenters presenter-data]
+(defn add-presenters [presenters presenter-data add-new-presenter]
   [re-com/v-box 
-   :children [[:label "Presenters"]
+   :children [(add-new-item
+                add-new-presenter
+                :presenter
+                [:name :website :description])
               (n-items :presenters (partial add-a-presenter presenter-data) presenters)]])
 
 
 (defn add-a-showtime [showtime index]
   [re-com/h-box
    :children [[re-com/datepicker-dropdown
-               :on-change #(re-frame/dispatch [:add-date-to-showtime])]
+               :model (:date showtime)
+               :show-today? true
+               :on-change #(re-frame/dispatch [:update [:screening :showtimes index :date] %])]
               [re-com/input-time
                :model (:time showtime)
                :show-icon? true
-               :on-change #(re-frame/dispatch [:add-time-to-showtime])]]])
+               :on-change #(re-frame/dispatch [:update [:screening :showtimes index :time] %])]]])
 
 (defn add-showtimes [showtimes]
   [re-com/v-box
@@ -150,7 +161,10 @@
 
 (defn add-screening-form []
   (let [movies (re-frame/subscribe [:movies])
-        add-new-movie (re-frame/subscribe [:add-new :movie])
+        add-new-movie (re-frame/subscribe [:add-new? :movie])
+        add-new-venue (re-frame/subscribe [:add-new? :venue])
+        add-new-series (re-frame/subscribe [:add-new? :series])
+        add-new-presenter (re-frame/subscribe [:add-new? :presenter])
         presenters (re-frame/subscribe [:presenters])
         showtimes (re-frame/subscribe [:showtimes])
         presenter-data (re-frame/subscribe [:data :presenters])
@@ -159,9 +173,9 @@
     [re-com/v-box
      :children
      [(add-movies movies add-new-movie)
-      (add-a-venue venue-data)
-      (add-a-series series-data)
-      (add-presenters presenters presenter-data)
+      (add-a-venue venue-data add-new-venue)
+      (add-a-series series-data add-new-series)
+      (add-presenters presenters presenter-data add-new-presenter)
       (add-showtimes showtimes) ]]))
 
 (defn main-panel []

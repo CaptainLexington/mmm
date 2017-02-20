@@ -382,6 +382,12 @@ div#app * {
   margin: 1px;
 }
 
+.add-new {
+  border: 1px solid lightgray;
+  padding: 10px;
+  width: 275px;
+} 
+
 footer {
   padding: 20px;
   clear: both;

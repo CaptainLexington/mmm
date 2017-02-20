@@ -12,8 +12,9 @@
   :add-new
   (fn [db [_ category]]
     (update-in db
-               [:add-new?
-                category]
+               [:add-new
+                category
+                :form?]
                not)))
 
 (re-frame/reg-event-db

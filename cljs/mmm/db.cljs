@@ -1,6 +1,8 @@
 (ns mmm.db
   (:require [ajax.core :refer [POST GET]]
-            [re-frame.core :as re-frame]))
+            [re-frame.core :as re-frame]
+            [cljs-time.core :as t] 
+            ))
 
 
 
@@ -11,7 +13,7 @@
                :venue "The Uptown Theater"
                :presenters [{}]
                :series ""
-               :showtimes [{:date "2017.04.01", :time 1900}]
+               :showtimes [{:date (t/now) :time 1900}]
                :price "9.00"
                :buy-tickets ""
                :tweet-text ""
@@ -20,10 +22,10 @@
    :data {:venues []
           :series []
           :presenters []}
-   :add-new? {:movie false
-              :series false
-              :presenter false
-              :venue false }
+   :add-new {:movie {:form? false}
+             :series {:form? false}
+             :presenter {:form? false}
+             :venue {:form? false}}
    })
 
 
@@ -33,7 +35,7 @@
             :id ""
             :source "" }
    :presenters 0
-   :showtimes {:date "2017.02.20"
+   :showtimes {:date (t/now)
                :time 1900 }})
 
 (POST

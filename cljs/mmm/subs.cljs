@@ -25,9 +25,9 @@
     (:showtimes (:screening db))))
 
 (re-frame/reg-sub
-  :add-new
+  :add-new?
   (fn [db [_ category]]
-    (category (:add-new? db))))
+    (:form? (category (:add-new db)))))
 
 (re-frame/reg-sub
   :data
