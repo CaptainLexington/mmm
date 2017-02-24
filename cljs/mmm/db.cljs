@@ -1,8 +1,7 @@
 (ns mmm.db
   (:require [ajax.core :refer [POST GET]]
             [re-frame.core :as re-frame]
-            [cljs-time.core :as t] 
-            ))
+            [cljs-time.core :as t] ))
 
 
 
@@ -22,11 +21,10 @@
    :data {:venues []
           :series []
           :presenters []}
-   :add-new {:movie {:form? false}
+   :add-new {:movies {:form? false}
              :series {:form? false}
-             :presenter {:form? false}
-             :venue {:form? false}}
-   })
+             :presenters {:form? false}
+             :venues {:form? false}}})
 
 
 (def blanks
@@ -37,19 +35,13 @@
    :presenters 0
    :showtimes {:date (t/now)
                :time 1900 }})
+(defn get-all [category]
+  (POST
+    (str "/" (name category) "/all")
+    {:response-format :json
+     :keywords? true
+     :handler #(re-frame/dispatch [:update [:data category] %])}))
 
-(POST
-  "/presenters/all"
-  {:response-format :json
-   :keywords? true
-   :handler #(re-frame/dispatch [:update [:data :presenters] %])})
-(POST
-  "/series/all"
-  {:response-format :json
-   :keywords? true
-   :handler #(re-frame/dispatch [:update [:data :series] %])})
-(POST
-  "/venues/all"
-  {:response-format :json
-   :keywords? true
-   :handler #(re-frame/dispatch [:update [:data :venues] %])})
+(get-all :presenters)
+(get-all :series)
+(get-all :venues)

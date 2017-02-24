@@ -41,6 +41,7 @@
                               :workflows     [(workflows/interactive-form)]})
         wrap-keyword-params
         wrap-params
+        wrap-json-params
         wrap-json-response
         ;wrap-stacktrace
         (wrap-session {:store store}))))

@@ -43,6 +43,6 @@
   (GET "/venues/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
   (GET ["/venues/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST "/venues/all" []  (cheshire/generate-string (model/all)))
-  (POST "/venues/add" [& params]  (all params))
+  (POST "/venues/add" {:keys [params]}  (add params))
   (POST ["/venues/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (GET ["/venues/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (delete id)))

@@ -25,8 +25,7 @@
 (defn add [series-map]
   (let [result (model/add series-map)]
     (if (acknowledged? result)
-      {:status 200
-       :body "Write success!"}
+      (ring/response "Write success!!!!")
       {:status 500
        :body "Error writing results to db"})))
 
@@ -43,7 +42,7 @@
   (GET ["/series/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/series/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
   (POST "/series/all" []  (cheshire/generate-string (model/all)))
-  (POST "/series/add" [& params]  (add params))
+  (POST "/series/add" {:keys  [params]} (add params))
   (GET ["/series/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/series/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
   (GET ["/series/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request delete id)))

@@ -41,7 +41,7 @@
 (defroutes routes
   (GET ["/presenters/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
   (GET "/presenters/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
-  (POST "/presenters/add" [& params]  (add params))
+  (POST "/presenters/add" {:keys [params]} (add params))
   (POST "/presenters/all" []  (cheshire/generate-string (model/all)))
   (GET ["/presenters/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/presenters/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))

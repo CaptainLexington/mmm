@@ -4,6 +4,7 @@
             [mmm.model.db :as local]))
 
 (defn add [series-map]
+  (println (str "Series: " series-map))
   (mc/insert local/db "series"
              series-map))
 

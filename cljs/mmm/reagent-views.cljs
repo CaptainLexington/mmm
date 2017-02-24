@@ -85,14 +85,15 @@
                    (map (partial add-new-item-input category)
                         fields)
                    [re-com/button
-                    :label "Add"]]]])]])
+                    :label "Add"
+                    :on-click #(re-frame/dispatch [:add-item category])]]]])]])
 
 (defn add-movies [movies add-new-movie]
   [:h2 "Add a New Screening"]
   [:div {:class "movies"}
    (add-new-item
      add-new-movie
-     :movie 
+     :movies 
      [:title :director :running-time :release-year :poster-url :description])
    (n-items :movies add-a-movie movies)])
 
@@ -101,7 +102,7 @@
   [re-com/v-box 
    :children [(add-new-item
                 add-new-venue
-                :venue
+                :venues
                 [:name :short-name :address :website :description])
               [re-com/single-dropdown
                :choices venue-data 
@@ -138,7 +139,7 @@
   [re-com/v-box 
    :children [(add-new-item
                 add-new-presenter
-                :presenter
+                :presenters
                 [:name :website :description])
               (n-items :presenters (partial add-a-presenter presenter-data) presenters)]])
 
@@ -159,24 +160,50 @@
    :children [[:label "Showtimes"]
               (n-items :showtimes add-a-showtime showtimes)]])
 
+(defn misc-info []
+  [re-com/v-box
+   :children [[:label "Price"]
+              [re-com/input-text
+               :model ""
+               :on-change #(re-frame/dispatch [:update [:screening :price] %])]
+              [:label "Buy Tickets"]
+              [re-com/input-text
+               :model ""
+               :on-change #(re-frame/dispatch [ :update [:screening :buy-tickets] %] )]
+              [:label "Notes"]
+              [re-com/input-textarea
+               :model ""
+               :on-change #(re-frame/dispatch [ :update [:screening :notes] %])]
+              [:label "Name"]
+              [re-com/input-text
+               :model ""
+               :on-change #(re-frame/dispatch [ :update [:screening :name] %])]]])
+
 (defn add-screening-form []
   (let [movies (re-frame/subscribe [:movies])
-        add-new-movie (re-frame/subscribe [:add-new? :movie])
-        add-new-venue (re-frame/subscribe [:add-new? :venue])
+        add-new-movie (re-frame/subscribe [:add-new? :movies])
+        add-new-venue (re-frame/subscribe [:add-new? :venues])
         add-new-series (re-frame/subscribe [:add-new? :series])
-        add-new-presenter (re-frame/subscribe [:add-new? :presenter])
+        add-new-presenter (re-frame/subscribe [:add-new? :presenters])
         presenters (re-frame/subscribe [:presenters])
         showtimes (re-frame/subscribe [:showtimes])
         presenter-data (re-frame/subscribe [:data :presenters])
         series-data (re-frame/subscribe [:data :series])
-        venue-data (re-frame/subscribe [:data :venues]) ]
+        venue-data (re-frame/subscribe [:data :venues]) 
+        error (re-frame/subscribe [:error])]
     [re-com/v-box
      :children
      [(add-movies movies add-new-movie)
       (add-a-venue venue-data add-new-venue)
       (add-a-series series-data add-new-series)
       (add-presenters presenters presenter-data add-new-presenter)
-      (add-showtimes showtimes) ]]))
+      (add-showtimes showtimes)
+      (misc-info)
+      (when @error
+        [:p {:class "error"} @error])
+      [re-com/button
+       :label "Add Screening"
+       :on-click #(print "Add screening!")]]]))
 
 (defn main-panel []
   (fn []

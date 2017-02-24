@@ -2,7 +2,8 @@
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [re-frame.core :as re-frame]
             [clojure.string :as string]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [camel-snake-kebab.core :as csk]))
 
 (re-frame/reg-sub
   :name
@@ -30,6 +31,16 @@
     (:form? (category (:add-new db)))))
 
 (re-frame/reg-sub
+  :error
+  (fn [db [_]]
+    (:error (:screening db))))
+
+(re-frame/reg-sub
   :data
   (fn [db [_ category]]
     (category (:data db))))
+
+(defn add-new-data [db category]
+  (into {}
+        (for [[k v] (category (:add-new db))]
+          [(csk/->camelCase k) v])))
