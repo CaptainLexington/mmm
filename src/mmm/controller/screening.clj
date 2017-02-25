@@ -3,6 +3,7 @@
         [mmm.utils])
   (:require [clojure.string :as str]
             [cemerick.friend :as friend]
+            [monger.result :refer [acknowledged?]]
             [mmm.view.layout :as layout]
             [ring.util.response :as ring]
             [mmm.view.screenings :as view]
@@ -30,9 +31,12 @@
   (ring/redirect (str "/screenings/" id)))
 
 (defn add [params]
-  (ring/redirect
-   (str "/screenings/"
-   (model/add params))))
+  (let [result (model/add params)]
+    (if (acknowledged? result)
+      {:status 200
+       :body "Write success!"}
+      {:status 500
+       :body "Error writing results to db"})))
 
 (defn delete [id]
   (model/delete id)
@@ -45,6 +49,6 @@
   (GET "/screenings/" [] (render-request current (model/current)))
   (GET ["/screenings/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/screenings/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
-  (POST "/screenings/add" [& params] (add params))
+  (POST "/screenings/add" {:keys [params]} (add params))
   (GET ["/screenings/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (delete id)))
 

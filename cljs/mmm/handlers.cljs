@@ -76,3 +76,14 @@
                   :on-success [:update [:data category]]
                   :on-failure [:update [:screening :error] "Error!"]}
      :dispatch [:add-new category]}))
+
+(re-frame/reg-event-fx
+  :add-screening
+  (fn [{:keys [db]} [_ category]]
+    {:http-xhrio {:method :post
+                  :uri "/screenings/add" 
+                  :params (subs/add-screening db)
+                  :format (ajax/json-request-format)
+                  :response-format (ajax/text-response-format)
+                  :on-success []
+                  :on-failure [:update [:screening :error] "Error!"]}}))

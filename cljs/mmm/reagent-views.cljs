@@ -203,7 +203,7 @@
         [:p {:class "error"} @error])
       [re-com/button
        :label "Add Screening"
-       :on-click #(print "Add screening!")]]]))
+       :on-click #(re-frame/dispatch [:add-screening])]]]))
 
 (defn main-panel []
   (fn []

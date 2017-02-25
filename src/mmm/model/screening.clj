@@ -35,7 +35,7 @@
 
 
 (defn add [screening-map]
-  (:_id (mc/insert-and-return local/db "screenings" (process-screening-map screening-map))))
+  (mc/insert local/db "screenings" (process-screening-map screening-map)))
 
 (defn update [id screening-map]
   (local/updateItemByID "screenings" (process-screening-map screening-map) id))
