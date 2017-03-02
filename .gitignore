@@ -5,6 +5,7 @@
 /repl
 /out
 run.sh
+repl.sh
 pom.xml
 pom.xml.asc
 *.jar
