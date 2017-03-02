@@ -44,11 +44,12 @@
 
 (defroutes routes
   (GET "/screenings/add" [] (friend/authorize #{"admin"}) (render-request addForm))
+  (POST "/screenings/add" {:keys [params]} (add params))
   (GET ["/screenings/:id" :id #"[0-9a-f]+"] [id] (render-request view id))
+  (POST ["/screenings/:id" :id #"[0-9a-f]+"] [id] (ring/response (model/getByID id)))
   (GET "/screenings/all" [] (friend/authorize #{"admin"}) (render-request all (model/all)))
   (GET "/screenings/" [] (render-request current (model/current)))
   (GET ["/screenings/edit/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (render-request edit id))
   (POST ["/screenings/update/:id" :id #"[0-9a-f]+"] [id & params] (update id params))
-  (POST "/screenings/add" {:keys [params]} (add params))
   (GET ["/screenings/delete/:id" :id #"[0-9a-f]+"] [id] (friend/authorize #{"admin"}) (delete id)))
 

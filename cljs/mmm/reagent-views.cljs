@@ -190,7 +190,8 @@
         presenter-data (re-frame/subscribe [:data :presenters])
         series-data (re-frame/subscribe [:data :series])
         venue-data (re-frame/subscribe [:data :venues]) 
-        error (re-frame/subscribe [:error])]
+        error (re-frame/subscribe [:error])
+        mode (re-frame/subscribe [:mode])]
     [re-com/v-box
      :children
      [(add-movies movies add-new-movie)
@@ -203,7 +204,7 @@
         [:p {:class "error"} @error])
       [re-com/button
        :label "Add Screening"
-       :on-click #(re-frame/dispatch [:add-screening])]]]))
+       :on-click #(re-frame/dispatch [:submit-screening @mode])]]]))
 
 (defn main-panel []
   (fn []

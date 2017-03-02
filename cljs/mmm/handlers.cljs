@@ -78,12 +78,29 @@
      :dispatch [:add-new category]}))
 
 (re-frame/reg-event-fx
-  :add-screening
-  (fn [{:keys [db]} [_ category]]
+  :submit-screening
+  (fn [{:keys [db]} [_ action]]
+    (let [edit? (= :edit (:mode db))] 
+      {:http-xhrio {:method :post
+                    :uri (str "/screenings/" (name action) (when edit? (str "/" (:id db))))
+                    :params (subs/add-screening db)
+                    :format (ajax/json-request-format)
+                    :response-format (ajax/text-response-format)
+                    :on-success [:redirect-to-screening]
+                    :on-failure [:update [:screening :error] "Error!"]}})))
+
+(re-frame/reg-event-db
+  :redirect-to-screening
+  (fn [db _]
+   (set! (.-location js/window) "/screenings/")
+   db))
+
+(re-frame/reg-event-fx
+  :load-screening
+  (fn [{:keys [db]} [_ :id]]
     {:http-xhrio {:method :post
-                  :uri "/screenings/add" 
-                  :params (subs/add-screening db)
+                  :uri (str "/screenings/" (:id db))
                   :format (ajax/json-request-format)
-                  :response-format (ajax/text-response-format)
-                  :on-success []
+                  :response-format (ajax/json-response-format {:keywords? true})
+                  :on-success [:update-screening ]
                   :on-failure [:update [:screening :error] "Error!"]}}))

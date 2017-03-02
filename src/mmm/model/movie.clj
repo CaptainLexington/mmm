@@ -3,6 +3,7 @@
             [monger.collection :as mc]
             [monger.operators :refer :all]
             [mmm.utils :as utils]
+            [mmm.moviedb :as mdb]
             [mmm.model.db :as local]))
 
 (defn all []
@@ -10,21 +11,27 @@
 
 (defn add [movie-map]
   (mc/insert local/db "movies"
-                movie-map))
+             movie-map))
+
+(defn add-from-movie-db [id]
+  (str (:_id
+         (mc/insert-and-return local/db "movies"
+                               (mdb/cherry-pick-movie
+                                 (mdb/movie-by-id id))))))
 
 (defn update [id movie-map]
   (local/updateItemByID
-   "movies"
-   movie-map
-   id))
+    "movies"
+    movie-map
+    id))
 
 (defn search-movies-by-title [string]
- (map #(monger.conversion/from-db-object % true) 
-      (seq (mc/find local/db "movies"
-                    {:title {$regex string
-                             $options 'i'
-                             }}
-                    ["title" "year"]))))
+  (map #(monger.conversion/from-db-object % true) 
+       (seq (mc/find local/db "movies"
+                     {:title {$regex string
+                              $options 'i'
+                              }}
+                     ["title" "year"]))))
 
 (defn search [string]
   (map #(assoc {} 

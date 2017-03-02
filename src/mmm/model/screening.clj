@@ -12,7 +12,8 @@
             [mmm.model.venue :as venue]
             [mmm.model.movie :as movie]
             [mmm.model.series :as series]
-            [mmm.model.presenter :as presenter]))
+            [mmm.model.presenter :as presenter]
+            [mmm.moviedb :as mdb]))
 
 
 (defn vectorize [items]
@@ -26,13 +27,22 @@
 (defn sort-by-date [screenings]
   (sort-by #(earliest-future-date (:showtime %)) screenings))
 
+(defn loaded-movies [movies]
+  (into 
+    []
+    (map
+      #(if (= (:source %) "mdb")
+         (movie/add-from-movie-db (:id %))
+         (:id %))
+      movies)))
+
 (defn process-screening-map [screening-map]
   (let [showtimes-vec (vectorize (:showtime screening-map))
         showtimes (utils/earliest-first (map utils/read-showtime showtimes-vec))
-        screening (assoc screening-map :showtime showtimes)]
+        loaded-movies (loaded-movies (vectorize (:movie_id screening-map))) 
+        screening (assoc screening-map :showtime showtimes
+                         :movie_id loaded-movies)]
     screening))
-
-
 
 (defn add [screening-map]
   (mc/insert local/db "screenings" (process-screening-map screening-map)))
@@ -49,11 +59,11 @@
         presenter_ids (:presenter_id screening)
         movie_ids (:movie_id screening)]
     (assoc screening
-      :_id (str (:_id screening))
-      :venue (venue/getByID venue_id)
-      :series (series/getByID series_id)
-      :movies (map movie/getByID (vectorize movie_ids))
-      :presenters (map presenter/getByID (vectorize presenter_ids)))))
+           :_id (str (:_id screening))
+           :venue (venue/getByID venue_id)
+           :series (series/getByID series_id)
+           :movies (map movie/getByID (vectorize movie_ids))
+           :presenters (map presenter/getByID (vectorize presenter_ids)))))
 
 (defn all []
   (reverse (sort-by-date (map detailed-screening (local/all "screenings")))))
@@ -133,8 +143,8 @@
 (defn screening-title [screening]
   (let [movie-titles (map :title (:movies screening))]
     (if (= (:title screening) "")
-           (apply str (utils/listify-items movie-titles))
-           (:title screening))))
+      (apply str (utils/listify-items movie-titles))
+      (:title screening))))
 
 (defn title-by-screening [screening]
   (let [venue-name (:name (:venue screening))]
@@ -157,31 +167,31 @@
                         (map :_id (:presenters screening))
                         (:_id (:venue screening))))
   ([movie-ids presenter-ids venue-id]
-     (let [movie-titles (map #(-> %
-                                  movie/getByID
-                                  :title)
-                             movie-ids)
-           presenter-names (map #(-> %
-                                     presenter/getByID
-                                     twitter-handle-or-name)
-                                presenter-ids)
-           venue-name (-> venue-id
-                          venue/getByID
-                          twitter-handle-or-name)]
-       (str
-         (string/join
-           " "
-           presenter-names)
-         (case (count presenter-names)
-           0 ""
-           1 " presents "
-           " present ")
-         (string/join
-           " "
-           movie-titles)
-         " at "
-         venue-name
-         ))))
+   (let [movie-titles (map #(-> %
+                                movie/getByID
+                                :title)
+                           movie-ids)
+         presenter-names (map #(-> %
+                                   presenter/getByID
+                                   twitter-handle-or-name)
+                              presenter-ids)
+         venue-name (-> venue-id
+                        venue/getByID
+                        twitter-handle-or-name)]
+     (str
+       (string/join
+         " "
+         presenter-names)
+       (case (count presenter-names)
+         0 ""
+         1 " presents "
+         " present ")
+       (string/join
+         " "
+         movie-titles)
+       " at "
+       venue-name
+       ))))
 
 
 ;; (defn delete [id]

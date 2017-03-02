@@ -1,5 +1,6 @@
 (ns mmm.db
-  (:require [ajax.core :refer [POST GET]]
+  (:require [clojure.string :as string]
+            [ajax.core :refer [POST GET]]
             [re-frame.core :as re-frame]
             [cljs-time.core :as t] ))
 
@@ -18,6 +19,7 @@
                :tweet-text ""
                :notes ""
                :name "" }
+   :mode :add
    :data {:venues []
           :series []
           :presenters []}
@@ -45,3 +47,13 @@
 (get-all :presenters)
 (get-all :series)
 (get-all :venues)
+(let [url (.-URL js/document) 
+      mode (if (string/includes? url "edit")
+             :edit
+             :add)
+      id (when (= mode :edit)
+           (last (string/split url #"/")))]
+  (re-frame/dispatch [:update [:mode] mode])
+  (when (= mode :edit)
+    (re-frame/dispatch [:update [:id] id])
+    (re-frame/dispatch [:load-screening id])))

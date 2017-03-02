@@ -13,6 +13,11 @@
     (:name db)))
 
 (re-frame/reg-sub
+  :mode
+  (fn [db]
+    (:mode db)))
+
+(re-frame/reg-sub
   :movies
   (fn [db]
     (:movies (:screening db))))
@@ -59,13 +64,13 @@
 
 (defn add-screening [db]
   (let [screening (:screening  db)]
-    {:movie_id (map :id
+    {:movie_id (map #(select-keys % [:id :source]) 
                  (:movies screening))
      :presenter_id (remove #(= % {}) (:presenters screening)) 
      :series_id (:series screening)
      :venue_id (:venue screening)
      :showtime (map process-showtime (:showtimes screening))
      :price (:price screening)
-     :buy-tickets (:buy-tickets screening)
+     :tickets (:buy-tickets screening)
      :notes (:notes screening)
-     :title (:name screening) }))
+     :title (:name screening)}))
