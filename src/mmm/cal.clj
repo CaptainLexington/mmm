@@ -9,8 +9,9 @@
 
 (def calendate (tf/formatter-local "YYYYMMdd'T'HHmmss"))
 
-(defn total-running-time [screening]
-  (let [runningTimes (map #(read-string (:runningTime %)) (:movies screening))]
+  (defn total-running-time [screening]
+    (let [runningTimes (map #(read-string (str  (or (:runningTime %) 120)))
+                                (:movies screening))]
     (reduce + runningTimes)))
 
 (defn event-from-showtime [showtime runtime title location id]
