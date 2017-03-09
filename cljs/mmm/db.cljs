@@ -4,9 +4,6 @@
             [re-frame.core :as re-frame]
             [cljs-time.core :as t] ))
 
-
-
-
 (def default-db
   {:name "Midnight Movies Minneapolis"
    :screening {:movies [{}]
@@ -27,7 +24,6 @@
              :series {:form? false}
              :presenters {:form? false}
              :venues {:form? false}}})
-
 
 (def blanks
   {:movies {:title ""
